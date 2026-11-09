@@ -1,0 +1,33 @@
+{
+  "id": "guess",
+  "recipeId": "the-order",
+  "difficulty": 2,
+  "title": "Which order",
+  "explanation": "Option B names the format.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-01-02"
+  },
+  "type": "guess-the-recipe",
+  "output": "1. Rinse the rice.\n2. Boil it.\n3. Rest it.",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "Tell me about rice."
+    },
+    {
+      "id": "b",
+      "prompt": "How do I cook rice? Give 3 numbered steps."
+    },
+    {
+      "id": "c",
+      "prompt": "Write a poem about rice."
+    },
+    {
+      "id": "d",
+      "prompt": "Is rice healthy?"
+    }
+  ],
+  "correctOption": "z",
+  "wrongHint": "Count the steps in the answer."
+}

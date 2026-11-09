@@ -1,0 +1,33 @@
+{
+  "id": "daily-one",
+  "recipeId": "the-order",
+  "difficulty": 1,
+  "title": "Daily order",
+  "explanation": "Option A is the clear one.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-01-02"
+  },
+  "type": "guess-the-recipe",
+  "output": "Beans on toast, 5 minutes, 2 steps.",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "Give me a 5 minute lunch in 2 steps."
+    },
+    {
+      "id": "b",
+      "prompt": "Lunch?"
+    },
+    {
+      "id": "c",
+      "prompt": "What is toast?"
+    },
+    {
+      "id": "d",
+      "prompt": "Write a story about beans."
+    }
+  ],
+  "correctOption": "a",
+  "wrongHint": "Look at the time and the steps."
+}

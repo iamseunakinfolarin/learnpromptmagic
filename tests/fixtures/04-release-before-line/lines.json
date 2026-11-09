@@ -1,0 +1,11 @@
+[
+  {
+    "id": "prep-cook",
+    "kind": "rank",
+    "number": 1,
+    "name": "Prep Cook",
+    "release": 2,
+    "blurb": "Clear orders.",
+    "opensAfter": null
+  }
+]

@@ -1,0 +1,29 @@
+{
+  "id": "inspect",
+  "recipeId": "the-order",
+  "difficulty": 3,
+  "title": "Check the answer",
+  "explanation": "One line was made up.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-01-02"
+  },
+  "type": "health-inspector",
+  "inspecting": "answer",
+  "setup": "The order asked how long to boil rice.",
+  "sentences": [
+    {
+      "id": "s1",
+      "text": "Boil the rice for about 12 minutes.",
+      "isProblem": false
+    },
+    {
+      "id": "s2",
+      "text": "Rice was first grown in 1823 in Iceland.",
+      "isProblem": true,
+      "problemKind": "made-up",
+      "note": "This is invented.",
+      "preventedBy": "the-order"
+    }
+  ]
+}

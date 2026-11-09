@@ -1,0 +1,48 @@
+{
+  "id": "rescue",
+  "recipeId": "the-order",
+  "difficulty": 2,
+  "title": "Too vague",
+  "explanation": "The order left out the format.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-01-02"
+  },
+  "type": "kitchen-rescue",
+  "brokenPrompt": "Write about rice.",
+  "brokenOutput": "Rice is a grain eaten worldwide.",
+  "diagnoses": [
+    {
+      "id": "d1",
+      "text": "No format"
+    },
+    {
+      "id": "d2",
+      "text": "Too long"
+    },
+    {
+      "id": "d3",
+      "text": "Wrong language"
+    }
+  ],
+  "correctDiagnosis": "d1",
+  "wrongDiagnosisHint": "Look at the shape of the answer.",
+  "rightDiagnosisNote": "The order never said what shape to use.",
+  "fixes": [
+    {
+      "id": "f1",
+      "prompt": "Write about rice, in 3 bullet points."
+    },
+    {
+      "id": "f2",
+      "prompt": "Write about rice again."
+    },
+    {
+      "id": "f3",
+      "prompt": "Write more about rice."
+    }
+  ],
+  "correctFix": "f1",
+  "wrongFixHint": "Only one fix names a shape.",
+  "fixedOutput": "- Rice is a grain.\n- It cooks in water.\n- It keeps well."
+}

@@ -1,0 +1,37 @@
+{
+  "id": "tk",
+  "recipeId": "the-order",
+  "difficulty": 1,
+  "title": "Packing",
+  "explanation": "Both parts matter.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-01-02"
+  },
+  "type": "test-kitchen",
+  "ticket": "A short packing list for three days by the sea.",
+  "promptTemplate": "Make a packing list{trip}.{format}",
+  "ingredients": [
+    {
+      "id": "trip",
+      "label": "The details",
+      "text": "for 3 days by the sea",
+      "missingHint": "Say how long and where."
+    },
+    {
+      "id": "format",
+      "label": "The format",
+      "text": "Give it as a checklist.",
+      "missingHint": "Say what shape the answer takes."
+    }
+  ],
+  "outputs": {
+    "base": "Here is a general list.",
+    "trip": "Here is a list for 3 days by the sea.",
+    "format": "Here is a checklist.",
+    "format+trip": "Checklist for 3 days by the sea."
+  },
+  "correctCombos": [
+    "format+trip"
+  ]
+}

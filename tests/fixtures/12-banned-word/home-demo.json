@@ -1,0 +1,10 @@
+{
+  "vague": {
+    "prompt": "Make me lunch.",
+    "output": "Here is a __BANNED__ sandwich."
+  },
+  "clear": {
+    "prompt": "Make me a 10 minute lunch I can pack. List the steps.",
+    "output": "Rice and bean wrap\n1. Warm the rice.\n2. Roll it up."
+  }
+}
