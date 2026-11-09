@@ -1,0 +1,602 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Tokens. Colors come from the :root block in docs/prototype.html. Light
+   values sit on :root, dark values are redefined under prefers-color-scheme.
+   Dark mode is only ever a change of variable, never a Tailwind variant.
+   --------------------------------------------------------------------------- */
+:root {
+  --tile: #EDF1F7;
+  --tile-line: #DFE5EE;
+  --paper: #FFFFFF;
+  --paper-2: #F5F7FB;
+  --rule: #D2D9E5;
+  --ink: #15203A;
+  --muted: #55617A;
+  --enamel: #2148C9;
+  --enamel-ink: #FFFFFF;
+  --enamel-soft: #E4EAFC;
+  --tomato: #C23D29;
+  --tomato-soft: #FBE6E2;
+  --butter: #E9A91C;
+  --butter-soft: #FFF2CC;
+  --basil: #1E7A51;
+  --basil-soft: #DDF2E6;
+  --steel: #A3AEC0;
+  --slate: #1B2733;
+  --chalk: #EEF3F2;
+  --chalk-dim: #A9B8B9;
+  --shadow: rgba(21, 32, 58, 0.14);
+
+  --step--1: 0.875rem;
+  --step-0: 1rem;
+  --step-1: 1.2rem;
+  --step-2: 1.55rem;
+  --step-3: 2.1rem;
+  --step-4: clamp(2.7rem, 7vw, 4.4rem);
+  --radius: 10px;
+  --wrap: 1080px;
+
+  /* Alias so ported rules can keep the prototype's name for body type. */
+  --font-body: var(--font-sans);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --tile: #0C1220;
+    --tile-line: #141C2E;
+    --paper: #141C2F;
+    --paper-2: #19223A;
+    --rule: #2A3654;
+    --ink: #E8EEF9;
+    --muted: #9DAAC4;
+    --enamel: #7B97FF;
+    --enamel-ink: #0C1220;
+    --enamel-soft: #1C2950;
+    --tomato: #FF8069;
+    --tomato-soft: #3B1F1F;
+    --butter: #FFC94D;
+    --butter-soft: #3A3017;
+    --basil: #57CC93;
+    --basil-soft: #15352A;
+    --steel: #3B4868;
+    --slate: #172129;
+    --chalk: #E9F0EF;
+    --chalk-dim: #93A3A4;
+    --shadow: rgba(0, 0, 0, 0.5);
+    color-scheme: dark;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Tokens exposed to Tailwind. `inline` keeps utilities pointing at the
+   variables, so bg-paper and text-ink follow the color scheme on their own.
+   The three font stacks are bundled by next/font in app/layout.tsx.
+   --------------------------------------------------------------------------- */
+@theme inline {
+  --color-tile: var(--tile);
+  --color-tile-line: var(--tile-line);
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-rule: var(--rule);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-enamel: var(--enamel);
+  --color-enamel-ink: var(--enamel-ink);
+  --color-enamel-soft: var(--enamel-soft);
+  --color-tomato: var(--tomato);
+  --color-tomato-soft: var(--tomato-soft);
+  --color-butter: var(--butter);
+  --color-butter-soft: var(--butter-soft);
+  --color-basil: var(--basil);
+  --color-basil-soft: var(--basil-soft);
+  --color-steel: var(--steel);
+  --color-slate: var(--slate);
+  --color-chalk: var(--chalk);
+  --color-chalk-dim: var(--chalk-dim);
+
+  --font-display: var(--font-shrikhand), "Arial Black", "Helvetica Neue", sans-serif;
+  --font-sans: var(--font-atkinson), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --text-step-sm: var(--step--1);
+  --text-step-0: var(--step-0);
+  --text-step-1: var(--step-1);
+  --text-step-2: var(--step-2);
+  --text-step-3: var(--step-3);
+  --text-step-4: var(--step-4);
+
+  --radius-ticket: var(--radius);
+  --container-wrap: var(--wrap);
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+   --------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background-color: var(--tile);
+  background-image:
+    linear-gradient(var(--tile-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--tile-line) 1px, transparent 1px);
+  background-size: 56px 28px;
+  color: var(--ink);
+  font: 400 var(--step-0)/1.55 var(--font-body);
+}
+
+/* Keeps the sticky header's paper color behind a phone's status bar. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 10;
+  background: var(--paper);
+}
+
+.wrap {
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+h1, h2, h3 { margin: 0; line-height: 1.15; text-wrap: balance; }
+p { margin: 0; max-width: 65ch; }
+
+.h2 { font-size: var(--step-2); font-weight: 700; }
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.lede { font-size: var(--step-1); color: var(--muted); }
+.fine { font-size: var(--step--1); color: var(--muted); }
+.caption { font-size: var(--step--1); color: var(--muted); font-style: italic; }
+.stack { display: grid; gap: 14px; align-content: start; min-width: 0; }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+.skip { position: absolute; left: 12px; top: -60px; z-index: 30; }
+.skip:focus { top: calc(12px + env(safe-area-inset-top, 0px)); }
+:focus-visible { outline: 3px solid var(--enamel); outline-offset: 3px; }
+
+/* ---------------------------------------------------------------------------
+   Header and footer
+   --------------------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 9;
+  background: var(--paper);
+  border-bottom: 2px solid var(--ink);
+}
+.site-header .wrap {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  padding-block: 10px;
+}
+.brand {
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  line-height: 1;
+  color: var(--enamel);
+  text-decoration: none;
+  padding-block: 6px;
+}
+.nav { display: flex; flex-wrap: wrap; gap: 4px; margin-left: auto; }
+.nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: none;
+}
+.nav a:hover { background: var(--paper-2); }
+.nav a[aria-current="page"] { background: var(--enamel-soft); color: var(--enamel); }
+
+.stats { display: flex; gap: 8px; align-items: center; }
+.stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  padding: 6px 10px;
+  border: 1.5px solid var(--rule);
+  border-radius: 999px;
+  background: var(--paper-2);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  font-variant-numeric: tabular-nums;
+}
+.stat .star { width: 16px; height: 16px; }
+
+.site-footer { background: var(--paper); border-top: 2px solid var(--ink); }
+.site-footer .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 20px;
+  padding-block: 14px;
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+.footer-links { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+.site-footer a { color: inherit; min-height: 44px; display: inline-flex; align-items: center; }
+
+/* ---------------------------------------------------------------------------
+   Buttons
+   --------------------------------------------------------------------------- */
+.btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 12px 18px;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--ink);
+  font: 700 var(--step-0)/1.15 var(--font-body);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 3px 0 var(--ink);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+.btn:hover { background: var(--paper-2); }
+.btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--ink); }
+.btn-primary, .btn-primary:hover { background: var(--enamel); color: var(--enamel-ink); }
+.btn-primary:hover { filter: brightness(1.07); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+
+/* ---------------------------------------------------------------------------
+   Order tickets on the rail
+   --------------------------------------------------------------------------- */
+.rail { height: 12px; border-radius: 6px; background: var(--steel); }
+.ticket-wrap {
+  position: relative;
+  min-width: 0;
+  filter: drop-shadow(0 8px 14px var(--shadow));
+}
+.ticket-wrap::before {
+  content: "";
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  z-index: 1;
+  width: 44px;
+  height: 15px;
+  transform: translateX(-50%);
+  background: var(--steel);
+  border-radius: 4px;
+}
+.ticket {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  padding: 18px 18px 30px;
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 18px 100%;
+  mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 18px 100%;
+}
+.ticket-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+  border-bottom: 1.5px dashed var(--rule);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.ticket pre { margin: 0; font: inherit; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--paper-2);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---------------------------------------------------------------------------
+   Page frame
+   --------------------------------------------------------------------------- */
+main { padding-block: 28px 64px; outline: none; }
+.view { display: grid; gap: 32px; }
+.panel {
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  padding: clamp(18px, 3vw, 28px);
+  min-width: 0;
+}
+.view-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--step-3);
+  color: var(--enamel);
+}
+.view-head { display: grid; gap: 8px; }
+
+/* ---------------------------------------------------------------------------
+   Home
+   --------------------------------------------------------------------------- */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 36px;
+  align-items: start;
+}
+.hero-copy {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+  min-width: 0;
+  padding-top: 8px;
+}
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--step-4);
+  line-height: 0.95;
+  color: var(--enamel);
+}
+.tagline { font-size: var(--step-2); font-style: italic; }
+
+.demo { display: grid; gap: 22px; min-width: 0; }
+.demo-tickets { display: grid; gap: 26px; padding-inline: 8px; }
+.demo-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.assistant {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  gap: 26px;
+  align-items: center;
+}
+.assistant svg { width: 140px; height: auto; }
+.mx-body { fill: var(--enamel); stroke: var(--ink); stroke-width: 2.5; stroke-linejoin: round; }
+.mx-bowl { fill: var(--steel); stroke: var(--ink); stroke-width: 2.5; stroke-linejoin: round; }
+.mx-line { fill: none; stroke: var(--ink); stroke-width: 2.5; stroke-linecap: round; }
+.mx-eye { fill: var(--enamel-ink); }
+
+.traits {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.traits li { border-top: 2px solid var(--ink); padding-top: 10px; color: var(--muted); }
+.traits b { display: block; color: var(--ink); font-size: var(--step-1); }
+
+.ranks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 14px;
+}
+.ranks li {
+  display: grid;
+  gap: 4px;
+  align-content: start;
+  padding: 16px;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+}
+.ranks li.is-soon { border-style: dashed; border-color: var(--rule); background: transparent; }
+.ranks li .tag { justify-self: start; margin-top: 4px; }
+.rank-name {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  color: var(--enamel);
+  line-height: 1.2;
+}
+
+/* ---------------------------------------------------------------------------
+   Kitchen map
+   --------------------------------------------------------------------------- */
+.summary-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.line { display: grid; gap: 14px; }
+.line-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.line-head h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--step-2);
+  color: var(--enamel);
+}
+.line-meta {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.stations {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr));
+  gap: 14px;
+}
+.station {
+  display: grid;
+  gap: 6px;
+  align-content: start;
+  min-height: 156px;
+  padding: 16px;
+  text-align: left;
+  font: inherit;
+  color: var(--ink);
+  text-decoration: none;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+}
+.station:hover { background: var(--paper-2); }
+.station .num {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.station .name { font-weight: 700; font-size: var(--step-1); line-height: 1.2; }
+.station .tech { color: var(--muted); font-size: var(--step--1); }
+.station .foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 10px;
+}
+.station.is-playable { border-color: var(--enamel); box-shadow: 0 4px 0 var(--enamel); }
+.station.is-soon {
+  background: transparent;
+  border-style: dashed;
+  border-color: var(--rule);
+  color: var(--muted);
+}
+.station.is-soon .name { color: var(--muted); }
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border: 1.5px solid currentColor;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.pill-open { color: var(--enamel); }
+.pill-done { color: var(--basil); }
+.pill-quiet { color: var(--muted); }
+.pill svg { width: 12px; height: 12px; }
+
+/* ---------------------------------------------------------------------------
+   Stars
+   --------------------------------------------------------------------------- */
+.stars { display: inline-flex; align-items: center; gap: 2px; }
+.star { width: 18px; height: 18px; }
+.star path { fill: var(--paper-2); stroke: var(--muted); stroke-width: 1.4; stroke-linejoin: round; }
+.star.on path { fill: var(--butter); stroke: var(--ink); }
+.stars-text {
+  margin-left: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+/* ---------------------------------------------------------------------------
+   Station
+   --------------------------------------------------------------------------- */
+.crumb { font-family: var(--font-mono); font-size: var(--step--1); color: var(--muted); }
+.crumb a { color: inherit; }
+.stage { display: grid; gap: 22px; }
+.stage-head { display: grid; gap: 6px; }
+.stage-head h2 { font-size: var(--step-2); }
+.one-line { font-size: var(--step-2); font-weight: 700; line-height: 1.3; max-width: 28ch; }
+
+details.deeper { border-top: 1.5px dashed var(--rule); padding-top: 6px; }
+details.deeper summary {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--enamel);
+}
+details.deeper .stack { padding-block: 6px 4px; }
+
+/* ---------------------------------------------------------------------------
+   Notes
+   --------------------------------------------------------------------------- */
+.note {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  padding: 12px 14px;
+  border: 1.5px solid var(--rule);
+  border-radius: 12px;
+  background: var(--paper-2);
+}
+.note > svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.note b { display: block; }
+.note-good { background: var(--basil-soft); border-color: var(--basil); }
+.note-good > svg { color: var(--basil); }
+.note-bad { background: var(--tomato-soft); border-color: var(--tomato); }
+.note-bad > svg { color: var(--tomato); }
+.note-hint { background: var(--butter-soft); border-color: var(--butter); }
+.note-hint > svg { color: var(--ink); }
+
+/* ---------------------------------------------------------------------------
+   Responsive and motion
+   --------------------------------------------------------------------------- */
+@media (max-width: 820px) {
+  .hero, .assistant { grid-template-columns: minmax(0, 1fr); }
+  .assistant svg { width: 110px; }
+  .traits { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+  .stat-label { display: none; }
+  .nav { margin-left: 0; width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
