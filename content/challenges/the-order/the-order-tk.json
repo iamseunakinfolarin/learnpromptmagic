@@ -1,0 +1,47 @@
+{
+  "id": "the-order-tk",
+  "recipeId": "the-order",
+  "difficulty": 1,
+  "title": "Packing for the coast",
+  "explanation": "The details, the why, and the format. Every part of the ticket is covered.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-07"
+  },
+  "type": "test-kitchen",
+  "ticket": "A short packing checklist for a 3-day school trip to the coast, simple enough for a first-timer packing alone.",
+  "promptTemplate": "Make a packing list{trip}.{why}{format}",
+  "ingredients": [
+    {
+      "id": "trip",
+      "label": "The details",
+      "text": "for a 3-day school trip to the coast in June",
+      "missingHint": "The customer is going to the coast for 3 days. Nothing in your order says where or how long."
+    },
+    {
+      "id": "why",
+      "label": "The why",
+      "text": "I'm packing by myself for the first time, so only include what I really need.",
+      "missingHint": "The customer is a first-timer packing alone. Your order never says why the list should stay short and simple."
+    },
+    {
+      "id": "format",
+      "label": "The format",
+      "text": "Give it as a checklist under three headings: Clothes, Wash bag, Gear. Keep it under 15 items.",
+      "missingHint": "The customer asked for a checklist. Your order never says what shape the answer should take."
+    }
+  ],
+  "outputs": {
+    "base": "Here's a general packing list:\n- Clothes: shirts, pants, underwear, socks, pajamas, a jacket\n- Toiletries: toothbrush, toothpaste, shampoo, deodorant\n- Electronics: phone, charger, headphones, laptop, power bank\n- Documents: ID, passport, tickets, insurance card\n- Extras: snacks, water bottle, book, travel pillow\nTell me where you're going and I can tailor it!",
+    "trip": "Packing list for a 3-day coastal school trip:\nClothing: 3 T-shirts, 2 pairs of shorts, 1 pair of long pants, 4 pairs of socks and underwear, swimsuit, light rain jacket, hoodie, sun hat, pajamas, sneakers, sandals.\nToiletries: toothbrush, toothpaste, shampoo, soap, deodorant, hairbrush, sunscreen (SPF 30+), lip balm, insect repellent.\nBeach and outdoor: beach towel, sunglasses, reusable water bottle, small backpack, plastic bag for wet clothes.\nOther: medication, phone and charger, a book or cards for the bus, some spending money, your signed permission slip.\nCheck your school's list too, since some trips ban phones or limit bag size.",
+    "why": "Good on you for packing solo! The basics most trips need:\n- One change of clothes per day, plus a spare\n- Sleepwear\n- Toothbrush and toothpaste\n- Any medicine you take\n- Phone charger\n- A bag for dirty laundry\nWhere are you going, and for how long? I can make this fit your trip.",
+    "format": "Clothes\n[ ] T-shirts\n[ ] Trousers\n[ ] Underwear and socks\n[ ] Jumper\n[ ] Pajamas\nWash bag\n[ ] Toothbrush and toothpaste\n[ ] Shampoo\n[ ] Deodorant\n[ ] Hairbrush\nGear\n[ ] Phone charger\n[ ] Water bottle\n[ ] Backpack\n[ ] Book",
+    "format+trip": "Clothes\n[ ] 3 T-shirts\n[ ] 2 shorts\n[ ] Swimsuit\n[ ] Hoodie\n[ ] Rain jacket\n[ ] Sun hat\nWash bag\n[ ] Toothbrush and toothpaste\n[ ] Sunscreen SPF 30+\n[ ] Insect repellent\nGear\n[ ] Beach towel\n[ ] Water bottle\n[ ] Sunglasses\n[ ] Snorkel set\n[ ] Portable speaker",
+    "format+why": "Clothes\n[ ] One outfit per day\n[ ] Pajamas\n[ ] Underwear and socks\n[ ] A warm layer\nWash bag\n[ ] Toothbrush and toothpaste\n[ ] Deodorant\n[ ] Any medicine you take\nGear\n[ ] Phone charger\n[ ] Water bottle\n[ ] Bag for dirty clothes\nTip: lay everything out on your bed before it goes in the bag.",
+    "trip+why": "First solo pack, nice! For three days at the coast you really only need three outfits (T-shirts and shorts), a hoodie for the evenings, and a light rain jacket. Pack a swimsuit, a towel, and a sun hat for the beach. In your wash bag: toothbrush, toothpaste, sunscreen, and any medicine you take. Add a water bottle, a phone charger, and a plastic bag for wet or dirty clothes. Leave the extras at home so your bag stays light.",
+    "format+trip+why": "Clothes\n[ ] 3 T-shirts and 2 shorts\n[ ] Swimsuit\n[ ] Hoodie for cool evenings\n[ ] Light rain jacket\n[ ] Sun hat\n[ ] Pajamas, underwear, socks\nWash bag\n[ ] Toothbrush and toothpaste\n[ ] Sunscreen\n[ ] Any medicine you take\nGear\n[ ] Beach towel\n[ ] Water bottle\n[ ] Phone charger\n[ ] Bag for wet clothes"
+  },
+  "correctCombos": [
+    "format+trip+why"
+  ]
+}

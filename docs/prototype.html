@@ -1,0 +1,1474 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prompt Magic Prototype</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Shrikhand&display=swap">
+<style>
+/* Layout: a kitchen line. Paper order tickets hang from a steel rail over a tiled wall;
+   the kitchen map is the line of stations, grouped by rank. */
+:root {
+  --tile: #EDF1F7;
+  --tile-line: #DFE5EE;
+  --paper: #FFFFFF;
+  --paper-2: #F5F7FB;
+  --rule: #D2D9E5;
+  --ink: #15203A;
+  --muted: #55617A;
+  --enamel: #2148C9;
+  --enamel-ink: #FFFFFF;
+  --enamel-soft: #E4EAFC;
+  --tomato: #C23D29;
+  --tomato-soft: #FBE6E2;
+  --butter: #E9A91C;
+  --butter-soft: #FFF2CC;
+  --basil: #1E7A51;
+  --basil-soft: #DDF2E6;
+  --steel: #A3AEC0;
+  --slate: #1B2733;
+  --chalk: #EEF3F2;
+  --chalk-dim: #A9B8B9;
+  --shadow: rgba(21, 32, 58, 0.14);
+  --font-display: "Shrikhand", "Arial Black", "Helvetica Neue", sans-serif;
+  --font-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --step--1: 0.875rem;
+  --step-0: 1rem;
+  --step-1: 1.2rem;
+  --step-2: 1.55rem;
+  --step-3: 2.1rem;
+  --step-4: clamp(2.7rem, 7vw, 4.4rem);
+  --radius: 10px;
+  --wrap: 1080px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --tile: #0C1220; --tile-line: #141C2E; --paper: #141C2F; --paper-2: #19223A; --rule: #2A3654;
+    --ink: #E8EEF9; --muted: #9DAAC4; --enamel: #7B97FF; --enamel-ink: #0C1220; --enamel-soft: #1C2950;
+    --tomato: #FF8069; --tomato-soft: #3B1F1F; --butter: #FFC94D; --butter-soft: #3A3017;
+    --basil: #57CC93; --basil-soft: #15352A; --steel: #3B4868; --slate: #172129;
+    --chalk: #E9F0EF; --chalk-dim: #93A3A4; --shadow: rgba(0, 0, 0, 0.5);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --tile: #0C1220; --tile-line: #141C2E; --paper: #141C2F; --paper-2: #19223A; --rule: #2A3654;
+  --ink: #E8EEF9; --muted: #9DAAC4; --enamel: #7B97FF; --enamel-ink: #0C1220; --enamel-soft: #1C2950;
+  --tomato: #FF8069; --tomato-soft: #3B1F1F; --butter: #FFC94D; --butter-soft: #3A3017;
+  --basil: #57CC93; --basil-soft: #15352A; --steel: #3B4868; --slate: #172129;
+  --chalk: #E9F0EF; --chalk-dim: #93A3A4; --shadow: rgba(0, 0, 0, 0.5);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background-color: var(--tile);
+  background-image:
+    linear-gradient(var(--tile-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--tile-line) 1px, transparent 1px);
+  background-size: 56px 28px;
+  color: var(--ink);
+  font: 400 var(--step-0)/1.55 var(--font-body);
+}
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper);
+}
+.wrap {
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+h1, h2, h3 { margin: 0; line-height: 1.15; text-wrap: balance; }
+p { margin: 0; max-width: 65ch; }
+.h2 { font-size: var(--step-2); font-weight: 700; }
+.eyebrow {
+  font-family: var(--font-mono); font-size: var(--step--1); font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+}
+.lede { font-size: var(--step-1); color: var(--muted); }
+.fine { font-size: var(--step--1); color: var(--muted); }
+.stack { display: grid; gap: 14px; align-content: start; min-width: 0; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.skip { position: absolute; left: 12px; top: -60px; z-index: 30; }
+.skip:focus { top: calc(12px + env(safe-area-inset-top, 0px)); }
+:focus-visible { outline: 3px solid var(--enamel); outline-offset: 3px; }
+
+/* Header */
+.site-header {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9;
+  background: var(--paper); border-bottom: 2px solid var(--ink);
+}
+.site-header .wrap {
+  display: flex; align-items: center; flex-wrap: wrap;
+  gap: 8px 18px; padding-block: 10px;
+}
+.brand {
+  font-family: var(--font-display); font-size: 1.55rem; line-height: 1;
+  color: var(--enamel); text-decoration: none; padding-block: 6px;
+}
+.nav { display: flex; flex-wrap: wrap; gap: 4px; margin-left: auto; }
+.nav a {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 8px 12px;
+  border-radius: 8px; color: var(--ink); font-weight: 700; text-decoration: none;
+}
+.nav a:hover { background: var(--paper-2); }
+.nav a[aria-current="page"] { background: var(--enamel-soft); color: var(--enamel); }
+.stats { display: flex; gap: 8px; align-items: center; }
+.stat {
+  display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+  padding: 6px 10px; border: 1.5px solid var(--rule); border-radius: 999px;
+  background: var(--paper-2); font-family: var(--font-mono); font-size: var(--step--1);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Buttons */
+.btn {
+  appearance: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 48px; padding: 12px 18px; border: 2px solid var(--ink); border-radius: var(--radius);
+  background: var(--paper); color: var(--ink); font: 700 var(--step-0)/1.15 var(--font-body);
+  text-align: center; text-decoration: none; cursor: pointer; box-shadow: 0 3px 0 var(--ink);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+.btn:hover { background: var(--paper-2); }
+.btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--ink); }
+.btn-primary, .btn-primary:hover { background: var(--enamel); color: var(--enamel-ink); }
+.btn-primary:hover { filter: brightness(1.07); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+.linkish {
+  background: none; border: 0; padding: 10px 0; min-height: 44px; cursor: pointer;
+  color: var(--enamel); font: inherit; font-weight: 700; text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.btn-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+
+/* Order tickets on the rail */
+.rail { height: 12px; border-radius: 6px; background: var(--steel); }
+.ticket-wrap { position: relative; min-width: 0; filter: drop-shadow(0 8px 14px var(--shadow)); }
+.ticket-wrap::before {
+  content: ""; position: absolute; top: -9px; left: 50%; z-index: 1;
+  width: 44px; height: 15px; transform: translateX(-50%);
+  background: var(--steel); border-radius: 4px;
+}
+.ticket {
+  background: var(--paper); color: var(--ink);
+  font-family: var(--font-mono); font-size: 0.95rem; line-height: 1.55;
+  padding: 18px 18px 30px;
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 18px 100%;
+  mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 18px 100%;
+}
+.ticket-head {
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1.5px dashed var(--rule);
+  font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+}
+.ticket pre { margin: 0; font: inherit; white-space: pre-wrap; overflow-wrap: anywhere; }
+.ticket pre.pre-scroll { white-space: pre; overflow-wrap: normal; overflow-x: auto; }
+.tag {
+  display: inline-flex; align-items: center; gap: 6px; padding: 2px 8px;
+  border: 1px solid var(--rule); border-radius: 999px; background: var(--paper-2);
+  font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--muted);
+}
+mark.prompt-added {
+  background: var(--enamel-soft); color: var(--enamel);
+  border-radius: 3px; padding: 0 2px; font-weight: 600;
+}
+
+/* Page frame */
+main { padding-block: 28px 64px; outline: none; }
+.view { display: grid; gap: 32px; }
+.panel {
+  background: var(--paper); border: 2px solid var(--ink); border-radius: 14px;
+  padding: clamp(18px, 3vw, 28px); min-width: 0;
+}
+.view-title { font-family: var(--font-display); font-weight: 400; font-size: var(--step-3); color: var(--enamel); }
+.view-head { display: grid; gap: 8px; }
+
+/* Home */
+.hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 36px; align-items: start; }
+.hero-copy { display: grid; gap: 16px; align-content: start; min-width: 0; padding-top: 8px; }
+.wordmark { font-family: var(--font-display); font-weight: 400; font-size: var(--step-4); line-height: 0.95; color: var(--enamel); }
+.tagline { font-size: var(--step-2); font-style: italic; }
+.demo { display: grid; gap: 22px; min-width: 0; }
+.demo-tickets { display: grid; gap: 26px; padding-inline: 8px; }
+.demo-foot { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+.caption { font-size: var(--step--1); color: var(--muted); font-style: italic; }
+.assistant { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 26px; align-items: center; }
+.assistant svg { width: 140px; height: auto; }
+.mx-body { fill: var(--enamel); stroke: var(--ink); stroke-width: 2.5; stroke-linejoin: round; }
+.mx-bowl { fill: var(--steel); stroke: var(--ink); stroke-width: 2.5; stroke-linejoin: round; }
+.mx-line { fill: none; stroke: var(--ink); stroke-width: 2.5; stroke-linecap: round; }
+.mx-eye { fill: var(--enamel-ink); }
+.traits { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.traits li { border-top: 2px solid var(--ink); padding-top: 10px; color: var(--muted); }
+.traits b { display: block; color: var(--ink); font-size: var(--step-1); }
+.ranks { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.ranks li { display: grid; gap: 4px; align-content: start; padding: 16px; background: var(--paper); border: 2px solid var(--ink); border-radius: 12px; }
+.ranks li.is-soon { border-style: dashed; border-color: var(--rule); background: transparent; }
+.rank-name { font-family: var(--font-display); font-size: var(--step-2); color: var(--enamel); line-height: 1.2; }
+
+/* Kitchen map */
+.summary-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.line { display: grid; gap: 14px; }
+.line-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.line-head h2 { font-family: var(--font-display); font-weight: 400; font-size: var(--step-2); color: var(--enamel); }
+.line-meta { font-family: var(--font-mono); font-size: var(--step--1); color: var(--muted); font-variant-numeric: tabular-nums; }
+.meter { flex: 0 1 180px; height: 8px; border-radius: 999px; overflow: hidden; background: var(--paper-2); border: 1.5px solid var(--rule); }
+.meter > span { display: block; height: 100%; background: var(--basil); }
+.stations { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); gap: 14px; }
+.station {
+  display: grid; gap: 6px; align-content: start; min-height: 156px; padding: 16px;
+  text-align: left; font: inherit; color: var(--ink); cursor: pointer;
+  background: var(--paper); border: 2px solid var(--ink); border-radius: 12px;
+}
+.station:hover { background: var(--paper-2); }
+.station .num { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.station .name { font-weight: 700; font-size: var(--step-1); line-height: 1.2; }
+.station .tech { color: var(--muted); font-size: var(--step--1); }
+.station .foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 10px; }
+.station.is-playable { border-color: var(--enamel); box-shadow: 0 4px 0 var(--enamel); }
+.station.is-locked, .station.is-soon { background: transparent; border-style: dashed; border-color: var(--rule); color: var(--muted); }
+.station.is-locked .name, .station.is-soon .name { color: var(--muted); }
+.pill {
+  display: inline-flex; align-items: center; gap: 5px; padding: 2px 8px; border: 1.5px solid currentColor;
+  border-radius: 999px; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.pill-open { color: var(--enamel); }
+.pill-done { color: var(--basil); }
+.pill-quiet { color: var(--muted); }
+.pill svg { width: 12px; height: 12px; }
+
+/* Stars */
+.stars { display: inline-flex; align-items: center; gap: 2px; }
+.star { width: 18px; height: 18px; }
+.star path { fill: var(--paper-2); stroke: var(--muted); stroke-width: 1.4; stroke-linejoin: round; }
+.star.on path { fill: var(--butter); stroke: var(--ink); }
+.stars-text { margin-left: 6px; font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); }
+.stat .star { width: 16px; height: 16px; }
+
+/* Station */
+.crumb { font-family: var(--font-mono); font-size: var(--step--1); color: var(--muted); }
+.crumb a { color: inherit; }
+.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.steps li {
+  display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px 5px 5px;
+  border: 1.5px solid var(--rule); border-radius: 999px; background: var(--paper);
+  font-size: var(--step--1); color: var(--muted);
+}
+.steps .n {
+  display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%;
+  border: 1.5px solid currentColor; font-family: var(--font-mono); font-size: 0.75rem;
+}
+.steps li.is-current { border-color: var(--enamel); color: var(--ink); font-weight: 700; }
+.steps li.is-current .n { background: var(--enamel); border-color: var(--enamel); color: var(--enamel-ink); }
+.steps li.is-done { color: var(--basil); }
+.steps li.is-done .n { background: var(--basil-soft); }
+.stage { display: grid; gap: 22px; }
+.stage-head { display: grid; gap: 6px; }
+.stage-head h2 { font-size: var(--step-2); }
+.one-line { font-size: var(--step-2); font-weight: 700; line-height: 1.3; max-width: 28ch; }
+.q { font-size: var(--step-1); font-weight: 700; }
+details.deeper { border-top: 1.5px dashed var(--rule); padding-top: 6px; }
+details.deeper summary { display: flex; align-items: center; min-height: 44px; cursor: pointer; font-weight: 700; color: var(--enamel); }
+details.deeper .stack { padding-block: 6px 4px; }
+
+/* Test Kitchen */
+.tk-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 30px 26px; align-items: start; }
+.tk-col { display: grid; gap: 22px; min-width: 0; }
+.knobs { display: grid; gap: 10px; }
+.knob-btn {
+  display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 12px; align-items: center;
+  padding: 10px 12px; text-align: left; font: inherit; color: var(--ink); cursor: pointer;
+  background: var(--paper); border: 2px solid var(--rule); border-radius: 12px;
+}
+.knob-btn:hover { border-color: var(--ink); }
+.knob-btn[aria-pressed="true"] { border-color: var(--enamel); background: var(--enamel-soft); }
+.knob {
+  position: relative; width: 40px; height: 40px; border-radius: 50%;
+  border: 2px solid var(--ink); background: var(--paper); transition: transform 0.25s ease;
+}
+.knob::after {
+  content: ""; position: absolute; top: 4px; left: 50%; width: 3px; height: 13px;
+  transform: translateX(-50%); border-radius: 2px; background: var(--ink);
+}
+.knob-btn[aria-pressed="true"] .knob { transform: rotate(90deg); background: var(--enamel); }
+.knob-btn[aria-pressed="true"] .knob::after { background: var(--enamel-ink); }
+.knob-label { font-weight: 700; }
+.knob-text { display: block; font-family: var(--font-mono); font-size: 0.82rem; color: var(--muted); }
+
+/* Choices, receipts, notes */
+.choices { display: grid; gap: 10px; }
+.choice {
+  display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 12px; align-items: start;
+  min-height: 48px; padding: 12px 14px; text-align: left; font: inherit; color: var(--ink); cursor: pointer;
+  background: var(--paper); border: 2px solid var(--rule); border-radius: 12px;
+}
+.choice:hover:not(:disabled) { border-color: var(--ink); }
+.choice:disabled { cursor: default; }
+.choice .key {
+  display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%;
+  border: 1.5px solid var(--muted); font-family: var(--font-mono); font-size: 0.8rem;
+}
+.choice.mono .txt { font-family: var(--font-mono); font-size: 0.92rem; }
+.choice.is-wrong { border-color: var(--tomato); background: var(--tomato-soft); }
+.choice.is-wrong .key { border-color: var(--tomato); color: var(--tomato); }
+.choice.is-right { border-color: var(--basil); background: var(--basil-soft); }
+.choice.is-right .key { background: var(--basil); border-color: var(--basil); color: var(--paper); }
+.receipt { display: grid; gap: 8px; }
+.line-btn {
+  display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 10px; align-items: start;
+  padding: 10px 12px; text-align: left; cursor: pointer; color: var(--ink);
+  background: var(--paper); border: 1.5px dashed var(--rule); border-radius: 8px;
+  font: 0.95rem/1.5 var(--font-mono);
+}
+.line-btn[aria-pressed="true"] { border-style: solid; border-color: var(--tomato); background: var(--tomato-soft); }
+.line-btn:disabled { cursor: default; }
+.flag { width: 20px; height: 20px; margin-top: 2px; }
+.flag path { fill: none; stroke: var(--muted); stroke-width: 1.7; stroke-linejoin: round; }
+.line-btn[aria-pressed="true"] .flag path { fill: var(--tomato); stroke: var(--tomato); }
+.line-note { grid-column: 2; margin-top: 6px; font: var(--step--1)/1.45 var(--font-body); }
+.line-note b { color: var(--tomato); }
+.line-note.ok b { color: var(--basil); }
+.note {
+  display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 10px; align-items: start;
+  padding: 12px 14px; border: 1.5px solid var(--rule); border-radius: 12px; background: var(--paper-2);
+}
+.note > svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.note b { display: block; }
+.note-good { background: var(--basil-soft); border-color: var(--basil); }
+.note-good > svg { color: var(--basil); }
+.note-bad { background: var(--tomato-soft); border-color: var(--tomato); }
+.note-bad > svg { color: var(--tomato); }
+.note-hint { background: var(--butter-soft); border-color: var(--butter); }
+.note-hint > svg { color: var(--ink); }
+.compare { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 22px; padding-inline: 4px; }
+
+/* Plate up, cards, Off the Menu */
+.stamp {
+  justify-self: start; display: inline-block; padding: 4px 16px; border: 3px solid var(--tomato); border-radius: 10px;
+  font-family: var(--font-display); font-size: var(--step-3); color: var(--tomato); transform: rotate(-4deg);
+  animation: stamp 0.45s ease-out both;
+}
+@keyframes stamp { from { transform: rotate(-4deg) scale(1.5); opacity: 0.25; } to { transform: rotate(-4deg) scale(1); opacity: 1; } }
+.score-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.score-list li { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1.5px dashed var(--rule); }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr)); gap: 16px; }
+.recipe-card {
+  display: grid; gap: 10px; align-content: start; padding: 18px; border: 2px solid var(--ink); border-radius: 6px;
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(to bottom, transparent 0 27px, var(--tile-line) 27px 28px);
+  background-position: 0 52px;
+}
+.rc-title { font-family: var(--font-display); font-weight: 400; font-size: var(--step-2); color: var(--enamel); line-height: 1.1; }
+.recipe-card pre { margin: 0; font: 0.9rem/28px var(--font-mono); white-space: pre-wrap; overflow-wrap: anywhere; }
+.recipe-card.is-locked { border-style: dashed; border-color: var(--rule); background-image: none; background-color: transparent; color: var(--muted); }
+.recipe-card.is-locked .rc-title { color: var(--muted); }
+.science { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 14px; align-items: start; }
+.science svg { width: 44px; height: 44px; fill: none; stroke: var(--enamel); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.menu-86 { display: grid; gap: 12px; }
+.item-86 {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; align-items: start;
+  padding: 16px; background: var(--paper); border: 2px solid var(--ink); border-radius: 12px;
+}
+.stamp-86 {
+  padding: 2px 10px; border: 2.5px solid var(--tomato); border-radius: 8px; transform: rotate(-6deg);
+  font-family: var(--font-display); font-size: 1.2rem; line-height: 1.25; color: var(--tomato);
+}
+.item-86 h3 { font: 600 1rem/1.4 var(--font-mono); text-decoration: line-through; text-decoration-color: var(--tomato); text-decoration-thickness: 2px; }
+
+/* Daily Special chalkboard */
+.board {
+  display: grid; gap: 18px; padding: clamp(18px, 4vw, 32px);
+  background: var(--slate); color: var(--chalk); border: 8px solid var(--steel); border-radius: 14px;
+}
+.board-title { font-family: var(--font-display); font-weight: 400; font-size: var(--step-3); color: var(--chalk); }
+.board-meta { font-family: var(--font-mono); font-size: var(--step--1); color: var(--chalk-dim); }
+.board-ask { font-size: var(--step-1); font-weight: 700; color: var(--chalk); }
+.share-text {
+  margin: 0; padding: 12px 14px; white-space: pre-wrap; overflow-wrap: anywhere;
+  font-family: var(--font-mono); font-size: 0.92rem;
+  background: var(--paper-2); border: 1.5px dashed var(--rule); border-radius: 10px;
+}
+
+/* Footer and toast */
+.site-footer { background: var(--paper); border-top: 2px solid var(--ink); }
+.site-footer .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 20px; padding-block: 14px; font-size: var(--step--1); color: var(--muted); }
+.toast {
+  position: fixed; left: 50%; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 20;
+  width: max-content; max-width: min(calc(100vw - 32px), 520px); transform: translateX(-50%);
+  padding: 12px 16px; border-radius: 12px; background: var(--ink); color: var(--paper);
+  font-weight: 700; box-shadow: 0 10px 24px var(--shadow);
+}
+
+@media (max-width: 820px) {
+  .hero, .tk-grid, .compare, .assistant { grid-template-columns: minmax(0, 1fr); }
+  .assistant svg { width: 110px; }
+  .traits, .ranks { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+  .steps li:not(.is-current) .lbl { display: none; }
+  .steps li:not(.is-current) { padding-right: 5px; }
+  .stat-label { display: none; }
+  .nav { margin-left: 0; width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+
+<a class="skip btn" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#home">Prompt Magic</a>
+    <nav class="nav" aria-label="Main">
+      <a href="#kitchen" data-nav="kitchen">Kitchen</a>
+      <a href="#daily" data-nav="daily">Daily Special</a>
+      <a href="#cookbook" data-nav="cookbook">Cookbook</a>
+    </nav>
+    <div class="stats">
+      <span class="stat" title="Stars earned">
+        <svg class="star on" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8l2.75 5.95 6.45.7-4.82 4.37 1.36 6.38L12 16.9l-5.74 3.3 1.36-6.38L2.8 9.45l6.45-.7z"/></svg>
+        <span id="stat-stars">0</span><span class="stat-label">stars</span>
+      </span>
+      <span class="stat" title="Daily Special streak"><span class="stat-label">Streak</span> <span id="stat-streak">0</span></span>
+    </div>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+  <div class="wrap">
+
+    <section class="view" id="view-home" data-view="home" aria-labelledby="home-title">
+      <div class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Learn to talk to AI</p>
+          <h1 class="wordmark" id="home-title" tabindex="-1">Prompt Magic</h1>
+          <p class="tagline">The magic is in how you ask.</p>
+          <p class="lede">Your AI kitchen assistant cooks exactly what the ticket says. Learn to write tickets like a head chef, from your first clear order to the techniques the pros use.</p>
+          <div class="btn-row">
+            <a class="btn btn-primary" href="#the-order">I'm new: start cooking</a>
+            <a class="btn" href="#kitchen" id="path-pro">I use AI often</a>
+          </div>
+          <p class="fine">Free. No sign-up. Your progress stays on this device.</p>
+        </div>
+        <div class="demo">
+          <div class="rail" aria-hidden="true"></div>
+          <div class="demo-tickets">
+            <div class="ticket-wrap">
+              <div class="ticket">
+                <div class="ticket-head"><span>Your order</span><span>No. 001</span></div>
+                <pre id="demo-prompt"></pre>
+              </div>
+            </div>
+            <div class="ticket-wrap">
+              <div class="ticket">
+                <div class="ticket-head"><span>From the kitchen</span><span class="tag">Sample</span></div>
+                <pre id="demo-output" aria-live="polite"></pre>
+              </div>
+            </div>
+          </div>
+          <div class="demo-foot">
+            <button class="btn" type="button" id="demo-toggle" aria-pressed="false">Add the details</button>
+            <p class="caption">Same assistant. Different order.</p>
+          </div>
+        </div>
+      </div>
+
+      <section class="panel assistant" aria-labelledby="meet-title">
+        <svg viewBox="0 0 120 120" role="img" aria-label="The kitchen assistant, drawn as a stand mixer">
+          <rect class="mx-body" x="12" y="98" width="96" height="13" rx="6"/>
+          <rect class="mx-body" x="78" y="46" width="22" height="56" rx="8"/>
+          <path class="mx-line" d="M46 58v14"/>
+          <path class="mx-bowl" d="M20 72h52c0 16-10 26-26 26S20 88 20 72z"/>
+          <path class="mx-line" d="M17 72h58"/>
+          <rect class="mx-body" x="20" y="26" width="86" height="32" rx="16"/>
+          <circle class="mx-eye" cx="40" cy="41" r="3.6"/>
+          <circle class="mx-eye" cx="55" cy="41" r="3.6"/>
+          <circle class="mx-eye" cx="89" cy="70" r="3.2"/>
+        </svg>
+        <div class="stack">
+          <h2 class="h2" id="meet-title">Meet your kitchen assistant</h2>
+          <p>It is the fastest cook you will ever work with, and it does exactly what the ticket says. Nothing more, nothing less. Learning to write the ticket is the whole game.</p>
+          <ul class="traits">
+            <li><b>Fast</b>Answers in seconds.</li>
+            <li><b>Eager</b>Never too busy for another order.</li>
+            <li><b>Literal</b>Cooks what you wrote, not what you meant.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="stack" aria-labelledby="ranks-title">
+        <h2 class="h2" id="ranks-title">Work your way up the kitchen</h2>
+        <ol class="ranks">
+          <li><span class="eyebrow">Rank 1</span><span class="rank-name">Prep Cook</span><span>4 recipes: clear orders, roles, examples, plating.</span></li>
+          <li><span class="eyebrow">Rank 2</span><span class="rank-name">Sous Chef</span><span>5 recipes: steps, self-checks, grounding, options.</span></li>
+          <li class="is-soon"><span class="eyebrow">Rank 3 &middot; Coming soon</span><span class="rank-name">Head Chef</span><span>6 recipes: context, agents, and testing.</span></li>
+        </ol>
+      </section>
+    </section>
+
+    <section class="view" id="view-kitchen" data-view="kitchen" hidden></section>
+    <section class="view" id="view-the-order" data-view="the-order" hidden></section>
+    <section class="view" id="view-daily" data-view="daily" hidden></section>
+    <section class="view" id="view-cookbook" data-view="cookbook" hidden></section>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Prototype with one playable station. Sample outputs were written for this demo; the real build generates them with a live model.</p>
+    <div class="btn-row" id="reset-area">
+      <button class="linkish" type="button" id="btn-reset">Start over</button>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<script>
+"use strict";
+
+const RANKS = [
+  { id: "prep", name: "Prep Cook", blurb: "Clear orders, roles, examples, and plating." },
+  { id: "sous", name: "Sous Chef", blurb: "Steps, self-checks, grounding, and options." },
+  { id: "head", name: "Head Chef", blurb: "Context, agents, and testing. Arrives in Release 2 with live AI." }
+];
+
+const RECIPES = [
+  { id: "the-order", rank: "prep", n: 1, name: "The Order", tech: "Task, context, format", playable: true },
+  { id: "whos-cooking", rank: "prep", n: 2, name: "Who's Cooking, Who's Eating", tech: "Role and audience" },
+  { id: "show-the-plate", rank: "prep", n: 3, name: "Show the Plate", tech: "Examples" },
+  { id: "plating", rank: "prep", n: 4, name: "Plating", tech: "Structured output" },
+  { id: "prep-cook-plate", rank: "sous", n: 5, name: "Prep, Cook, Plate", tech: "Steps and chaining" },
+  { id: "taste-and-adjust", rank: "sous", n: 6, name: "Taste and Adjust", tech: "Self-critique" },
+  { id: "separate-bowls", rank: "sous", n: 7, name: "Separate Bowls", tech: "Delimiters" },
+  { id: "check-the-pantry", rank: "sous", n: 8, name: "Check the Pantry", tech: "Grounding" },
+  { id: "tasting-menu", rank: "sous", n: 9, name: "Tasting Menu", tech: "Options and judging" },
+  { id: "recipe-rewrite", rank: "head", n: 10, name: "Recipe Rewrite", tech: "Meta-prompting" },
+  { id: "mise-en-place", rank: "head", n: 11, name: "Mise en Place", tech: "Context engineering" },
+  { id: "slow-cook", rank: "head", n: 12, name: "Slow Cook or Stir-Fry", tech: "Reasoning effort" },
+  { id: "guard-the-recipe", rank: "head", n: 13, name: "Guard the Recipe", tech: "Prompt injection" },
+  { id: "run-the-kitchen", rank: "head", n: 14, name: "Run the Kitchen", tech: "Agent instructions" },
+  { id: "taste-panel", rank: "head", n: 15, name: "Taste Panel", tech: "Evaluation" }
+];
+
+const DEMO = {
+  vague: {
+    prompt: "Make me lunch.",
+    output: "Here's a classic lunch idea: a sandwich with lettuce, tomato, and cheese, an apple on the side, and a glass of water. Enjoy!"
+  },
+  clear: {
+    prompt: "Make me a quick lunch I can pack for school. No nuts, ready in 10 minutes. List the steps.",
+    output: `Rice and bean wrap (10 minutes, nut-free)
+1. Warm leftover rice and beans for 1 minute.
+2. Spoon onto a wrap with grated cheese and salsa.
+3. Roll it tightly and wrap it in foil.
+4. Pack it with an orange and a bottle of water.`
+  }
+};
+
+const STEPS = [
+  { id: "order", label: "Order up" },
+  { id: "tk", label: "Test Kitchen" },
+  { id: "rescue", label: "Kitchen Rescue" },
+  { id: "guess", label: "Guess the Recipe" },
+  { id: "inspect", label: "Health Inspector" },
+  { id: "plate", label: "Plate up" }
+];
+
+const STATION = {
+  id: "the-order",
+  oneLine: "Say what you want, why you want it, and how it should come back.",
+  quick: "Your kitchen assistant cooks exactly what the ticket says. Order \"lunch\" and you get whatever it guesses. Order a specific dish, say why you want it, and say how to serve it, and you get the lunch you pictured.",
+  deeper: [
+    "A strong order has three parts. The task is the specific thing you want, with the details that matter: a 3-day trip, not just a trip. The context is why you want it and what it is for, which tells the model what to keep and what to cut. The format is the shape of the answer: a checklist, a table, three sentences, under 100 words.",
+    "Models fill every gap with the most typical answer. Each missing part is a place where you get average instead of yours."
+  ],
+  tk: {
+    id: "the-order-tk",
+    order: "A short packing checklist for a 3-day school trip to the coast, simple enough for a first-timer packing alone.",
+    ingredients: [
+      { id: "trip", label: "The details", text: "for a 3-day school trip to the coast in June" },
+      { id: "why", label: "The why", text: "I'm packing by myself for the first time, so only include what I really need." },
+      { id: "format", label: "The format", text: "Give it as a checklist under three headings: Clothes, Wash bag, Gear. Keep it under 15 items." }
+    ],
+    correct: "format+trip+why",
+    hints: {
+      trip: "The customer is going to the coast for 3 days. Nothing in your order says where or how long.",
+      why: "The customer is a first-timer packing alone. Your order never says why the list should stay short and simple.",
+      format: "The customer asked for a checklist. Your order never says what shape the answer should take."
+    },
+    outputs: {
+      "base": `Here's a general packing list:
+- Clothes: shirts, pants, underwear, socks, pajamas, a jacket
+- Toiletries: toothbrush, toothpaste, shampoo, deodorant
+- Electronics: phone, charger, headphones, laptop, power bank
+- Documents: ID, passport, tickets, insurance card
+- Extras: snacks, water bottle, book, travel pillow
+Tell me where you're going and I can tailor it!`,
+      "trip": `Packing list for a 3-day coastal school trip:
+Clothing: 3 T-shirts, 2 pairs of shorts, 1 pair of long pants, 4 pairs of socks and underwear, swimsuit, light rain jacket, hoodie, sun hat, pajamas, sneakers, sandals.
+Toiletries: toothbrush, toothpaste, shampoo, soap, deodorant, hairbrush, sunscreen (SPF 30+), lip balm, insect repellent.
+Beach and outdoor: beach towel, sunglasses, reusable water bottle, small backpack, plastic bag for wet clothes.
+Other: medication, phone and charger, a book or cards for the bus, some spending money, your signed permission slip.
+Check your school's list too, since some trips ban phones or limit bag size.`,
+      "why": `Good on you for packing solo! The basics most trips need:
+- One change of clothes per day, plus a spare
+- Sleepwear
+- Toothbrush and toothpaste
+- Any medicine you take
+- Phone charger
+- A bag for dirty laundry
+Where are you going, and for how long? I can make this fit your trip.`,
+      "format": `Clothes
+[ ] T-shirts
+[ ] Trousers
+[ ] Underwear and socks
+[ ] Jumper
+[ ] Pajamas
+Wash bag
+[ ] Toothbrush and toothpaste
+[ ] Shampoo
+[ ] Deodorant
+[ ] Hairbrush
+Gear
+[ ] Phone charger
+[ ] Water bottle
+[ ] Backpack
+[ ] Book`,
+      "format+trip": `Clothes
+[ ] 3 T-shirts
+[ ] 2 shorts
+[ ] Swimsuit
+[ ] Hoodie
+[ ] Rain jacket
+[ ] Sun hat
+Wash bag
+[ ] Toothbrush and toothpaste
+[ ] Sunscreen SPF 30+
+[ ] Insect repellent
+Gear
+[ ] Beach towel
+[ ] Water bottle
+[ ] Sunglasses
+[ ] Snorkel set
+[ ] Portable speaker`,
+      "format+why": `Clothes
+[ ] One outfit per day
+[ ] Pajamas
+[ ] Underwear and socks
+[ ] A warm layer
+Wash bag
+[ ] Toothbrush and toothpaste
+[ ] Deodorant
+[ ] Any medicine you take
+Gear
+[ ] Phone charger
+[ ] Water bottle
+[ ] Bag for dirty clothes
+Tip: lay everything out on your bed before it goes in the bag.`,
+      "trip+why": `First solo pack, nice! For three days at the coast you really only need three outfits (T-shirts and shorts), a hoodie for the evenings, and a light rain jacket. Pack a swimsuit, a towel, and a sun hat for the beach. In your wash bag: toothbrush, toothpaste, sunscreen, and any medicine you take. Add a water bottle, a phone charger, and a plastic bag for wet or dirty clothes. Leave the extras at home so your bag stays light.`,
+      "format+trip+why": `Clothes
+[ ] 3 T-shirts and 2 shorts
+[ ] Swimsuit
+[ ] Hoodie for cool evenings
+[ ] Light rain jacket
+[ ] Sun hat
+[ ] Pajamas, underwear, socks
+Wash bag
+[ ] Toothbrush and toothpaste
+[ ] Sunscreen
+[ ] Any medicine you take
+Gear
+[ ] Beach towel
+[ ] Water bottle
+[ ] Phone charger
+[ ] Bag for wet clothes`
+    }
+  },
+  rescue: {
+    id: "the-order-rescue",
+    prompt: "Write something about our science fair.",
+    output: "Science fairs are a wonderful opportunity for students to explore their curiosity and showcase their creativity. From volcanoes to solar ovens, every project tells a story of discovery. Whether you're a participant or a visitor, a science fair is a celebration of learning that inspires the next generation of innovators.",
+    diagnoses: [
+      { id: "a", text: "The prompt is too short to be polite." },
+      { id: "b", text: "It never says what to write, who it's for, or how long it should be." },
+      { id: "c", text: "It needs to be written in capital letters so the AI pays attention." },
+      { id: "d", text: "The AI doesn't know what a science fair is." }
+    ],
+    correctDiagnosis: "b",
+    fixes: [
+      { id: "1", text: "Write something really good about our science fair!!!" },
+      { id: "2", text: "Write a 3-sentence note for our school newsletter inviting parents to the science fair this Friday at 2 pm in the gym. Keep it friendly." },
+      { id: "3", text: "You are the world's best writer. Write something about our science fair." }
+    ],
+    correctFix: "2",
+    fixedOutput: "Our science fair is this Friday at 2 pm in the gym, and you're invited! Come see what our students have built, from water filters to tiny wind turbines. Bring your questions, because our young scientists can't wait to explain their work.",
+    explanation: "The fix names the task (a newsletter note), the reason (inviting parents), the details (Friday, 2 pm, the gym), and the shape (3 friendly sentences). Nothing is left to guess."
+  },
+  guess: {
+    id: "the-order-guess",
+    output: `RAINY SATURDAY PLAN (2 people, budget $10)
+10:00  Blanket fort + paper-plane contest   $0
+12:30  Grilled cheese and tomato soup       $4
+14:00  Board game tournament, 3 rounds      $0
+16:30  Movie and popcorn                    $2
+Total: $6, with $4 to spare`,
+    options: [
+      { id: "a", text: "Plan a fun day." },
+      { id: "b", text: "Plan a rainy Saturday at home for me and a friend." },
+      { id: "c", text: "Plan a rainy Saturday at home for me and a friend. We have $10. Give it as a timed schedule with the cost of each activity and a total." },
+      { id: "d", text: "Give me a timed schedule with costs." }
+    ],
+    correct: "c",
+    clue: "The times, the cost column, and the $10 budget all came from the order. Option B would get a nice plan, but nothing told it to show times or money."
+  },
+  inspect: {
+    id: "the-order-inspect",
+    order: "Explain why the sky is blue to a 10-year-old. Use simple words.",
+    lines: [
+      { id: "s1", text: "Sunlight looks white, but it is really a mix of every color.", problem: false },
+      { id: "s2", text: "When sunlight hits the air, Rayleigh scattering, which depends on the inverse fourth power of the wavelength, scatters shorter wavelengths far more strongly.", problem: true, kind: "Ignored the order", note: "The order asked for simple words. \"Inverse fourth power of the wavelength\" is not simple for a 10-year-old.", fix: "Who's Cooking, Who's Eating" },
+      { id: "s3", text: "Blue light gets bounced around the whole sky, so blue reaches your eyes from every direction.", problem: false },
+      { id: "s4", text: "Isaac Newton first proved the sky is blue in 1704 by holding a prism up on a rooftop in Cambridge.", problem: true, kind: "Made up", note: "Newton studied light with prisms, but this rooftop test never happened. The real explanation came from Lord Rayleigh in the 1870s.", fix: "Check the Pantry" },
+      { id: "s5", text: "At sunset, light travels through more air, so the blue gets scattered away and you see reds and oranges.", problem: false }
+    ]
+  },
+  card: {
+    title: "The Order",
+    template: `I need [the specific thing you want, with the details that matter].
+It's for [why you want it, or who will use it].
+Give it back as [the shape: a checklist, a table, 3 sentences, under 100 words].`,
+    howTo: "Fill the brackets, then paste it into any AI tool you are allowed to use."
+  },
+  science: {
+    title: "Why vague orders get average food",
+    body: "Your assistant writes by predicting the most likely next words. With a vague order, the most likely answer is the most average one. Every detail you add shrinks the guessing, until the likely answer is the one you pictured."
+  }
+};
+
+const DAILY = {
+  id: "daily-001",
+  number: 1,
+  ask: "Which order made this?",
+  output: `[
+  { "dish": "Jollof rice", "minutes": 60, "spice": "medium" },
+  { "dish": "Vegetable fried rice", "minutes": 25, "spice": "mild" },
+  { "dish": "Coconut rice", "minutes": 40, "spice": "mild" }
+]`,
+  options: [
+    { id: "a", text: "List three rice dishes." },
+    { id: "b", text: "Tell me about rice dishes from around the world." },
+    { id: "c", text: "List three rice dishes as JSON with the fields dish, minutes, and spice." },
+    { id: "d", text: "Give me three rice recipes with every step." }
+  ],
+  correct: "c",
+  clue: "Field names like minutes and spice only appear when the order asks for them. That is the Plating recipe at work, and it unlocks at Station 04."
+};
+
+const OFF_MENU = [
+  { id: "step-by-step", name: "\"Think step by step\" (on reasoning models)", why: "Newer reasoning models already think before they answer. Guidance for them says the phrase adds nothing and can make results worse.", draft: false },
+  { id: "shouting", name: "SHOUTING IN CAPITALS", why: "Newer models follow instructions closely, and heavy emphasis can make them overdo the thing you shouted about.", draft: true },
+  { id: "tips", name: "\"I'll tip you $200\"", why: "A 2023 trend with weak evidence behind it. It also teaches the wrong lesson: a clear order beats a bribe.", draft: true }
+];
+
+const CHALLENGE_IDS = [STATION.tk.id, STATION.rescue.id, STATION.guess.id, STATION.inspect.id];
+
+/* ---------- Helpers ---------- */
+const $ = (sel, root = document) => root.querySelector(sel);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const pad2 = (n) => String(n).padStart(2, "0");
+const STAR_PATH = "M12 2.8l2.75 5.95 6.45.7-4.82 4.37 1.36 6.38L12 16.9l-5.74 3.3 1.36-6.38L2.8 9.45l6.45-.7z";
+const ICONS = {
+  check: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  cross: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  hint: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.5"/></svg>',
+  lock: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
+  flag: '<svg class="flag" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V4m0 1h10l-2.2 4L16 13H6"/></svg>',
+  beaker: '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M18 6h12M20 6v12L9 37a4 4 0 0 0 3.5 6h23a4 4 0 0 0 3.5-6L28 18V6"/><path d="M14 30h20"/></svg>'
+};
+
+function starsHTML(n, max = 3, withText = true) {
+  let icons = "";
+  for (let i = 0; i < max; i++) icons += `<svg class="star${i < n ? " on" : ""}" viewBox="0 0 24 24"><path d="${STAR_PATH}"/></svg>`;
+  const label = withText ? `<span class="stars-text">${n} of ${max}</span>` : `<span class="sr-only">${n} of ${max} stars</span>`;
+  return `<span class="stars"><span class="stars" aria-hidden="true">${icons}</span>${label}</span>`;
+}
+
+function dateKey(d) { return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`; }
+function todayKey() { return dateKey(new Date()); }
+function yesterdayKey() { const d = new Date(); d.setDate(d.getDate() - 1); return dateKey(d); }
+
+/* ---------- Progress on this device ---------- */
+const STORE_KEY = "pm:progress:v1";
+let storageOK = true;
+let run = null;
+
+function freshState() {
+  return {
+    version: 1,
+    startedAt: todayKey(),
+    challenges: {},
+    stationSteps: {},
+    daily: { last: null, streak: 0, best: 0, results: {}, undo: null }
+  };
+}
+function load() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (!raw) return freshState();
+    const s = JSON.parse(raw);
+    if (!s || s.version !== 1) return freshState();
+    const base = freshState();
+    return Object.assign(base, s, { daily: Object.assign(base.daily, s.daily || {}) });
+  } catch (e) {
+    storageOK = false;
+    return freshState();
+  }
+}
+let state = load();
+
+function save() {
+  try {
+    localStorage.setItem(STORE_KEY, JSON.stringify(state));
+  } catch (e) {
+    if (storageOK) {
+      storageOK = false;
+      toast("Progress can't be saved in this browser, so it lasts until you close the page.");
+    }
+  }
+}
+
+function best(id) { return (state.challenges[id] && state.challenges[id].stars) || 0; }
+function record(id, stars) {
+  const prev = state.challenges[id];
+  state.challenges[id] = {
+    stars: Math.max(stars, prev ? prev.stars : 0),
+    attempts: (prev ? prev.attempts : 0) + 1,
+    completedAt: todayKey()
+  };
+  save();
+  renderStats();
+}
+function stationStars() { return CHALLENGE_IDS.reduce((sum, id) => sum + best(id), 0); }
+function stationDone() { return CHALLENGE_IDS.every((id) => best(id) > 0); }
+function stationRating() { return stationDone() ? Math.round(stationStars() / CHALLENGE_IDS.length) : 0; }
+function streakNow() {
+  const d = state.daily;
+  return d.last === todayKey() || d.last === yesterdayKey() ? d.streak : 0;
+}
+function renderStats() {
+  $("#stat-stars").textContent = stationStars();
+  $("#stat-streak").textContent = streakNow();
+}
+
+/* ---------- Toast and copy ---------- */
+let toastTimer = null;
+function toast(msg) {
+  const t = $("#toast");
+  t.textContent = msg;
+  t.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.hidden = true; }, 3800);
+}
+function copyText(text, fallbackEl) {
+  const fallback = () => {
+    if (fallbackEl) {
+      const range = document.createRange();
+      range.selectNodeContents(fallbackEl);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+    toast("Text selected. Copy it with your keyboard.");
+  };
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => toast("Copied."), fallback);
+    } else {
+      fallback();
+    }
+  } catch (e) {
+    fallback();
+  }
+}
+
+/* ---------- Router ---------- */
+const VIEWS = ["home", "kitchen", "the-order", "daily", "cookbook"];
+const RENDER = {};
+function currentView() {
+  const h = location.hash.replace("#", "");
+  return VIEWS.includes(h) ? h : "home";
+}
+function route(focus) {
+  const v = currentView();
+  document.querySelectorAll(".view").forEach((el) => { el.hidden = el.dataset.view !== v; });
+  document.querySelectorAll("[data-nav]").forEach((a) => {
+    const on = a.dataset.nav === v || (v === "the-order" && a.dataset.nav === "kitchen");
+    if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+  });
+  if (RENDER[v]) RENDER[v]();
+  if (focus) {
+    window.scrollTo(0, 0);
+    const target = document.querySelector(`#view-${v} h1`);
+    if (target) {
+      target.setAttribute("tabindex", "-1");
+      target.focus({ preventScroll: true });
+    }
+  }
+}
+window.addEventListener("hashchange", () => route(true));
+
+/* ---------- Home ---------- */
+function initDemo() {
+  const btn = $("#demo-toggle");
+  const show = (clear) => {
+    const d = clear ? DEMO.clear : DEMO.vague;
+    $("#demo-prompt").textContent = d.prompt;
+    $("#demo-output").textContent = d.output;
+    btn.setAttribute("aria-pressed", String(clear));
+    btn.textContent = clear ? "Back to the vague order" : "Add the details";
+  };
+  btn.addEventListener("click", () => show(btn.getAttribute("aria-pressed") !== "true"));
+  show(false);
+  $("#path-pro").addEventListener("click", () => {
+    setTimeout(() => toast("The Skip-ahead test arrives in Phase 3. For now, every Prep Cook station is open."), 80);
+  });
+}
+
+/* ---------- Kitchen map ---------- */
+function statusFor(r) {
+  if (r.playable) return stationDone() ? "done" : "open";
+  if (r.rank === "prep") return "preview";
+  if (r.rank === "sous") return "locked";
+  return "soon";
+}
+function stationTile(r) {
+  const s = statusFor(r);
+  const cls = { open: "is-playable", done: "is-playable", preview: "", locked: "is-locked", soon: "is-soon" }[s];
+  let foot;
+  if (s === "done") foot = `${starsHTML(stationRating())}<span class="pill pill-done">Done</span>`;
+  else if (s === "open") foot = `${starsHTML(0)}<span class="pill pill-open">Play</span>`;
+  else if (s === "preview") foot = `${starsHTML(0)}<span class="pill pill-quiet">Preview</span>`;
+  else if (s === "locked") foot = `<span class="pill pill-quiet">${ICONS.lock} Locked</span>`;
+  else foot = `<span class="pill pill-quiet">Soon</span>`;
+  return `<button class="station ${cls}" type="button" data-id="${r.id}">
+      <span class="num">Station ${pad2(r.n)}</span>
+      <span class="name">${esc(r.name)}</span>
+      <span class="tech">${esc(r.tech)}</span>
+      <span class="foot">${foot}</span>
+    </button>`;
+}
+function openStation(id) {
+  const r = RECIPES.find((x) => x.id === id);
+  const s = statusFor(r);
+  if (r.playable) { location.hash = "the-order"; return; }
+  if (s === "preview") toast(`${r.name} opens in the full build. The Order is playable in this prototype.`);
+  else if (s === "locked") toast("Finish every Prep Cook station to open Sous Chef.");
+  else toast("Head Chef arrives in Release 2, with live AI.");
+}
+RENDER.kitchen = function () {
+  const el = $("#view-kitchen");
+  const finished = stationDone() ? 1 : 0;
+  let html = `<div class="view-head">
+      <p class="eyebrow">The line</p>
+      <h1 class="view-title">The Kitchen</h1>
+      <p class="lede">Pick a station. Each one teaches one recipe and takes about 10 minutes.</p>
+    </div>
+    <div class="summary-row">
+      <span class="stat">${stationStars()} stars earned</span>
+      <span class="stat">${finished} of 9 stations finished</span>
+    </div>`;
+  RANKS.forEach((rank) => {
+    const list = RECIPES.filter((r) => r.rank === rank.id);
+    const done = list.filter((r) => statusFor(r) === "done").length;
+    const pct = Math.round((done / list.length) * 100);
+    const meta = rank.id === "head" ? "Coming in Release 2" : `${done} of ${list.length} stations`;
+    const meter = rank.id === "head" ? "" : `<span class="meter" role="img" aria-label="${pct} percent complete"><span style="width:${pct}%"></span></span>`;
+    html += `<section class="line" aria-labelledby="rank-${rank.id}">
+        <div class="line-head">
+          <h2 id="rank-${rank.id}">${esc(rank.name)}</h2>
+          <span class="line-meta">${meta}</span>
+          ${meter}
+        </div>
+        <p class="fine">${esc(rank.blurb)}</p>
+        <div class="stations">${list.map(stationTile).join("")}</div>
+      </section>`;
+  });
+  el.innerHTML = html;
+  el.querySelectorAll(".station").forEach((b) => b.addEventListener("click", () => openStation(b.dataset.id)));
+};
+
+/* ---------- Cookbook and Off the Menu ---------- */
+RENDER.cookbook = function () {
+  const el = $("#view-cookbook");
+  const done = stationDone();
+  const cards = RECIPES.filter((r) => r.rank !== "head").map((r) => {
+    if (r.id === "the-order" && done) {
+      return `<article class="recipe-card">
+          <p class="eyebrow">Recipe ${pad2(r.n)} &middot; ${esc(r.tech)}</p>
+          <h3 class="rc-title">${esc(STATION.card.title)}</h3>
+          <pre id="cb-template">${esc(STATION.card.template)}</pre>
+          <p class="fine">${esc(STATION.card.howTo)}</p>
+          <div class="btn-row"><button class="btn" type="button" id="cb-copy">Copy recipe</button></div>
+        </article>`;
+    }
+    let why = "Unlocks at Sous Chef.";
+    if (r.rank === "prep") why = `Unlocks when you finish Station ${pad2(r.n)}.`;
+    return `<article class="recipe-card is-locked">
+        <p class="eyebrow">Recipe ${pad2(r.n)} &middot; ${esc(r.tech)}</p>
+        <h3 class="rc-title">${esc(r.name)}</h3>
+        <p class="fine">${esc(why)}</p>
+      </article>`;
+  }).join("");
+  const menu = OFF_MENU.map((m) => `<article class="item-86">
+        <span class="stamp-86" aria-hidden="true">86'd</span>
+        <div class="stack">
+          <h3>${esc(m.name)}</h3>
+          <p>${esc(m.why)}</p>
+          ${m.draft ? '<span class="tag">Draft: still being verified</span>' : ""}
+        </div>
+      </article>`).join("");
+  el.innerHTML = `<div class="view-head">
+      <p class="eyebrow">Your recipes</p>
+      <h1 class="view-title">Cookbook</h1>
+      <p class="lede">Every recipe you master lands here as a card you can copy into any AI tool you are allowed to use.</p>
+    </div>
+    <div class="cards">${cards}</div>
+    <section class="stack" aria-labelledby="menu-title">
+      <p class="eyebrow">86'd is kitchen talk for "taken off the menu"</p>
+      <h2 class="h2" id="menu-title">Off the Menu</h2>
+      <p class="lede">Tricks that used to help and don't anymore. AI changes fast, so this list keeps growing.</p>
+      <div class="menu-86">${menu}</div>
+    </section>`;
+  const copy = $("#cb-copy");
+  if (copy) copy.addEventListener("click", () => copyText(STATION.card.template, $("#cb-template")));
+};
+
+/* ---------- Start over ---------- */
+function initReset() {
+  const area = $("#reset-area");
+  const idle = '<button class="linkish" type="button" id="btn-reset">Start over</button>';
+  area.addEventListener("click", (e) => {
+    const t = e.target.closest("button");
+    if (!t) return;
+    if (t.id === "btn-reset") {
+      area.innerHTML = '<span>Clear all progress?</span><button class="linkish" type="button" id="btn-reset-yes">Yes, start over</button><button class="linkish" type="button" id="btn-reset-no">Cancel</button>';
+      $("#btn-reset-yes").focus();
+    } else if (t.id === "btn-reset-yes") {
+      state = freshState();
+      run = null;
+      save();
+      renderStats();
+      area.innerHTML = idle;
+      toast("Progress cleared. Fresh kitchen.");
+      if (currentView() !== "home") location.hash = "home"; else route(false);
+    } else if (t.id === "btn-reset-no") {
+      area.innerHTML = idle;
+      $("#btn-reset").focus();
+    }
+  });
+}
+
+/* ---------- Station: shared pieces ---------- */
+function newRun() {
+  return {
+    sel: new Set(), serves: 0, tkDone: false, tkStars: 0, tkFeedback: "",
+    rescuePhase: 1, rescueWrong: 0, rescueWrongIds: [], rescueStars: 0, rescueFeedback: "",
+    guessWrongIds: [], guessDone: false, guessStars: 0,
+    flagged: new Set(), inspectDone: false, inspectStars: 0
+  };
+}
+function stepIndex() {
+  const s = state.stationSteps[STATION.id];
+  return typeof s === "number" ? Math.min(Math.max(s, 0), STEPS.length - 1) : 0;
+}
+function setStep(i) {
+  state.stationSteps[STATION.id] = i;
+  save();
+  renderStation(true);
+}
+function ticketHTML(head, right, bodyHTML, preClass) {
+  return `<div class="ticket-wrap"><div class="ticket"><div class="ticket-head"><span>${head}</span>${right ? `<span>${right}</span>` : ""}</div><pre class="${preClass || ""}">${bodyHTML}</pre></div></div>`;
+}
+function noteHTML(kind, title, body) {
+  const icon = { good: ICONS.check, bad: ICONS.cross, hint: ICONS.hint }[kind];
+  return `<div class="note note-${kind}" role="status">${icon}<div><b>${esc(title)}</b>${body ? `<span>${esc(body)}</span>` : ""}</div></div>`;
+}
+function choicesHTML(options, opts) {
+  const o = Object.assign({ mono: false, wrong: [], right: null, locked: false, name: "Choices" }, opts);
+  const items = options.map((opt, k) => {
+    const isWrong = o.wrong.includes(opt.id);
+    const isRight = o.right === opt.id;
+    const cls = ["choice", o.mono ? "mono" : "", isWrong ? "is-wrong" : "", isRight ? "is-right" : ""].join(" ").trim();
+    const dis = o.locked || isWrong ? " disabled" : "";
+    const sr = isWrong ? '<span class="sr-only"> (not this one)</span>' : (isRight ? '<span class="sr-only"> (correct)</span>' : "");
+    return `<button class="${cls}" type="button" data-choice="${opt.id}"${dis}><span class="key" aria-hidden="true">${String.fromCharCode(65 + k)}</span><span class="txt">${esc(opt.text)}${sr}</span></button>`;
+  }).join("");
+  return `<div class="choices" role="group" aria-label="${esc(o.name)}">${items}</div>`;
+}
+function stageHead(n, title, lede) {
+  return `<div class="stage-head"><p class="eyebrow">Step ${n} of ${STEPS.length}</p><h2>${esc(title)}</h2>${lede ? `<p class="lede">${esc(lede)}</p>` : ""}</div>`;
+}
+function focusFirst(stage, selector) {
+  const el = stage.querySelector(selector);
+  if (el) el.focus({ preventScroll: false });
+}
+
+function renderStation(focusStage) {
+  const el = $("#view-the-order");
+  const i = stepIndex();
+  const steps = STEPS.map((s, k) => {
+    const cls = k === i ? "is-current" : (k < i ? "is-done" : "");
+    const cur = k === i ? ' aria-current="step"' : "";
+    return `<li class="${cls}"${cur}><span class="n">${k + 1}</span><span class="lbl">${esc(s.label)}</span></li>`;
+  }).join("");
+  el.innerHTML = `<div class="view-head">
+      <p class="crumb"><a href="#kitchen">The Kitchen</a> / Prep Cook / Station 01</p>
+      <h1 class="view-title">The Order</h1>
+      <ol class="steps" aria-label="Station steps">${steps}</ol>
+    </div>
+    <div class="stage" id="stage"></div>`;
+  const stage = $("#stage");
+  const renderers = { order: stageOrder, tk: stageTK, rescue: stageRescue, guess: stageGuess, inspect: stageInspect, plate: stagePlate };
+  renderers[STEPS[i].id](stage);
+  if (focusStage) {
+    window.scrollTo(0, 0);
+    const h = stage.querySelector("h2");
+    if (h) { h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); }
+  }
+}
+RENDER["the-order"] = function () {
+  if (!run) run = newRun();
+  renderStation(false);
+};
+
+/* ---------- Step 1: Order up ---------- */
+function stageOrder(stage) {
+  stage.innerHTML = `<section class="panel stack" aria-labelledby="st-order">
+      <p class="eyebrow">Recipe 01 &middot; Task, context, format</p>
+      <h2 id="st-order">Order up</h2>
+      <p class="one-line">${esc(STATION.oneLine)}</p>
+      <p>${esc(STATION.quick)}</p>
+      <details class="deeper"><summary>Go deeper</summary><div class="stack">${STATION.deeper.map((p) => `<p>${esc(p)}</p>`).join("")}</div></details>
+    </section>
+    <div class="btn-row">
+      <button class="btn btn-primary" type="button" id="go-tk">Open the Test Kitchen</button>
+      <span class="fine">The whole station takes about 10 minutes.</span>
+    </div>`;
+  $("#go-tk").addEventListener("click", () => setStep(1));
+}
+
+/* ---------- Step 2: Test Kitchen ---------- */
+function comboKey(sel) { return [...sel].sort().join("+") || "base"; }
+function promptHTML(sel) {
+  const g = STATION.tk.ingredients;
+  let s = sel.has("trip") ? `Make a packing list <mark class="prompt-added">${esc(g[0].text)}</mark>.` : "Make a packing list.";
+  if (sel.has("why")) s += ` <mark class="prompt-added">${esc(g[1].text)}</mark>`;
+  if (sel.has("format")) s += ` <mark class="prompt-added">${esc(g[2].text)}</mark>`;
+  return s;
+}
+function stageTK(stage) {
+  const tk = STATION.tk;
+  const knobs = tk.ingredients.map((g) => `<button class="knob-btn" type="button" data-ing="${g.id}" aria-pressed="false">
+        <span class="knob" aria-hidden="true"></span>
+        <span><span class="knob-label">${esc(g.label)}</span><span class="knob-text">${esc(g.text)}</span></span>
+      </button>`).join("");
+  stage.innerHTML = stageHead(2, "Test Kitchen", "Turn the knobs to add ingredients to your order. When the dish matches the customer's ticket, serve it.") +
+    `<div class="tk-grid">
+      <div class="tk-col">
+        ${ticketHTML("Customer's ticket", "Table 4", esc(tk.order))}
+        <div class="stack"><p class="eyebrow">Ingredients</p><div class="knobs">${knobs}</div></div>
+      </div>
+      <div class="tk-col">
+        ${ticketHTML("Your order", "", '<span id="tk-prompt"></span>')}
+        ${ticketHTML("From the kitchen", '<span class="tag">Sample output</span>', '<span id="tk-output" aria-live="polite"></span>')}
+        <div class="btn-row"><button class="btn btn-primary" type="button" id="tk-serve">Serve it</button><span class="fine" id="tk-serves"></span></div>
+        <div id="tk-feedback"></div>
+      </div>
+    </div>`;
+  const paint = () => {
+    $("#tk-prompt").innerHTML = promptHTML(run.sel);
+    $("#tk-output").textContent = tk.outputs[comboKey(run.sel)];
+    stage.querySelectorAll("[data-ing]").forEach((b) => b.setAttribute("aria-pressed", String(run.sel.has(b.dataset.ing))));
+    $("#tk-serves").textContent = run.serves ? `Served ${run.serves} ${run.serves === 1 ? "time" : "times"}` : "";
+    $("#tk-feedback").innerHTML = run.tkFeedback;
+    $("#tk-serve").textContent = run.tkDone ? "Next: Kitchen Rescue" : "Serve it";
+  };
+  stage.querySelectorAll("[data-ing]").forEach((b) => b.addEventListener("click", () => {
+    const id = b.dataset.ing;
+    if (run.sel.has(id)) run.sel.delete(id); else run.sel.add(id);
+    if (!run.tkDone) run.tkFeedback = "";
+    paint();
+  }));
+  $("#tk-serve").addEventListener("click", () => {
+    if (run.tkDone) { setStep(2); return; }
+    run.serves += 1;
+    if (comboKey(run.sel) === tk.correct) {
+      run.tkDone = true;
+      run.tkStars = run.serves === 1 ? 3 : (run.serves === 2 ? 2 : 1);
+      record(tk.id, run.tkStars);
+      run.tkFeedback = noteHTML("good", "Order up! That is exactly what the customer asked for.", "The details, the why, and the format. Every part of the ticket is covered.") + `<p>${starsHTML(run.tkStars)}</p>`;
+    } else {
+      const missing = tk.ingredients.find((g) => !run.sel.has(g.id));
+      run.tkFeedback = noteHTML("hint", "Sent back by the customer.", missing ? tk.hints[missing.id] : "");
+    }
+    paint();
+  });
+  paint();
+}
+
+/* ---------- Step 3: Kitchen Rescue ---------- */
+function stageRescue(stage) {
+  const r = STATION.rescue;
+  let body = "";
+  if (run.rescuePhase < 3) {
+    body += `<div class="compare">${ticketHTML("The order", "", esc(r.prompt))}${ticketHTML("What came back", '<span class="tag">Sample output</span>', esc(r.output))}</div>`;
+  }
+  if (run.rescuePhase === 1) {
+    body += `<div class="stack"><p class="eyebrow">Question 1 of 2</p><h3 class="q">What went wrong?</h3>${choicesHTML(r.diagnoses, { wrong: run.rescueWrongIds, name: "What went wrong" })}</div><div id="rs-feedback">${run.rescueFeedback}</div>`;
+  } else if (run.rescuePhase === 2) {
+    body += noteHTML("good", "Right diagnosis.", "The cook had to guess what to write, who it was for, and how long it should be.") +
+      `<div class="stack"><p class="eyebrow">Question 2 of 2</p><h3 class="q">Pick the best fix</h3>${choicesHTML(r.fixes, { mono: true, wrong: run.rescueWrongIds, name: "Pick the best fix" })}</div><div id="rs-feedback">${run.rescueFeedback}</div>`;
+  } else {
+    body += noteHTML("good", "Rescued.", r.explanation) +
+      `<div class="compare">${ticketHTML("Before", "", esc(r.output))}${ticketHTML("After the fix", '<span class="tag">Sample output</span>', esc(r.fixedOutput))}</div>
+      <p>${starsHTML(run.rescueStars)}</p>
+      <div class="btn-row"><button class="btn btn-primary" type="button" id="rs-next">Next: Guess the Recipe</button></div>`;
+  }
+  stage.innerHTML = stageHead(3, "Kitchen Rescue", "This order went out and came back wrong. Work out why, then fix it.") + body;
+  stage.querySelectorAll("[data-choice]").forEach((b) => b.addEventListener("click", () => {
+    const pick = b.dataset.choice;
+    if (run.rescuePhase === 1) {
+      if (pick === r.correctDiagnosis) {
+        run.rescuePhase = 2; run.rescueWrongIds = []; run.rescueFeedback = "";
+      } else {
+        run.rescueWrong += 1; run.rescueWrongIds.push(pick);
+        run.rescueFeedback = noteHTML("bad", "Not quite.", "Look at what the cook had to guess.");
+      }
+    } else if (run.rescuePhase === 2) {
+      if (pick === r.correctFix) {
+        run.rescuePhase = 3;
+        run.rescueStars = Math.max(1, 3 - run.rescueWrong);
+        record(r.id, run.rescueStars);
+      } else {
+        run.rescueWrong += 1; run.rescueWrongIds.push(pick);
+        run.rescueFeedback = noteHTML("bad", "That order still leaves the cook guessing.", "Pick the one that says what, why, and how.");
+      }
+    }
+    stageRescue(stage);
+    focusFirst(stage, run.rescuePhase === 3 ? "#rs-next" : "[data-choice]:not(:disabled)");
+  }));
+  const next = $("#rs-next");
+  if (next) next.addEventListener("click", () => setStep(3));
+}
+
+/* ---------- Step 4: Guess the Recipe ---------- */
+function stageGuess(stage) {
+  const g = STATION.guess;
+  let body = ticketHTML("From the kitchen", '<span class="tag">Sample output</span>', esc(g.output), "pre-scroll");
+  body += `<div class="stack"><h3 class="q">Which order made this?</h3>${choicesHTML(g.options, { mono: true, wrong: run.guessWrongIds, right: run.guessDone ? g.correct : null, locked: run.guessDone, name: "Which order made this" })}</div>`;
+  if (run.guessDone) {
+    body += noteHTML("good", "Got it.", g.clue) +
+      `<p>${starsHTML(run.guessStars)}</p><div class="btn-row"><button class="btn btn-primary" type="button" id="gs-next">Next: Health Inspector</button></div>`;
+  } else if (run.guessWrongIds.length) {
+    body += noteHTML("bad", "Not that one.", "Look for details in the dish that someone had to ask for.");
+  }
+  stage.innerHTML = stageHead(4, "Guess the Recipe", "Here is what the kitchen served. Work backwards to the order that produced it.") + body;
+  stage.querySelectorAll("[data-choice]").forEach((b) => b.addEventListener("click", () => {
+    const pick = b.dataset.choice;
+    if (pick === g.correct) {
+      run.guessDone = true;
+      const tries = run.guessWrongIds.length + 1;
+      run.guessStars = tries === 1 ? 3 : (tries === 2 ? 2 : 1);
+      record(g.id, run.guessStars);
+    } else {
+      run.guessWrongIds.push(pick);
+    }
+    stageGuess(stage);
+    focusFirst(stage, run.guessDone ? "#gs-next" : "[data-choice]:not(:disabled)");
+  }));
+  const next = $("#gs-next");
+  if (next) next.addEventListener("click", () => setStep(4));
+}
+
+/* ---------- Step 5: Health Inspector ---------- */
+function stageInspect(stage) {
+  const ins = STATION.inspect;
+  const lines = ins.lines.map((l) => {
+    const pressed = run.flagged.has(l.id);
+    let note = "";
+    if (run.inspectDone) {
+      if (l.problem) note = `<span class="line-note"><b>${pressed ? "Caught" : "Missed"}: ${esc(l.kind)}.</b> ${esc(l.note)} Prevented by the ${esc(l.fix)} recipe.</span>`;
+      else if (pressed) note = '<span class="line-note ok"><b>This line was fine.</b> Nothing wrong here.</span>';
+    }
+    return `<button class="line-btn" type="button" data-line="${l.id}" aria-pressed="${pressed}"${run.inspectDone ? " disabled" : ""}>${ICONS.flag}<span>${esc(l.text)}</span>${note}</button>`;
+  }).join("");
+  let foot;
+  if (run.inspectDone) {
+    const summary = run.inspectSlips === 0
+      ? noteHTML("good", "Clean inspection.", "You caught both problems and flagged nothing by mistake.")
+      : noteHTML("hint", `${run.inspectSlips} ${run.inspectSlips === 1 ? "slip" : "slips"} this time.`, "Read the notes on each line to see what to watch for.");
+    foot = summary + `<p>${starsHTML(run.inspectStars)}</p><div class="btn-row"><button class="btn btn-primary" type="button" id="in-next">Plate up</button></div>`;
+  } else {
+    foot = `<div class="btn-row"><button class="btn btn-primary" type="button" id="in-submit">Submit inspection</button><span class="fine" id="in-count">${run.flagged.size} flagged</span></div>`;
+  }
+  stage.innerHTML = stageHead(5, "Health Inspector", "Tap every line with a problem: a made-up fact, or a line that ignores the order.") +
+    ticketHTML("The order", "", esc(ins.order)) +
+    `<div class="stack"><p class="eyebrow">The answer, line by line <span class="tag">Practice answer</span></p><div class="receipt">${lines}</div></div>` +
+    foot;
+  stage.querySelectorAll("[data-line]").forEach((b) => b.addEventListener("click", () => {
+    const id = b.dataset.line;
+    if (run.flagged.has(id)) run.flagged.delete(id); else run.flagged.add(id);
+    b.setAttribute("aria-pressed", String(run.flagged.has(id)));
+    const count = $("#in-count");
+    if (count) count.textContent = `${run.flagged.size} flagged`;
+  }));
+  const submit = $("#in-submit");
+  if (submit) submit.addEventListener("click", () => {
+    const misses = ins.lines.filter((l) => l.problem && !run.flagged.has(l.id)).length;
+    const falseFlags = ins.lines.filter((l) => !l.problem && run.flagged.has(l.id)).length;
+    run.inspectSlips = misses + falseFlags;
+    run.inspectStars = run.inspectSlips === 0 ? 3 : (run.inspectSlips === 1 ? 2 : 1);
+    run.inspectDone = true;
+    record(ins.id, run.inspectStars);
+    stageInspect(stage);
+    focusFirst(stage, "#in-next");
+  });
+  const next = $("#in-next");
+  if (next) next.addEventListener("click", () => setStep(5));
+}
+
+/* ---------- Step 6: Plate up ---------- */
+function stagePlate(stage) {
+  const rows = [
+    ["Test Kitchen", STATION.tk.id],
+    ["Kitchen Rescue", STATION.rescue.id],
+    ["Guess the Recipe", STATION.guess.id],
+    ["Health Inspector", STATION.inspect.id]
+  ].map(([label, id]) => `<li><span>${label}</span>${starsHTML(best(id))}</li>`).join("");
+  stage.innerHTML = `<div class="stage-head"><p class="eyebrow">Step 6 of 6</p><h2>Plate up</h2></div>
+    <span class="stamp" aria-hidden="true">Order up!</span>
+    <p class="lede">Station 01 is done with ${stationStars()} of 12 stars. The Order is now in your Cookbook.</p>
+    <div class="tk-grid">
+      <div class="stack">
+        <p class="eyebrow">Your scores</p>
+        <ul class="score-list">${rows}</ul>
+        <section class="panel science" aria-labelledby="sci-title">${ICONS.beaker}<div class="stack"><p class="eyebrow">Kitchen Science</p><h3 class="q" id="sci-title">${esc(STATION.science.title)}</h3><p>${esc(STATION.science.body)}</p></div></section>
+      </div>
+      <article class="recipe-card">
+        <p class="eyebrow">New recipe card &middot; Recipe 01</p>
+        <h3 class="rc-title">${esc(STATION.card.title)}</h3>
+        <pre id="pl-template">${esc(STATION.card.template)}</pre>
+        <p class="fine">${esc(STATION.card.howTo)}</p>
+        <div class="btn-row"><button class="btn" type="button" id="pl-copy">Copy recipe</button></div>
+      </article>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="#kitchen">Back to the kitchen</a>
+      <a class="btn" href="#cookbook">Open the Cookbook</a>
+      <button class="linkish" type="button" id="pl-replay">Replay this station</button>
+    </div>`;
+  $("#pl-copy").addEventListener("click", () => copyText(STATION.card.template, $("#pl-template")));
+  $("#pl-replay").addEventListener("click", () => { run = newRun(); setStep(0); });
+}
+
+/* ---------- Daily Special ---------- */
+let dailyRun = { wrong: [] };
+function dailyShareText(stars) {
+  const row = "★".repeat(stars) + "☆".repeat(3 - stars);
+  return `Prompt Magic Daily Special #${DAILY.number}\n${row} ${stars} of 3 stars\nlearnpromptmagic.com/?ref=daily`;
+}
+function dailyResultHTML(stars) {
+  const streak = streakNow();
+  return noteHTML("good", "Order up! That's the one.", DAILY.clue) +
+    `<p>${starsHTML(stars)}</p>
+    <div class="panel stack">
+      <p class="eyebrow">Share your result</p>
+      <pre class="share-text" id="daily-share">${esc(dailyShareText(stars))}</pre>
+      <div class="btn-row">
+        <button class="btn btn-primary" type="button" id="daily-copy">Copy result</button>
+        <span class="fine">Streak: ${streak} ${streak === 1 ? "day" : "days"} &middot; Best: ${state.daily.best}</span>
+      </div>
+      <p class="fine">A new Daily Special arrives tomorrow. <button class="linkish" type="button" id="daily-replay">Play again (prototype only)</button></p>
+    </div>`;
+}
+RENDER.daily = function () {
+  const el = $("#view-daily");
+  const today = todayKey();
+  const played = state.daily.results[today];
+  const dateText = new Date().toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
+  const board = `<section class="board" aria-labelledby="daily-title">
+      <div class="stack">
+        <p class="board-meta">No. ${pad2(DAILY.number)} &middot; ${esc(dateText)}</p>
+        <h1 class="board-title" id="daily-title">Daily Special</h1>
+        <p class="board-ask">${esc(DAILY.ask)}</p>
+      </div>
+      ${ticketHTML("From the kitchen", '<span class="tag">Sample output</span>', esc(DAILY.output), "pre-scroll")}
+    </section>`;
+  let lower;
+  if (played) {
+    lower = choicesHTML(DAILY.options, { mono: true, right: DAILY.correct, locked: true, name: "Which order made this" }) + dailyResultHTML(played.stars);
+  } else {
+    lower = choicesHTML(DAILY.options, { mono: true, wrong: dailyRun.wrong, name: "Which order made this" }) +
+      (dailyRun.wrong.length ? noteHTML("bad", "Not that one.", "Look closely at the field names.") : "") +
+      `<p class="fine">One Daily Special a day, the same for everyone. Your streak: ${streakNow()}.</p>`;
+  }
+  el.innerHTML = board + `<div class="stack">${lower}</div>`;
+  el.querySelectorAll("[data-choice]").forEach((b) => b.addEventListener("click", () => {
+    const pick = b.dataset.choice;
+    if (pick === DAILY.correct) {
+      const tries = dailyRun.wrong.length + 1;
+      const stars = tries === 1 ? 3 : (tries === 2 ? 2 : 1);
+      const d = state.daily;
+      d.undo = { last: d.last, streak: d.streak, best: d.best };
+      if (d.last === yesterdayKey()) d.streak += 1;
+      else if (d.last !== today) d.streak = 1;
+      d.best = Math.max(d.best, d.streak);
+      d.last = today;
+      d.results[today] = { stars };
+      dailyRun = { wrong: [] };
+      save();
+      renderStats();
+    } else {
+      dailyRun.wrong.push(pick);
+    }
+    RENDER.daily();
+    focusFirst(el, state.daily.results[today] ? "#daily-copy" : "[data-choice]:not(:disabled)");
+  }));
+  const copy = $("#daily-copy");
+  if (copy) copy.addEventListener("click", () => copyText(dailyShareText(state.daily.results[today].stars), $("#daily-share")));
+  const replay = $("#daily-replay");
+  if (replay) replay.addEventListener("click", () => {
+    const d = state.daily;
+    delete d.results[today];
+    if (d.undo) { d.last = d.undo.last; d.streak = d.undo.streak; d.best = d.undo.best; d.undo = null; }
+    dailyRun = { wrong: [] };
+    save();
+    renderStats();
+    RENDER.daily();
+    focusFirst(el, "[data-choice]");
+  });
+};
+
+/* ---------- Boot ---------- */
+initDemo();
+initReset();
+renderStats();
+route(false);
+if (!storageOK) toast("Progress can't be saved in this browser, so it lasts until you close the page.");
+</script>
+
+</html>

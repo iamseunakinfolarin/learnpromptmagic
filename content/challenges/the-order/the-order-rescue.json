@@ -1,0 +1,52 @@
+{
+  "id": "the-order-rescue",
+  "recipeId": "the-order",
+  "difficulty": 1,
+  "title": "The science fair note",
+  "explanation": "The fix names the task (a newsletter note), the reason (inviting parents), the details (Friday, 2 pm, the gym), and the shape (3 friendly sentences). Nothing is left to guess.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-07"
+  },
+  "type": "kitchen-rescue",
+  "brokenPrompt": "Write something about our science fair.",
+  "brokenOutput": "Science fairs are a wonderful opportunity for students to explore their curiosity and showcase their creativity. From volcanoes to solar ovens, every project tells a story of discovery. Whether you're a participant or a visitor, a science fair is a celebration of learning that inspires the next generation of innovators.",
+  "diagnoses": [
+    {
+      "id": "a",
+      "text": "The prompt is too short to be polite."
+    },
+    {
+      "id": "b",
+      "text": "It never says what to write, who it's for, or how long it should be."
+    },
+    {
+      "id": "c",
+      "text": "It needs to be written in capital letters so the AI pays attention."
+    },
+    {
+      "id": "d",
+      "text": "The AI doesn't know what a science fair is."
+    }
+  ],
+  "correctDiagnosis": "b",
+  "wrongDiagnosisHint": "Look at what the cook had to guess.",
+  "rightDiagnosisNote": "The cook had to guess what to write, who it was for, and how long it should be.",
+  "fixes": [
+    {
+      "id": "a",
+      "prompt": "Write something really good about our science fair!!!"
+    },
+    {
+      "id": "b",
+      "prompt": "Write a 3-sentence note for our school newsletter inviting parents to the science fair this Friday at 2 pm in the gym. Keep it friendly."
+    },
+    {
+      "id": "c",
+      "prompt": "You are the world's best writer. Write something about our science fair."
+    }
+  ],
+  "correctFix": "b",
+  "wrongFixHint": "That order still leaves the cook guessing. Pick the one that says what, why, and how.",
+  "fixedOutput": "Our science fair is this Friday at 2 pm in the gym, and you're invited! Come see what our students have built, from water filters to tiny wind turbines. Bring your questions, because our young scientists can't wait to explain their work."
+}

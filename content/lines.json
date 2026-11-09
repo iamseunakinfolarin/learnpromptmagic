@@ -1,0 +1,39 @@
+[
+  {
+    "id": "prep-cook",
+    "kind": "rank",
+    "number": 1,
+    "name": "Prep Cook",
+    "release": 1,
+    "blurb": "Clear orders, roles, examples, and plating.",
+    "opensAfter": null
+  },
+  {
+    "id": "sous-chef",
+    "kind": "rank",
+    "number": 2,
+    "name": "Sous Chef",
+    "release": 1,
+    "blurb": "Steps, self-checks, grounding, and options.",
+    "opensAfter": "prep-cook"
+  },
+  {
+    "id": "kitchen-safety",
+    "kind": "certificate",
+    "number": 3,
+    "name": "Kitchen Safety",
+    "release": 1,
+    "blurb": "Keep private details out, spot AI scams, and catch hidden instructions.",
+    "opensAfter": "prep-cook",
+    "certificateName": "Safety Certified"
+  },
+  {
+    "id": "head-chef",
+    "kind": "rank",
+    "number": 4,
+    "name": "Head Chef",
+    "release": 2,
+    "blurb": "Context, reasoning, agents, and testing.",
+    "opensAfter": "sous-chef"
+  }
+]

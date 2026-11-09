@@ -1,0 +1,33 @@
+{
+  "id": "the-order-guess",
+  "recipeId": "the-order",
+  "difficulty": 1,
+  "title": "A rainy Saturday",
+  "explanation": "The times, the cost column, and the $10 budget all came from the order. Option B would get a nice plan, but nothing told it to show times or money.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-07"
+  },
+  "type": "guess-the-recipe",
+  "output": "RAINY SATURDAY PLAN (2 people, budget $10)\n10:00  Blanket fort + paper-plane contest   $0\n12:30  Grilled cheese and tomato soup       $4\n14:00  Board game tournament, 3 rounds      $0\n16:30  Movie and popcorn                    $2\nTotal: $6, with $4 to spare",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "Plan a fun day."
+    },
+    {
+      "id": "b",
+      "prompt": "Plan a rainy Saturday at home for me and a friend."
+    },
+    {
+      "id": "c",
+      "prompt": "Plan a rainy Saturday at home for me and a friend. We have $10. Give it as a timed schedule with the cost of each activity and a total."
+    },
+    {
+      "id": "d",
+      "prompt": "Give me a timed schedule with costs."
+    }
+  ],
+  "correctOption": "c",
+  "wrongHint": "Look for details in the dish that someone had to ask for."
+}

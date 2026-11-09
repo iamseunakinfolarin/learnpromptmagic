@@ -1,0 +1,204 @@
+[
+  {
+    "id": "the-order",
+    "line": "prep-cook",
+    "number": 1,
+    "name": "The Order",
+    "technique": "Task, context, format",
+    "release": 1,
+    "status": "ready",
+    "oneLine": "Say what you want, why you want it, and how it should come back.",
+    "quick": "Your kitchen assistant cooks exactly what the ticket says. Order \"lunch\" and you get whatever it guesses. Order a specific dish, say why you want it, and say how to serve it, and you get the lunch you pictured.",
+    "deeper": [
+      "A strong order has three parts. The task is the specific thing you want, with the details that matter: a 3-day trip, not just a trip. The context is why you want it and what it is for, which tells the model what to keep and what to cut. The format is the shape of the answer: a checklist, a table, three sentences, under 100 words.",
+      "Models fill every gap with the most typical answer. Each missing part is a place where you get average instead of yours."
+    ],
+    "recipeCard": {
+      "title": "The Order",
+      "template": "I need [the specific thing you want, with the details that matter].\nIt's for [why you want it, or who will use it].\nGive it back as [the shape: a checklist, a table, 3 sentences, under 100 words].",
+      "howTo": "Fill the brackets, then paste it into any AI tool you are allowed to use."
+    },
+    "kitchenScience": {
+      "title": "Why vague orders get average food",
+      "body": "Your assistant writes by predicting the most likely next words. With a vague order, the most likely answer is the most average one. Every detail you add shrinks the guessing, until the likely answer is the one you pictured."
+    },
+    "lastVerified": "2026-11-07",
+    "stationChallengeIds": [
+      "the-order-tk",
+      "the-order-rescue",
+      "the-order-guess",
+      "the-order-inspect"
+    ]
+  },
+  {
+    "id": "whos-cooking",
+    "line": "prep-cook",
+    "number": 2,
+    "name": "Who's Cooking, Who's Eating",
+    "technique": "Role and audience",
+    "release": 1,
+    "status": "planned"
+  },
+  {
+    "id": "show-the-plate",
+    "line": "prep-cook",
+    "number": 3,
+    "name": "Show the Plate",
+    "technique": "Examples",
+    "release": 1,
+    "status": "planned"
+  },
+  {
+    "id": "plating",
+    "line": "prep-cook",
+    "number": 4,
+    "name": "Plating",
+    "technique": "Structured output",
+    "release": 1,
+    "status": "planned"
+  },
+  {
+    "id": "prep-cook-plate",
+    "line": "sous-chef",
+    "number": 5,
+    "name": "Prep, Cook, Plate",
+    "technique": "Steps and chaining",
+    "release": 1,
+    "status": "planned"
+  },
+  {
+    "id": "taste-and-adjust",
+    "line": "sous-chef",
+    "number": 6,
+    "name": "Taste and Adjust",
+    "technique": "Self-critique",
+    "release": 1,
+    "status": "planned"
+  },
+  {
+    "id": "separate-bowls",
+    "line": "sous-chef",
+    "number": 7,
+    "name": "Separate Bowls",
+    "technique": "Keeping instructions apart from data",
+    "release": 1,
+    "status": "planned"
+  },
+  {
+    "id": "check-the-pantry",
+    "line": "sous-chef",
+    "number": 8,
+    "name": "Check the Pantry",
+    "technique": "Grounding in sources",
+    "release": 1,
+    "status": "planned"
+  },
+  {
+    "id": "tasting-menu",
+    "line": "sous-chef",
+    "number": 9,
+    "name": "Tasting Menu",
+    "technique": "Options and judging",
+    "release": 1,
+    "status": "planned"
+  },
+  {
+    "id": "allergen-check",
+    "line": "kitchen-safety",
+    "number": 10,
+    "name": "Allergen Check",
+    "technique": "Keeping private details out of prompts",
+    "release": 1,
+    "status": "planned"
+  },
+  {
+    "id": "spot-the-fake-order",
+    "line": "kitchen-safety",
+    "number": 11,
+    "name": "Spot the Fake Order",
+    "technique": "Recognizing AI-written scams",
+    "release": 1,
+    "status": "planned"
+  },
+  {
+    "id": "hidden-notes",
+    "line": "kitchen-safety",
+    "number": 12,
+    "name": "Hidden Notes",
+    "technique": "Prompt injection",
+    "release": 1,
+    "status": "planned"
+  },
+  {
+    "id": "whos-at-the-door",
+    "line": "kitchen-safety",
+    "number": 13,
+    "name": "Who's at the Door",
+    "technique": "Voice clones and deepfakes",
+    "release": 2,
+    "status": "planned"
+  },
+  {
+    "id": "secret-sauce",
+    "line": "kitchen-safety",
+    "number": 14,
+    "name": "Secret Sauce",
+    "technique": "Protecting instructions from leaks",
+    "release": 2,
+    "status": "planned"
+  },
+  {
+    "id": "check-before-it-cooks",
+    "line": "kitchen-safety",
+    "number": 15,
+    "name": "Check Before It Cooks",
+    "technique": "Approving agent actions",
+    "release": 2,
+    "status": "planned"
+  },
+  {
+    "id": "recipe-rewrite",
+    "line": "head-chef",
+    "number": 16,
+    "name": "Recipe Rewrite",
+    "technique": "Meta-prompting",
+    "release": 2,
+    "status": "planned"
+  },
+  {
+    "id": "mise-en-place",
+    "line": "head-chef",
+    "number": 17,
+    "name": "Mise en Place",
+    "technique": "Context engineering",
+    "release": 2,
+    "status": "planned"
+  },
+  {
+    "id": "slow-cook",
+    "line": "head-chef",
+    "number": 18,
+    "name": "Slow Cook or Stir-Fry",
+    "technique": "Reasoning effort",
+    "release": 2,
+    "status": "planned"
+  },
+  {
+    "id": "run-the-kitchen",
+    "line": "head-chef",
+    "number": 19,
+    "name": "Run the Kitchen",
+    "technique": "Agent instructions",
+    "release": 2,
+    "status": "planned"
+  },
+  {
+    "id": "taste-panel",
+    "line": "head-chef",
+    "number": 20,
+    "name": "Taste Panel",
+    "technique": "Evaluation",
+    "release": 2,
+    "status": "planned"
+  }
+]

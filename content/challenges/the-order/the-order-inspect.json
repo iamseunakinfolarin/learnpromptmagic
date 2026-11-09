@@ -1,0 +1,47 @@
+{
+  "id": "the-order-inspect",
+  "recipeId": "the-order",
+  "difficulty": 1,
+  "title": "Why the sky is blue",
+  "explanation": "Two lines broke the order. One used words a 10-year-old wouldn't know, and one invented a moment in history.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-07"
+  },
+  "type": "health-inspector",
+  "inspecting": "answer",
+  "setup": "Explain why the sky is blue to a 10-year-old. Use simple words.",
+  "sentences": [
+    {
+      "id": "s1",
+      "text": "Sunlight looks white, but it is really a mix of every color.",
+      "isProblem": false
+    },
+    {
+      "id": "s2",
+      "text": "When sunlight hits the air, Rayleigh scattering, which depends on the inverse fourth power of the wavelength, scatters shorter wavelengths far more strongly.",
+      "isProblem": true,
+      "problemKind": "ignored-order",
+      "note": "The order asked for simple words. \"Inverse fourth power of the wavelength\" is not simple for a 10-year-old.",
+      "preventedBy": "whos-cooking"
+    },
+    {
+      "id": "s3",
+      "text": "Blue light gets bounced around the whole sky, so blue reaches your eyes from every direction.",
+      "isProblem": false
+    },
+    {
+      "id": "s4",
+      "text": "Isaac Newton first proved the sky is blue in 1704 by holding a prism up on a rooftop in Cambridge.",
+      "isProblem": true,
+      "problemKind": "made-up",
+      "note": "Newton studied light with prisms, but this rooftop test never happened. The real explanation came from Lord Rayleigh in the 1870s.",
+      "preventedBy": "check-the-pantry"
+    },
+    {
+      "id": "s5",
+      "text": "At sunset, light travels through more air, so the blue gets scattered away and you see reds and oranges.",
+      "isProblem": false
+    }
+  ]
+}

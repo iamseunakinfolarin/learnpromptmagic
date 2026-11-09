@@ -1,0 +1,33 @@
+{
+  "id": "daily-rice-json",
+  "recipeId": "plating",
+  "difficulty": 1,
+  "title": "Three rice dishes",
+  "explanation": "Field names like minutes and spice only appear when the order asks for them. That is the Plating recipe at work, and it unlocks at Station 04.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-07"
+  },
+  "type": "guess-the-recipe",
+  "output": "[\n  { \"dish\": \"Jollof rice\", \"minutes\": 60, \"spice\": \"medium\" },\n  { \"dish\": \"Vegetable fried rice\", \"minutes\": 25, \"spice\": \"mild\" },\n  { \"dish\": \"Coconut rice\", \"minutes\": 40, \"spice\": \"mild\" }\n]",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "List three rice dishes."
+    },
+    {
+      "id": "b",
+      "prompt": "Tell me about rice dishes from around the world."
+    },
+    {
+      "id": "c",
+      "prompt": "List three rice dishes as JSON with the fields dish, minutes, and spice."
+    },
+    {
+      "id": "d",
+      "prompt": "Give me three rice recipes with every step."
+    }
+  ],
+  "correctOption": "c",
+  "wrongHint": "Look closely at the field names."
+}

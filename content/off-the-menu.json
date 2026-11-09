@@ -1,0 +1,20 @@
+[
+  {
+    "id": "step-by-step",
+    "name": "\"Think step by step\" (on reasoning models)",
+    "whyRetired": "Newer reasoning models already think before they answer. Guidance for them says the phrase adds nothing and can make results worse.",
+    "lastVerified": "2026-11-07"
+  },
+  {
+    "id": "shouting",
+    "name": "SHOUTING IN CAPITALS",
+    "whyRetired": "Newer models follow instructions closely, and heavy emphasis can make them overdo the thing you shouted about.",
+    "lastVerified": null
+  },
+  {
+    "id": "tips",
+    "name": "\"I'll tip you $200\"",
+    "whyRetired": "A 2023 trend with weak evidence behind it. It also teaches the wrong lesson: a clear order beats a bribe.",
+    "lastVerified": null
+  }
+]

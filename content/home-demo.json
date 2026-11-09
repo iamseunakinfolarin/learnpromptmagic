@@ -1,0 +1,10 @@
+{
+  "vague": {
+    "prompt": "Make me lunch.",
+    "output": "Here's a classic lunch idea: a sandwich with lettuce, tomato, and cheese, an apple on the side, and a glass of water. Enjoy!"
+  },
+  "clear": {
+    "prompt": "Make me a quick lunch I can pack for school. No nuts, ready in 10 minutes. List the steps.",
+    "output": "Rice and bean wrap (10 minutes, nut-free)\n1. Warm leftover rice and beans for 1 minute.\n2. Spoon onto a wrap with grated cheese and salsa.\n3. Roll it tightly and wrap it in foil.\n4. Pack it with an orange and a bottle of water."
+  }
+}
