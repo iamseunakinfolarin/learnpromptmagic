@@ -25,12 +25,18 @@ type NoteProps = {
   kind: NoteKind;
   title: string;
   children?: ReactNode;
+  /**
+   * Whether this note announces itself to screen readers. On by default. A
+   * station turns it off because it announces every result through one live
+   * region of its own, and a second announcement would say it twice.
+   */
+  live?: boolean;
 };
 
 /** Feedback note: good, bad, or a hint. */
-export default function Note({ kind, title, children }: NoteProps) {
+export default function Note({ kind, title, children, live = true }: NoteProps) {
   return (
-    <div className={`note note-${kind}`} role="status">
+    <div className={`note note-${kind}`} role={live ? "status" : undefined}>
       {icons[kind]}
       <div>
         <b>{title}</b>

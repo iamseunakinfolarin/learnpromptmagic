@@ -144,6 +144,9 @@ body::before {
 }
 
 .wrap {
+  /* Full width up to the maximum. Without this, a .wrap placed straight in the
+     body, which is a flex column, would shrink to fit its content. */
+  width: 100%;
   max-width: var(--wrap);
   margin-inline: auto;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
@@ -604,9 +607,346 @@ details.deeper .stack { padding-block: 6px 4px; }
   .traits { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 560px) {
-  .stat-label { display: none; }
-  .nav { margin-left: 0; width: 100%; }
+  /* Brand and the two chips share the first row, and the nav takes the second,
+     which keeps the sticky header short on a phone. The stars chip drops its
+     word because the star says it, and screen readers hear the full text. */
+  .site-header .wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 2px 10px;
+    padding-block: 6px;
+  }
+  .brand { grid-column: 1; grid-row: 1; font-size: 1.3rem; }
+  .stats { grid-column: 2; grid-row: 1; gap: 6px; }
+  .nav { grid-column: 1 / -1; grid-row: 2; margin-left: 0; width: 100%; }
+  .stat { padding: 4px 8px; }
+  .stat-stars .stat-label { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ---------------------------------------------------------------------------
+   Station steps
+   --------------------------------------------------------------------------- */
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.step {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 5px 14px 5px 6px;
+  border: 1.5px solid var(--rule);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--muted);
+  font: inherit;
+  font-size: var(--step--1);
+}
+button.step { cursor: pointer; }
+button.step:hover { border-color: var(--ink); }
+.step.is-locked { border-style: dashed; background: transparent; }
+.step .n {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  flex: none;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+.step .n svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.step.is-current { border-color: var(--enamel); color: var(--ink); font-weight: 700; }
+.step.is-current .n { background: var(--enamel); border-color: var(--enamel); color: var(--enamel-ink); }
+.step.is-done { color: var(--basil); }
+.step.is-done .n { background: var(--basil-soft); }
+
+/* ---------------------------------------------------------------------------
+   Games: shared
+   --------------------------------------------------------------------------- */
+.q { font-size: var(--step-1); font-weight: 700; }
+.stage-head h2:focus { outline: none; }
+.stage-head h2:focus-visible { outline: 3px solid var(--enamel); outline-offset: 4px; }
+mark.prompt-added {
+  background: var(--enamel-soft);
+  color: var(--enamel);
+  border-radius: 3px;
+  padding: 0 2px;
+  font-weight: 600;
+}
+.compare {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px 22px;
+  padding-inline: 4px;
+}
+.result { display: grid; gap: 10px; align-content: start; }
+.result-stars { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; }
+
+/* Choices: the A, B, C, D pick lists */
+.choices { display: grid; gap: 10px; }
+.choice {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  text-align: left;
+  font: inherit;
+  color: var(--ink);
+  cursor: pointer;
+  background: var(--paper);
+  border: 2px solid var(--rule);
+  border-radius: 12px;
+}
+.choice:hover:not([aria-disabled="true"]) { border-color: var(--ink); }
+.choice[aria-disabled="true"] { cursor: default; }
+.choice .key {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+.choice .txt { display: grid; gap: 6px; min-width: 0; overflow-wrap: anywhere; }
+.choice.mono .copy { font-family: var(--font-mono); font-size: 0.92rem; }
+.choice-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.choice-flag svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.choice.is-wrong { border-color: var(--tomato); background: var(--tomato-soft); }
+.choice.is-wrong .copy { text-decoration: line-through; text-decoration-thickness: 2px; }
+.choice.is-wrong .key { border-color: var(--tomato); color: var(--tomato); }
+.choice.is-wrong .choice-flag { color: var(--tomato); }
+.choice.is-right { border-color: var(--basil); background: var(--basil-soft); }
+.choice.is-right .key { background: var(--basil); border-color: var(--basil); color: var(--paper); }
+.choice.is-right .choice-flag { color: var(--basil); }
+
+/* ---------------------------------------------------------------------------
+   Test Kitchen
+   --------------------------------------------------------------------------- */
+.tk-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 30px 26px;
+  align-items: start;
+}
+.tk-col { display: grid; gap: 22px; min-width: 0; }
+.knobs { display: grid; gap: 10px; }
+.knob-btn {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  min-height: 56px;
+  padding: 10px 12px;
+  text-align: left;
+  font: inherit;
+  color: var(--ink);
+  cursor: pointer;
+  background: var(--paper);
+  border: 2px solid var(--rule);
+  border-radius: 12px;
+}
+.knob-btn:hover { border-color: var(--ink); }
+.knob-btn[aria-checked="true"] { border-color: var(--enamel); background: var(--enamel-soft); }
+.knob {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  transition: transform 0.25s ease;
+}
+.knob::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  width: 3px;
+  height: 13px;
+  transform: translateX(-50%);
+  border-radius: 2px;
+  background: var(--ink);
+}
+.knob-btn[aria-checked="true"] .knob { transform: rotate(90deg); background: var(--enamel); }
+.knob-btn[aria-checked="true"] .knob::after { background: var(--enamel-ink); }
+.knob-label { display: block; font-weight: 700; }
+.knob-text { display: block; font-family: var(--font-mono); font-size: 0.82rem; color: var(--muted); overflow-wrap: anywhere; }
+.knob-state {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.knob-btn[aria-checked="true"] .knob-state { color: var(--enamel); }
+
+/* ---------------------------------------------------------------------------
+   Health Inspector
+   --------------------------------------------------------------------------- */
+.receipt { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.line-item { display: grid; gap: 8px; }
+.line-btn {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 12px;
+  text-align: left;
+  cursor: pointer;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1.5px dashed var(--rule);
+  border-radius: 8px;
+  font: 0.95rem/1.5 var(--font-mono);
+}
+.line-btn > span { min-width: 0; overflow-wrap: anywhere; }
+.line-btn[aria-pressed="true"] { border-style: solid; border-color: var(--tomato); background: var(--tomato-soft); }
+.line-btn[aria-disabled="true"] { cursor: default; }
+.flag { width: 20px; height: 20px; margin-top: 2px; }
+.flag path { fill: none; stroke: var(--muted); stroke-width: 1.7; stroke-linejoin: round; }
+.line-btn[aria-pressed="true"] .flag path { fill: var(--tomato); stroke: var(--tomato); }
+.line-note {
+  display: grid;
+  gap: 4px;
+  margin-left: 34px;
+  font: var(--step--1)/1.5 var(--font-body);
+}
+.line-note b { color: var(--tomato); }
+.line-note.ok b { color: var(--basil); }
+.line-note a { color: var(--enamel); font-weight: 700; }
+
+/* ---------------------------------------------------------------------------
+   Plate up
+   --------------------------------------------------------------------------- */
+.stamp {
+  justify-self: start;
+  display: inline-block;
+  margin: 6px 0 6px 10px;
+  padding: 4px 16px;
+  border: 3px solid var(--tomato);
+  border-radius: 10px;
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  color: var(--tomato);
+  transform: rotate(-4deg);
+  animation: stamp 0.45s ease-out both;
+}
+@keyframes stamp {
+  from { transform: rotate(-4deg) scale(1.5); opacity: 0.25; }
+  to { transform: rotate(-4deg) scale(1); opacity: 1; }
+}
+.score-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.score-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1.5px dashed var(--rule);
+}
+.recipe-card {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  padding: 18px;
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(to bottom, transparent 0 27px, var(--tile-line) 27px 28px);
+  background-position: 0 52px;
+}
+.rc-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--step-2);
+  color: var(--enamel);
+  line-height: 1.1;
+}
+.recipe-card pre {
+  margin: 0;
+  font: 0.9rem/28px var(--font-mono);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.science { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 14px; align-items: start; }
+.science svg { width: 44px; height: 44px; fill: none; stroke: var(--enamel); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ---------------------------------------------------------------------------
+   Storage notice
+   --------------------------------------------------------------------------- */
+.notice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 16px;
+  margin-top: 14px;
+  padding: 8px 14px;
+  border: 1.5px solid var(--butter);
+  border-radius: 12px;
+  background: var(--butter-soft);
+  font-size: var(--step--1);
+}
+.notice p { flex: 1 1 260px; }
+.linkish {
+  background: none;
+  border: 0;
+  padding: 10px 0;
+  min-height: 44px;
+  cursor: pointer;
+  color: var(--enamel);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  .tk-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 820px) {
+  .compare { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+  /* Only the current step keeps its word on a phone. The others keep theirs for
+     screen readers, so each button still has a name. */
+  .step:not(.is-current) .lbl {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .step:not(.is-current) { padding-right: 6px; }
+  .knob-btn { grid-template-columns: 44px minmax(0, 1fr); }
+  .knob-state { grid-column: 2; }
 }

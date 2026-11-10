@@ -60,6 +60,63 @@ export function isStorageUnavailable(): boolean {
   return unavailable;
 }
 
+/* ---------------------------------------------------------------------------
+   Change notification, for components that show progress.
+
+   React reads progress as an external store. That needs two things: a way to
+   hear about changes (subscribe), and a snapshot whose identity only changes
+   when the data does (getSnapshot). load() cannot be the snapshot, because it
+   parses saved data into a new object on every call.
+   --------------------------------------------------------------------------- */
+
+const listeners = new Set<() => void>();
+let snapshot: Progress | null = null;
+let storageListenerAttached = false;
+
+/** What the server and the first client render both see: nothing earned yet. */
+const serverSnapshot: Progress = freshProgress();
+
+function notify(): void {
+  for (const listener of [...listeners]) listener();
+}
+
+function onStorageEvent(event: StorageEvent): void {
+  // Another tab changed progress. A null key means storage was cleared.
+  if (event.key !== null && event.key !== STORAGE_KEY) return;
+  snapshot = null;
+  notify();
+}
+
+/**
+ * Calls the listener after every save or reset in this tab, and after another
+ * tab changes saved progress. Returns the function that stops listening.
+ */
+export function subscribe(listener: () => void): () => void {
+  listeners.add(listener);
+  if (!storageListenerAttached && typeof window !== "undefined") {
+    window.addEventListener("storage", onStorageEvent);
+    storageListenerAttached = true;
+  }
+  return () => {
+    listeners.delete(listener);
+    if (listeners.size === 0 && storageListenerAttached) {
+      window.removeEventListener("storage", onStorageEvent);
+      storageListenerAttached = false;
+    }
+  };
+}
+
+/** The current progress. The same object comes back until it changes. */
+export function getSnapshot(): Progress {
+  snapshot ??= load();
+  return snapshot;
+}
+
+/** The progress to render on the server, which knows nothing about a device. */
+export function getServerSnapshot(): Progress {
+  return serverSnapshot;
+}
+
 function storage(): Storage | null {
   try {
     if (typeof globalThis.localStorage === "undefined") return null;
@@ -175,17 +232,20 @@ export function load(): Progress {
 /** Writes progress, keeping it in memory even when storage refuses. */
 export function save(progress: Progress): Progress {
   memory = progress;
+  snapshot = progress;
   const store = storage();
   if (!store) {
     unavailable = true;
-    return progress;
+  } else {
+    try {
+      store.setItem(STORAGE_KEY, JSON.stringify(progress));
+      unavailable = false;
+    } catch {
+      unavailable = true;
+    }
   }
-  try {
-    store.setItem(STORAGE_KEY, JSON.stringify(progress));
-    unavailable = false;
-  } catch {
-    unavailable = true;
-  }
+  // Listeners run last, so they see whether this save actually reached storage.
+  notify();
   return progress;
 }
 
@@ -214,17 +274,19 @@ export function recordChallenge(challengeId: string, stars: Stars): Progress {
 export function reset(): Progress {
   const next = freshProgress();
   memory = next;
+  snapshot = next;
   const store = storage();
   if (!store) {
     unavailable = true;
-    return next;
+  } else {
+    try {
+      store.removeItem(STORAGE_KEY);
+      unavailable = false;
+    } catch {
+      unavailable = true;
+    }
   }
-  try {
-    store.removeItem(STORAGE_KEY);
-    unavailable = false;
-  } catch {
-    unavailable = true;
-  }
+  notify();
   return next;
 }
 

@@ -1,14 +1,18 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import Panel from "@/components/Panel";
 import { ButtonLink } from "@/components/Button";
+import Station from "@/components/station/Station";
 import {
+  getChallengesForRecipe,
   getLine,
   getRecipe,
+  getRecipes,
   getRelease1Recipes,
+  isReady,
   stationLabel,
 } from "@/lib/content";
-import { notFound } from "next/navigation";
 
 /** One page per Release 1 station, built at build time and nothing else. */
 export function generateStaticParams() {
@@ -39,6 +43,19 @@ export default async function StationPage({ params }: Params) {
 
   const line = getLine(recipe.line);
 
+  // A ready station is played in the browser. Everything it needs is read here,
+  // at build time, and handed over as plain data, so the page stays static.
+  if (isReady(recipe)) {
+    return (
+      <Station
+        recipe={recipe}
+        challenges={getChallengesForRecipe(recipe)}
+        lineName={line?.name ?? ""}
+        recipes={getRecipes().map(({ id, name, release }) => ({ id, name, release }))}
+      />
+    );
+  }
+
   return (
     <div className="view">
       <div className="view-head">
@@ -49,40 +66,16 @@ export default async function StationPage({ params }: Params) {
         <h1 className="view-title">{recipe.name}</h1>
       </div>
 
-      {recipe.status === "ready" ? (
-        <div className="stage">
-          <Panel className="stack" labelledBy="order-up">
-            <p className="eyebrow">
-              {stationLabel(recipe)} · {recipe.technique}
-            </p>
-            <h2 id="order-up">Order up</h2>
-            <p className="one-line">{recipe.oneLine}</p>
-            <p>{recipe.quick}</p>
-            <details className="deeper">
-              <summary>Go deeper</summary>
-              <div className="stack">
-                {recipe.deeper.map((paragraph, index) => (
-                  <p key={index}>{paragraph}</p>
-                ))}
-              </div>
-            </details>
-          </Panel>
-          <p className="fine">
-            The Test Kitchen and the rest of this station arrive in Phase 2.
-          </p>
+      <Panel className="stack" labelledBy="being-written">
+        <p className="eyebrow">
+          {stationLabel(recipe)} · {recipe.technique}
+        </p>
+        <h2 id="being-written">{recipe.name}</h2>
+        <p>This station is being written.</p>
+        <div className="btn-row">
+          <ButtonLink href="/kitchen">Back to the kitchen</ButtonLink>
         </div>
-      ) : (
-        <Panel className="stack" labelledBy="being-written">
-          <p className="eyebrow">
-            {stationLabel(recipe)} · {recipe.technique}
-          </p>
-          <h2 id="being-written">{recipe.name}</h2>
-          <p>This station is being written.</p>
-          <div className="btn-row">
-            <ButtonLink href="/kitchen">Back to the kitchen</ButtonLink>
-          </div>
-        </Panel>
-      )}
+      </Panel>
     </div>
   );
 }

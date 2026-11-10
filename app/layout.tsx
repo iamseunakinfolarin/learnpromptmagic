@@ -6,6 +6,7 @@ import {
 } from "next/font/google";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
+import StorageNotice from "@/components/StorageNotice";
 import "./globals.css";
 
 /**
@@ -59,6 +60,7 @@ export default function RootLayout({
           Skip to content
         </a>
         <SiteHeader />
+        <StorageNotice />
         <main id="main" tabIndex={-1}>
           <div className="wrap">{children}</div>
         </main>
