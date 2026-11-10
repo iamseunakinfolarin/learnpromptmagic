@@ -207,3 +207,165 @@ describe("a device where storage is not available", () => {
     expect(progress.totalStars()).toBe(0);
   });
 });
+
+describe("replaying a solved challenge", () => {
+  it("never lowers the saved stars or the total", async () => {
+    vi.stubGlobal("localStorage", workingStorage());
+    const progress = await progressModule();
+
+    progress.recordChallenge("the-order-rescue", 3);
+    const total = progress.totalStars();
+    progress.recordChallenge("the-order-rescue", 1);
+
+    expect(progress.totalStars()).toBe(total);
+    expect(progress.load().challenges["the-order-rescue"].stars).toBe(3);
+    expect(progress.load().challenges["the-order-rescue"].attempts).toBe(2);
+  });
+
+  it("raises the saved stars when the replay goes better", async () => {
+    vi.stubGlobal("localStorage", workingStorage());
+    const progress = await progressModule();
+
+    progress.recordChallenge("the-order-rescue", 1);
+    progress.recordChallenge("the-order-rescue", 3);
+
+    expect(progress.totalStars()).toBe(3);
+  });
+});
+
+describe("hearing about changes", () => {
+  it("calls a listener after every save and every reset", async () => {
+    vi.stubGlobal("localStorage", workingStorage());
+    const progress = await progressModule();
+    const listener = vi.fn();
+    progress.subscribe(listener);
+
+    progress.recordChallenge("the-order-tk", 2);
+    expect(listener).toHaveBeenCalledTimes(1);
+
+    progress.save({ ...progress.load() });
+    expect(listener).toHaveBeenCalledTimes(2);
+
+    progress.reset();
+    expect(listener).toHaveBeenCalledTimes(3);
+  });
+
+  it("stops calling a listener once it has unsubscribed", async () => {
+    vi.stubGlobal("localStorage", workingStorage());
+    const progress = await progressModule();
+    const listener = vi.fn();
+    const stop = progress.subscribe(listener);
+
+    stop();
+    progress.recordChallenge("the-order-tk", 2);
+
+    expect(listener).not.toHaveBeenCalled();
+  });
+
+  it("hands back the same snapshot until something is saved", async () => {
+    const saved = JSON.stringify({
+      version: 1,
+      startedAt: "2026-01-01",
+      challenges: { x: { stars: 2, attempts: 1, completedAt: "2026-01-01" } },
+      stationSteps: {},
+      skipAhead: { passed: false, passedAt: null },
+      daily: { last: null, streak: 0, best: 0, results: {} },
+      settings: { deeperOpenByDefault: false },
+    });
+    vi.stubGlobal("localStorage", workingStorage(saved));
+    const progress = await progressModule();
+
+    // load() parses saved data into a new object each time. The snapshot must
+    // not, or React would see a change on every render.
+    expect(progress.load()).not.toBe(progress.load());
+    expect(progress.getSnapshot()).toBe(progress.getSnapshot());
+
+    const before = progress.getSnapshot();
+    progress.recordChallenge("the-order-tk", 3);
+    const after = progress.getSnapshot();
+    expect(after).not.toBe(before);
+    expect(after.challenges["the-order-tk"].stars).toBe(3);
+    expect(progress.getSnapshot()).toBe(after);
+  });
+
+  it("serves a fresh, empty state to the server", async () => {
+    vi.stubGlobal("localStorage", workingStorage());
+    const progress = await progressModule();
+    progress.recordChallenge("the-order-tk", 3);
+
+    expect(progress.getServerSnapshot().challenges).toEqual({});
+    expect(progress.getServerSnapshot()).toBe(progress.getServerSnapshot());
+  });
+
+  it("re-reads saved progress when another tab changes it", async () => {
+    const storage = workingStorage();
+    const fakeWindow = new EventTarget();
+    vi.stubGlobal("localStorage", storage);
+    vi.stubGlobal("window", fakeWindow);
+    const progress = await progressModule();
+    const listener = vi.fn();
+    progress.subscribe(listener);
+
+    expect(progress.getSnapshot().challenges).toEqual({});
+
+    const elsewhere = JSON.stringify({
+      version: 1,
+      startedAt: "2026-01-01",
+      challenges: { y: { stars: 3, attempts: 1, completedAt: "2026-01-01" } },
+      stationSteps: {},
+      skipAhead: { passed: false, passedAt: null },
+      daily: { last: null, streak: 0, best: 0, results: {} },
+      settings: { deeperOpenByDefault: false },
+    });
+    storage.raw.set(KEY, elsewhere);
+    fakeWindow.dispatchEvent(Object.assign(new Event("storage"), { key: KEY }));
+
+    expect(listener).toHaveBeenCalledTimes(1);
+    expect(progress.getSnapshot().challenges.y.stars).toBe(3);
+  });
+
+  it("ignores a change to some other key", async () => {
+    const fakeWindow = new EventTarget();
+    vi.stubGlobal("localStorage", workingStorage());
+    vi.stubGlobal("window", fakeWindow);
+    const progress = await progressModule();
+    const listener = vi.fn();
+    progress.subscribe(listener);
+
+    fakeWindow.dispatchEvent(Object.assign(new Event("storage"), { key: "something-else" }));
+
+    expect(listener).not.toHaveBeenCalled();
+  });
+});
+
+describe("telling a failed save from a repaired one", () => {
+  it("leaves the flag raised after a save that storage refused", async () => {
+    vi.stubGlobal("localStorage", throwingStorage());
+    const progress = await progressModule();
+    let flagSeenByListener: boolean | null = null;
+    progress.subscribe(() => {
+      flagSeenByListener = progress.isStorageUnavailable();
+    });
+
+    progress.recordChallenge("the-order-tk", 2);
+
+    expect(flagSeenByListener).toBe(true);
+  });
+
+  it("clears the flag when a save repairs corrupt saved data", async () => {
+    vi.stubGlobal("localStorage", workingStorage("{not json"));
+    const progress = await progressModule();
+    let flagSeenByListener: boolean | null = null;
+    progress.subscribe(() => {
+      flagSeenByListener = progress.isStorageUnavailable();
+    });
+
+    // Reading corrupt data raises the flag...
+    progress.load();
+    expect(progress.isStorageUnavailable()).toBe(true);
+
+    // ...but the next save writes fine, so there is nothing to warn about.
+    progress.recordChallenge("the-order-tk", 2);
+    expect(flagSeenByListener).toBe(false);
+  });
+});
