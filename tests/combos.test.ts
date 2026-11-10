@@ -3,6 +3,7 @@ import {
   allComboKeys,
   assemblePrompt,
   comboKey,
+  promptSegments,
   templateSlots,
 } from "../lib/content/combos";
 
@@ -104,5 +105,41 @@ describe("templateSlots", () => {
 
   it("finds nothing in a template without slots", () => {
     expect(templateSlots("Make me lunch.")).toEqual([]);
+  });
+});
+
+describe("promptSegments", () => {
+  it("marks the words an ingredient added, and not the space before them", () => {
+    expect(promptSegments(template, ingredients, ["trip"])).toEqual([
+      { text: "Make a packing list", added: false },
+      { text: " ", added: false },
+      { text: "for a 3-day school trip to the coast in June", added: true },
+      { text: ".", added: false },
+    ]);
+  });
+
+  it("is only the plain template with nothing on", () => {
+    expect(promptSegments(template, ingredients, [])).toEqual([
+      { text: "Make a packing list", added: false },
+      { text: ".", added: false },
+    ]);
+  });
+
+  it("joins back into exactly what assemblePrompt gives, for every combination", () => {
+    for (const key of allComboKeys(ingredients.map((item) => item.id))) {
+      const on = key === "base" ? [] : key.split("+");
+      const joined = promptSegments(template, ingredients, on)
+        .map((segment) => segment.text)
+        .join("");
+      expect(joined, key).toBe(assemblePrompt(template, ingredients, on));
+    }
+  });
+
+  it("keeps a slot that no ingredient claims", () => {
+    expect(promptSegments("Boil {rice}.", ingredients, ["rice"])).toEqual([
+      { text: "Boil ", added: false },
+      { text: "{rice}", added: false },
+      { text: ".", added: false },
+    ]);
   });
 });
