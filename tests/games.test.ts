@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { allComboKeys, comboKey } from "../lib/content/combos";
 import { getChallenge } from "../lib/content";
 import type { TestKitchen } from "../lib/content/schemas";
-import { isCorrectCombo, judgeServe, outputFor } from "../lib/games";
+import { inspectionSummary, isCorrectCombo, judgeServe, outputFor } from "../lib/games";
 
 function realKitchen(): TestKitchen {
   const challenge = getChallenge("the-order-tk");
@@ -136,5 +136,54 @@ describe("with more than one correct combination", () => {
     const verdict = judgeServe(twoWays, ["a", "b", "c"]);
     expect(verdict.correct).toBe(false);
     if (!verdict.correct) expect(verdict.missing).toBeNull();
+  });
+});
+
+describe("the words after a Health Inspector round", () => {
+  it("is plain praise for a clean round", () => {
+    const summary = inspectionSummary({ missed: [], falseFlags: [], slips: 0 });
+    expect(summary.kind).toBe("good");
+    expect(summary.title).toBe("Clean inspection.");
+  });
+
+  it("says 'you missed one' for a single missed problem", () => {
+    const summary = inspectionSummary({ missed: ["s4"], falseFlags: [], slips: 1 });
+    expect(summary.kind).toBe("hint");
+    expect(summary.title).toBe("One slip this time.");
+    expect(summary.body).toBe("You missed one problem.");
+  });
+
+  it("says a flagged line was fine for a single false flag", () => {
+    const summary = inspectionSummary({ missed: [], falseFlags: ["s1"], slips: 1 });
+    expect(summary.title).toBe("One slip this time.");
+    expect(summary.body).toBe("One line you flagged was fine.");
+  });
+
+  it("names both kinds of slip when a round has both", () => {
+    const summary = inspectionSummary({ missed: ["s4"], falseFlags: ["s1"], slips: 2 });
+    expect(summary.title).toBe("2 slips this time.");
+    expect(summary.body).toBe("You missed one problem. One line you flagged was fine.");
+  });
+
+  it("counts several of each", () => {
+    const summary = inspectionSummary({
+      missed: ["a", "b"],
+      falseFlags: ["c", "d", "e"],
+      slips: 5,
+    });
+    expect(summary.body).toBe("You missed 2 problems. 3 lines you flagged were fine.");
+  });
+
+  it("never scolds, whatever the round", () => {
+    const rounds = [
+      { missed: [], falseFlags: [], slips: 0 },
+      { missed: ["a"], falseFlags: [], slips: 1 },
+      { missed: [], falseFlags: ["a"], slips: 1 },
+      { missed: ["a", "b"], falseFlags: ["c"], slips: 3 },
+    ];
+    for (const round of rounds) {
+      const summary = inspectionSummary(round);
+      expect(`${summary.title} ${summary.body}`).not.toMatch(/wrong|incorrect|mistake!|fail/i);
+    }
   });
 });

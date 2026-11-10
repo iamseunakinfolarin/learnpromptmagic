@@ -78,3 +78,47 @@ export function judgeServe(
 
   return { correct: false, missing };
 }
+
+export type InspectionSummary = {
+  kind: "good" | "hint";
+  title: string;
+  body: string;
+};
+
+/**
+ * The words after a Health Inspector round. They say what happened and never
+ * scold: a slip is "a slip", and nothing is called wrong.
+ */
+export function inspectionSummary(tally: {
+  missed: unknown[];
+  falseFlags: unknown[];
+  slips: number;
+}): InspectionSummary {
+  if (tally.slips === 0) {
+    return {
+      kind: "good",
+      title: "Clean inspection.",
+      body: "You found every problem and flagged nothing by mistake.",
+    };
+  }
+
+  const missed = tally.missed.length;
+  const falseFlags = tally.falseFlags.length;
+  const parts: string[] = [];
+  if (missed > 0) {
+    parts.push(missed === 1 ? "You missed one problem." : `You missed ${missed} problems.`);
+  }
+  if (falseFlags > 0) {
+    parts.push(
+      falseFlags === 1
+        ? "One line you flagged was fine."
+        : `${falseFlags} lines you flagged were fine.`,
+    );
+  }
+
+  return {
+    kind: "hint",
+    title: tally.slips === 1 ? "One slip this time." : `${tally.slips} slips this time.`,
+    body: parts.join(" "),
+  };
+}
