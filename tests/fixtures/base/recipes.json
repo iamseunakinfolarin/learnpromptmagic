@@ -1,0 +1,32 @@
+[
+  {
+    "id": "the-order",
+    "line": "prep-cook",
+    "number": 1,
+    "name": "The Order",
+    "technique": "Task, context, format",
+    "release": 1,
+    "status": "ready",
+    "oneLine": "Say what you want.",
+    "quick": "Ask clearly and you get what you pictured.",
+    "deeper": [
+      "A good order has three parts."
+    ],
+    "recipeCard": {
+      "title": "The Order",
+      "template": "Task. Context. Format.",
+      "howTo": "Fill in all three."
+    },
+    "kitchenScience": {
+      "title": "Why it works",
+      "body": "Gaps get filled with the typical answer."
+    },
+    "lastVerified": "2026-01-02",
+    "stationChallengeIds": [
+      "tk",
+      "rescue",
+      "guess",
+      "inspect"
+    ]
+  }
+]
