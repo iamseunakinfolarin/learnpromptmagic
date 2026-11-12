@@ -47,6 +47,6 @@ Then open http://localhost:3000.
 
 ## Build status
 
-Phase 1 (Foundation) and Phase 2 (the four game modes) are built. All 12 Release 1 stations are playable, and the Daily Special has 14 specials ready for Phase 3.
+Phases 1 to 3 are built: the foundation, the four game modes, and now progression. The kitchen map shows ranks and what is open, locked, or finished. Passing the Skip-ahead test or finishing Prep Cook opens Sous Chef and Kitchen Safety. The Daily Special, the Cookbook with Off the Menu, and Start over are in.
 
-Not done yet: the kitchen map with ranks and unlocks, the Daily Special page, the Cookbook, and the About, Privacy, and Terms pages. Every challenge output is still hand-written and labelled `sample`, so `npm run check:release` fails until Phase 4 replaces them with live model outputs.
+Not done yet: the About, Privacy, and Terms pages, and live model outputs. Every challenge output is still hand-written and labelled `sample`, so `npm run check:release` fails until Phase 4 replaces them.
