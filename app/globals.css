@@ -256,7 +256,8 @@ p { margin: 0; max-width: 65ch; }
   font-size: var(--step--1);
   color: var(--muted);
 }
-.footer-links { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+.footer-links { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; }
+.start-over { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; }
 .site-footer a { color: inherit; min-height: 44px; display: inline-flex; align-items: center; }
 
 /* ---------------------------------------------------------------------------
@@ -926,6 +927,116 @@ mark.prompt-added {
   font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+/* ---------------------------------------------------------------------------
+   Kitchen map
+   --------------------------------------------------------------------------- */
+.meter {
+  flex: 0 1 180px;
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--paper-2);
+  border: 1.5px solid var(--rule);
+}
+.meter > span { display: block; height: 100%; background: var(--basil); }
+.station.is-locked {
+  background: transparent;
+  border-style: dashed;
+  border-color: var(--rule);
+  color: var(--muted);
+}
+.station.is-locked .name { color: var(--muted); }
+.line-hint { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; }
+.line-hint a { color: var(--enamel); font-weight: 700; }
+.certificate {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 2px solid var(--basil);
+  border-radius: 12px;
+  background: var(--basil-soft);
+  font-weight: 700;
+}
+.certificate svg { width: 30px; height: 30px; flex: none; color: var(--basil); }
+.gate { justify-items: start; }
+
+/* ---------------------------------------------------------------------------
+   Daily Special: the chalkboard
+   --------------------------------------------------------------------------- */
+.board {
+  display: grid;
+  gap: 18px;
+  padding: clamp(18px, 4vw, 32px);
+  background: var(--slate);
+  color: var(--chalk);
+  border: 8px solid var(--steel);
+  border-radius: 14px;
+}
+.board-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--step-3);
+  color: var(--chalk);
+}
+.board-meta { font-family: var(--font-mono); font-size: var(--step--1); color: var(--chalk-dim); }
+.board-ask { font-size: var(--step-1); font-weight: 700; color: var(--chalk); }
+.share-text {
+  margin: 0;
+  padding: 12px 14px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  background: var(--paper-2);
+  border: 1.5px dashed var(--rule);
+  border-radius: 10px;
+}
+
+/* ---------------------------------------------------------------------------
+   Cookbook and Off the Menu
+   --------------------------------------------------------------------------- */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
+  gap: 16px;
+}
+.recipe-card.is-locked {
+  border-style: dashed;
+  border-color: var(--rule);
+  background-image: none;
+  background-color: transparent;
+  color: var(--muted);
+}
+.recipe-card.is-locked .rc-title { color: var(--muted); }
+.menu-86 { display: grid; gap: 12px; }
+.item-86 {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+  padding: 16px;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+}
+.stamp-86 {
+  padding: 2px 10px;
+  border: 2.5px solid var(--tomato);
+  border-radius: 8px;
+  transform: rotate(-6deg);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  line-height: 1.25;
+  color: var(--tomato);
+}
+.item-86 h3 {
+  font: 600 1rem/1.4 var(--font-mono);
+  text-decoration: line-through;
+  text-decoration-color: var(--tomato);
+  text-decoration-thickness: 2px;
 }
 
 @media (max-width: 900px) {

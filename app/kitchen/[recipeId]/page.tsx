@@ -4,11 +4,13 @@ import Link from "next/link";
 import Panel from "@/components/Panel";
 import { ButtonLink } from "@/components/Button";
 import Station from "@/components/station/Station";
+import StationGate from "@/components/station/StationGate";
 import {
   getChallengesForRecipe,
   getLine,
   getRecipe,
   getRecipes,
+  getUnlockData,
   getRelease1Recipes,
   isReady,
   stationLabel,
@@ -46,13 +48,19 @@ export default async function StationPage({ params }: Params) {
   // A ready station is played in the browser. Everything it needs is read here,
   // at build time, and handed over as plain data, so the page stays static.
   if (isReady(recipe)) {
+    const unlock = getUnlockData();
+    const entry = unlock.recipes.find((item) => item.id === recipe.id);
+    if (!entry) notFound();
+
     return (
-      <Station
-        recipe={recipe}
-        challenges={getChallengesForRecipe(recipe)}
-        lineName={line?.name ?? ""}
-        recipes={getRecipes().map(({ id, name, release }) => ({ id, name, release }))}
-      />
+      <StationGate recipe={entry} lines={unlock.lines} recipes={unlock.recipes}>
+        <Station
+          recipe={recipe}
+          challenges={getChallengesForRecipe(recipe)}
+          lineName={line?.name ?? ""}
+          recipes={getRecipes().map(({ id, name, release }) => ({ id, name, release }))}
+        />
+      </StationGate>
     );
   }
 

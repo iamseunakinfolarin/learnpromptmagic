@@ -10,6 +10,7 @@ import Button from "../Button";
 import Note from "../Note";
 import Tag from "../Tag";
 import Ticket from "../Ticket";
+import ReplayButton from "./ReplayButton";
 import ResultStars from "./ResultStars";
 import StageHead from "./StageHead";
 import { outputLabel, type GameProps } from "./types";
@@ -31,6 +32,7 @@ export default function TestKitchen({
   onSolved,
   onNext,
   onReplay,
+  showStars = true,
   announce,
 }: GameProps<TestKitchenChallenge>) {
   const [on, setOn] = useState<string[]>([]);
@@ -161,10 +163,8 @@ export default function TestKitchen({
               <Note kind="good" title="Order up! That is exactly what the customer asked for." live={false}>
                 {challenge.explanation}
               </Note>
-              <ResultStars stars={solved} best={best} />
-              <button type="button" className="linkish" onClick={onReplay}>
-                Play this one again
-              </button>
+              {showStars ? <ResultStars stars={solved} best={best} /> : null}
+              <ReplayButton onReplay={onReplay} />
             </div>
           ) : null}
         </div>

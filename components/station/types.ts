@@ -14,7 +14,10 @@ export type GameProps<C extends Challenge> = {
   /** Called once, when the learner has finished the challenge. */
   onSolved: (stars: Stars) => void;
   onNext: () => void;
-  onReplay: () => void;
+  /** Offers to play the challenge again. Leave it out where a replay makes no sense. */
+  onReplay?: () => void;
+  /** Shows the stars a run earned. A station does. The Skip-ahead test does not, because it awards none. */
+  showStars?: boolean;
   /** Says something to screen readers through the station's live region. */
   announce: (message: string) => void;
 };
