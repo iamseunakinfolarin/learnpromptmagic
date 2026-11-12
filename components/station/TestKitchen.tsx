@@ -14,7 +14,8 @@ import ResultStars from "./ResultStars";
 import StageHead from "./StageHead";
 import { outputLabel, type GameProps } from "./types";
 
-const NOT_QUITE = "That is not quite what the customer asked for. Read the ticket again.";
+const NOT_QUITE =
+  "That is not quite what the customer asked for. Read the ticket again for anything to add, or anything to leave out.";
 
 /**
  * Test Kitchen. Switch ingredients on and off, and the order and the dish
