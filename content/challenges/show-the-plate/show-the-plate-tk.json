@@ -1,0 +1,47 @@
+{
+  "id": "show-the-plate-tk",
+  "recipeId": "show-the-plate",
+  "difficulty": 1,
+  "title": "Naming the new soup",
+  "explanation": "Two examples showed the style, and the rule said to match it without copying. One example gets over-copied, and no rule gets the old names handed back.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "test-kitchen",
+  "ticket": "Three playful names for the canteen's new tomato-and-lentil soup, in the same style as its other dishes. No copying the old names.",
+  "promptTemplate": "Give me three names for our new tomato-and-lentil soup.{first}{second}{rule}",
+  "ingredients": [
+    {
+      "id": "first",
+      "label": "First example",
+      "text": "Here is one of our dishes: 'Sunny Dal Splash - golden lentils with a squeeze of lemon.'",
+      "missingHint": "The customer wants the canteen's style. Your order shows no example of it."
+    },
+    {
+      "id": "second",
+      "label": "Second example",
+      "text": "Here is another: 'Rice and Shine - a warm rice bowl with crunchy vegetables.'",
+      "missingHint": "One example is easy to over-copy. Show the assistant a second one."
+    },
+    {
+      "id": "rule",
+      "label": "The rule",
+      "text": "Match that style: a playful name, a dash, then a short description. Do not reuse these names.",
+      "missingHint": "The customer asked for the same style, with no copying. Your order never says either."
+    }
+  ],
+  "outputs": {
+    "base": "1. Tomato Lentil Soup\n2. Hearty Lentil Soup\n3. Classic Tomato Soup",
+    "first": "1. Sunny Tomato Splash\n2. Golden Lentil Soup\n3. Red Lentil Warmer",
+    "second": "1. Soup and Shine\n2. Tomato Lentil Bowl\n3. Lentil Comfort",
+    "rule": "I do not see an example to match, so here are three playful names with a dash and a short description:\n1. Tomato Tango - a zesty soup with red lentils\n2. Lentil Lagoon - a thick, warming bowl\n3. Soup-er Star - tomatoes and lentils, ready to shine",
+    "first+second": "Here are three names:\n1. Sunny Dal Splash - golden lentils with a squeeze of lemon\n2. Rice and Shine - a warm rice bowl with crunchy vegetables\n3. Tomato Lentil Soup",
+    "first+rule": "1. Sunny Tomato Splash - ripe tomatoes with golden lentils\n2. Sunny Lentil Splash - a bowl of sunshine\n3. Sunny Red Splash - warm, bright, and hearty",
+    "rule+second": "1. Lentil and Shine - a warm bowl with tomatoes\n2. Tomato and Shine - a bright, hearty soup\n3. Soup and Shine - lentils in a tomato broth",
+    "first+rule+second": "1. Tomato Tango - red lentils in a zesty tomato broth\n2. Ruby Ladle - a rich, warm bowl for a chilly day\n3. Lentil Lift-Off - a hearty soup that powers the afternoon"
+  },
+  "correctCombos": [
+    "first+rule+second"
+  ]
+}

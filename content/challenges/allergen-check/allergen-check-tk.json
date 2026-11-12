@@ -1,0 +1,47 @@
+{
+  "id": "allergen-check-tk",
+  "recipeId": "allergen-check",
+  "difficulty": 2,
+  "title": "The missed test",
+  "explanation": "The reason made the letter useful, and the placeholders kept it private, because the assistant never saw a name or an address. Details that were typed into an order have already left your hands, so the safest ones are the ones you never type.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "test-kitchen",
+  "ticket": "A short letter to a teacher about a missed test. It gives the reason (a fever) and uses [MY NAME] and [CLASS], so Amara can fill them in later. No real names, addresses, or phone numbers.",
+  "promptTemplate": "Write a short letter to my teacher about a test I missed.{real}{swap}{reason}",
+  "ingredients": [
+    {
+      "id": "real",
+      "label": "Real details",
+      "text": "My name is Amara Okonkwo, I live at 14 Palm Road, and my phone number is 555-0142.",
+      "missingHint": "Nothing is missing here. This one is a set of details to keep out of your order."
+    },
+    {
+      "id": "swap",
+      "label": "Placeholders",
+      "text": "Write it with [MY NAME] and [CLASS] where a name or class would go. I will fill them in myself.",
+      "missingHint": "The customer wants placeholders she can fill in herself. Your order never asks for them."
+    },
+    {
+      "id": "reason",
+      "label": "The reason",
+      "text": "The reason is that I had a fever on test day.",
+      "missingHint": "The customer wants the fever mentioned. Your order never gives the reason."
+    }
+  ],
+  "outputs": {
+    "base": "Dear Teacher,\n\nI am writing to let you know that I missed the test. I would like to arrange a time to take it. Thank you for understanding.\n\nSincerely,\n[Your Name]",
+    "real": "Dear Teacher,\n\nI missed the test and would like to take it on another day.\n\nSincerely,\nAmara Okonkwo\n14 Palm Road\nPhone: 555-0142",
+    "swap": "Dear Teacher,\n\nI am [MY NAME] from [CLASS]. I missed the test and would like to take it on another day.\n\nSincerely,\n[MY NAME]",
+    "reason": "Dear Teacher,\n\nI missed the test because I had a fever. I would like to take it on another day.\n\nSincerely,\n[Your Name]",
+    "real+swap": "Dear Teacher,\n\nI am [MY NAME] from [CLASS]. I missed the test and would like to take it on another day.\n\nSincerely,\nAmara Okonkwo\n14 Palm Road\nPhone: 555-0142",
+    "real+reason": "Dear Teacher,\n\nI missed the test because I had a fever. I would like to take it on another day.\n\nSincerely,\nAmara Okonkwo\n14 Palm Road\nPhone: 555-0142",
+    "reason+swap": "Dear Teacher,\n\nI am [MY NAME] from [CLASS]. I missed the test because I had a fever, and I would like to take it on another day.\n\nSincerely,\n[MY NAME]",
+    "real+reason+swap": "Dear Teacher,\n\nI am [MY NAME] from [CLASS]. I missed the test because I had a fever.\n\nSincerely,\nAmara Okonkwo\n14 Palm Road\nPhone: 555-0142"
+  },
+  "correctCombos": [
+    "reason+swap"
+  ]
+}

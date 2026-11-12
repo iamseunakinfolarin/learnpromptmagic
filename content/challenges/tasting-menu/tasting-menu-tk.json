@@ -1,0 +1,47 @@
+{
+  "id": "tasting-menu-tk",
+  "recipeId": "tasting-menu",
+  "difficulty": 2,
+  "title": "Priya's birthday",
+  "explanation": "The options gave a choice, the criteria turned the ideas into a comparison, and the pick gave one reason tied to cost and effort. One answer is a guess. Three answers with criteria let you choose.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "test-kitchen",
+  "ticket": "Three different ideas for Priya's 10th birthday party, compared on cost and effort, with one recommendation and one reason.",
+  "promptTemplate": "Give me an idea for Priya's 10th birthday party.{options}{criteria}{pick}",
+  "ingredients": [
+    {
+      "id": "options",
+      "label": "The options",
+      "text": "Give me three different ideas: a cheap one, an active one, and a creative one.",
+      "missingHint": "The customer wants three different ideas to choose from. Your order asks for only one."
+    },
+    {
+      "id": "criteria",
+      "label": "The criteria",
+      "text": "Compare them on cost and on effort for me, each low, medium, or high.",
+      "missingHint": "The customer wants to compare. Your order never says what to compare them on."
+    },
+    {
+      "id": "pick",
+      "label": "The pick",
+      "text": "Recommend one and give one reason.",
+      "missingHint": "The customer wants a recommendation. Your order never asks for one."
+    }
+  ],
+  "outputs": {
+    "base": "How about a backyard movie night? Hang a sheet as a screen, lay out blankets and cushions, and serve popcorn. It is easy, and kids love it.",
+    "options": "Here are three ideas:\n1. A picnic in the park (cheap)\n2. A garden obstacle course (active)\n3. A make-your-own pizza party (creative)",
+    "criteria": "A backyard movie night has a low cost and a low effort. You only need a sheet, a screen or projector, and some snacks.",
+    "pick": "I recommend a backyard movie night, because it is fun for everyone.",
+    "criteria+options": "1. A picnic in the park: cost low, effort low\n2. A garden obstacle course: cost low, effort medium\n3. A make-your-own pizza party: cost medium, effort high",
+    "options+pick": "Ideas: a picnic, a garden obstacle course, and a make-your-own pizza party. I recommend the pizza party because it sounds the most fun.",
+    "criteria+pick": "A backyard movie night: cost low, effort low. I recommend it because it is simple.",
+    "criteria+options+pick": "1. A picnic in the park: cost low, effort low\n2. A garden obstacle course: cost low, effort medium\n3. A make-your-own pizza party: cost medium, effort high\nI recommend the picnic. It costs and takes the least, and it still feels like a party."
+  },
+  "correctCombos": [
+    "criteria+options+pick"
+  ]
+}

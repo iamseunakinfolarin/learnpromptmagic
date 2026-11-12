@@ -1,0 +1,47 @@
+{
+  "id": "tasting-menu-inspect",
+  "recipeId": "tasting-menu",
+  "difficulty": 3,
+  "title": "Dinner for four",
+  "explanation": "The options were not really different, and the pick gave a reason that the comparison did not support. When you ask for options and a pick, check that the options differ and that the reason matches your criteria.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "health-inspector",
+  "inspecting": "answer",
+  "setup": "Give me three different dinner ideas for four people, compared on cost and time, then recommend one.",
+  "sentences": [
+    {
+      "id": "s1",
+      "text": "1. Lentil soup with bread: cost low, time 40 minutes.",
+      "isProblem": false
+    },
+    {
+      "id": "s2",
+      "text": "2. Chicken and vegetable stir-fry: cost medium, time 25 minutes.",
+      "isProblem": false
+    },
+    {
+      "id": "s3",
+      "text": "3. Lentil soup with rice: cost low, time 45 minutes.",
+      "isProblem": true,
+      "problemKind": "ignored-order",
+      "note": "This is almost the same idea as option 1. The order asked for three different ideas.",
+      "preventedBy": "tasting-menu"
+    },
+    {
+      "id": "s4",
+      "text": "I recommend the stir-fry because it is the cheapest.",
+      "isProblem": true,
+      "problemKind": "made-up",
+      "note": "Option 1 is cheaper. The reason does not match the comparison above it.",
+      "preventedBy": "tasting-menu"
+    },
+    {
+      "id": "s5",
+      "text": "It also takes the least time.",
+      "isProblem": false
+    }
+  ]
+}

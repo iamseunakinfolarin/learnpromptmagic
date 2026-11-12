@@ -1,0 +1,47 @@
+{
+  "id": "whos-cooking-inspect",
+  "recipeId": "whos-cooking",
+  "difficulty": 2,
+  "title": "The changing moon",
+  "explanation": "One line used words a 7-year-old will not know, and one gave a wrong reason with a made-up date. Naming the reader helps with the first. Checking against a source you trust helps with the second.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "health-inspector",
+  "inspecting": "answer",
+  "setup": "Explain to a 7-year-old why the moon changes shape. Use simple words.",
+  "sentences": [
+    {
+      "id": "s1",
+      "text": "The moon does not make its own light. It shines because the sun lights it up.",
+      "isProblem": false
+    },
+    {
+      "id": "s2",
+      "text": "As the moon orbits Earth, the portion of its sunlit hemisphere that is visible from Earth changes with the synodic phase angle.",
+      "isProblem": true,
+      "problemKind": "ignored-order",
+      "note": "The order asked for simple words for a 7-year-old. 'Synodic phase angle' is not simple.",
+      "preventedBy": "whos-cooking"
+    },
+    {
+      "id": "s3",
+      "text": "Sometimes we see all of the lit side, and sometimes only a sliver.",
+      "isProblem": false
+    },
+    {
+      "id": "s4",
+      "text": "Scientists proved in 1969 that the moon changes shape because Earth's shadow slides across it every night.",
+      "isProblem": true,
+      "problemKind": "made-up",
+      "note": "Earth's shadow only covers the moon during an eclipse. The shapes happen because we see different amounts of the sunlit side. That date and reason were made up.",
+      "preventedBy": "check-the-pantry"
+    },
+    {
+      "id": "s5",
+      "text": "It takes about a month to go through all the shapes.",
+      "isProblem": false
+    }
+  ]
+}

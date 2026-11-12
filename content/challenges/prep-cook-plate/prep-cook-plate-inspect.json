@@ -1,0 +1,52 @@
+{
+  "id": "prep-cook-plate-inspect",
+  "recipeId": "prep-cook-plate",
+  "difficulty": 2,
+  "title": "Honeybee poster",
+  "explanation": "A step-by-step answer lets you check each step against the one before. One line added a fact the steps never listed, and one made up a number. Both are easy to spot when the steps are on the page.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "health-inspector",
+  "inspecting": "answer",
+  "setup": "Do this in steps. Step 1: list three facts about honeybees. Step 2: use only those three facts to write two sentences for a poster.",
+  "sentences": [
+    {
+      "id": "s1",
+      "text": "Step 1: Honeybees live in colonies with one queen.",
+      "isProblem": false
+    },
+    {
+      "id": "s2",
+      "text": "Honeybees visit flowers to collect nectar and pollen.",
+      "isProblem": false
+    },
+    {
+      "id": "s3",
+      "text": "A worker bee makes only a tiny amount of honey in her whole life.",
+      "isProblem": false
+    },
+    {
+      "id": "s4",
+      "text": "Step 2: Honeybees live in colonies and visit flowers to collect nectar and pollen.",
+      "isProblem": false
+    },
+    {
+      "id": "s5",
+      "text": "Honeybees also do a waggle dance to share where flowers are.",
+      "isProblem": true,
+      "problemKind": "ignored-order",
+      "note": "The order said to use only the three facts from Step 1. The waggle dance is true, but it was never in the list.",
+      "preventedBy": "prep-cook-plate"
+    },
+    {
+      "id": "s6",
+      "text": "A single hive holds about five million bees.",
+      "isProblem": true,
+      "problemKind": "made-up",
+      "note": "A hive holds tens of thousands of bees, not millions. This number was made up.",
+      "preventedBy": "check-the-pantry"
+    }
+  ]
+}

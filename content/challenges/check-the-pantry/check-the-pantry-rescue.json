@@ -1,0 +1,52 @@
+{
+  "id": "check-the-pantry-rescue",
+  "recipeId": "check-the-pantry",
+  "difficulty": 2,
+  "title": "The library that closed at four",
+  "explanation": "The fix keeps the assistant inside the notes and gives it a way out. Option A asks for accuracy but leaves the gap open, and Option C asks for a guess, which is the opposite of grounding.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "kitchen-rescue",
+  "brokenPrompt": "Our school library notes say it opens at 8 am and runs a reading club on Wednesdays. When does it close on Fridays?",
+  "brokenOutput": "The library closes at 4 pm on Fridays.",
+  "diagnoses": [
+    {
+      "id": "a",
+      "text": "The assistant should have used capital letters."
+    },
+    {
+      "id": "b",
+      "text": "The notes do not say when it closes, but the order gave the assistant no way to say so, so it guessed."
+    },
+    {
+      "id": "c",
+      "text": "The question was too short."
+    },
+    {
+      "id": "d",
+      "text": "The assistant cannot read notes."
+    }
+  ],
+  "correctDiagnosis": "b",
+  "wrongDiagnosisHint": "Look for the closing time in the notes. Is it there?",
+  "rightDiagnosisNote": "The notes only gave an opening time and a club. With no way out, the assistant filled the gap with a time that sounded likely.",
+  "fixes": [
+    {
+      "id": "a",
+      "prompt": "Notes: The library opens at 8 am. There is a reading club on Wednesdays. Question: When does it close on Fridays? Please be accurate."
+    },
+    {
+      "id": "b",
+      "prompt": "Use only the notes below. If the answer is not in the notes, say 'Not in the notes.' Notes: The library opens at 8 am. There is a reading club on Wednesdays. Question: When does it close on Fridays?"
+    },
+    {
+      "id": "c",
+      "prompt": "Notes: The library opens at 8 am. There is a reading club on Wednesdays. Question: When does it close on Fridays? Think hard and give your best guess."
+    }
+  ],
+  "correctFix": "b",
+  "wrongFixHint": "'Be accurate' and 'best guess' do not give it a way out. Pick the one that says what to do when the notes are silent.",
+  "fixedOutput": "Not in the notes. The notes only say the library opens at 8 am and has a reading club on Wednesdays."
+}

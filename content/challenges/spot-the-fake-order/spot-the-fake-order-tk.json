@@ -1,0 +1,47 @@
+{
+  "id": "spot-the-fake-order-tk",
+  "recipeId": "spot-the-fake-order",
+  "difficulty": 2,
+  "title": "Checking a suspicious text",
+  "explanation": "The message made the check specific, the signs named what was wrong, and the plan said what to do next. Whatever the assistant says, the safest step is the same: do not click, reply, or pay, and ask a trusted adult.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "test-kitchen",
+  "ticket": "Ask the assistant to check a suspicious text safely. It should name the warning signs in this message, and give a safe next step that does not involve clicking, replying, or paying.",
+  "promptTemplate": "Look at this text message for me.{paste}{signs}{plan}",
+  "ingredients": [
+    {
+      "id": "paste",
+      "label": "The message",
+      "text": "The text says: 'Brightleaf Bank: Your account is locked. Pay $50 in gift cards within 1 hour or lose access. Do not tell anyone. Tap here to fix it.'",
+      "missingHint": "The customer wants this exact message checked. Your order never includes it."
+    },
+    {
+      "id": "signs",
+      "label": "The signs",
+      "text": "List the warning signs of a scam in this message.",
+      "missingHint": "The customer wants the warning signs named. Your order never asks for them."
+    },
+    {
+      "id": "plan",
+      "label": "The safe plan",
+      "text": "Then tell me what to do next without clicking, replying, or paying.",
+      "missingHint": "The customer wants a safe next step. Your order never asks for one."
+    }
+  ],
+  "outputs": {
+    "base": "I do not see a text message in your message. Could you paste it?",
+    "paste": "This message says your Brightleaf Bank account is locked and asks for $50 in gift cards. It looks suspicious, so be careful.",
+    "signs": "Common scam warning signs include urgent deadlines, requests for gift cards, demands for secrecy, and links you did not expect.",
+    "plan": "If you get a suspicious text, do not click links or reply. Contact the company using a number from its official website, and tell a trusted adult.",
+    "paste+signs": "Warning signs in this message:\n- A hurry: 'within 1 hour'\n- Payment by gift card\n- A demand for secrecy: 'Do not tell anyone'\n- A link to tap",
+    "paste+plan": "This looks like a scam. Do not tap the link or reply. Contact the bank using a number you already know, and tell a trusted adult.",
+    "plan+signs": "Common signs: urgent deadlines, gift card payments, secrecy, and unexpected links. Safe plan: do not click, reply, or pay, and tell a trusted adult.",
+    "paste+plan+signs": "Warning signs in this message:\n- A hurry: 'within 1 hour'\n- Payment by gift card, which real businesses do not ask for\n- A demand for secrecy: 'Do not tell anyone'\n- A link to tap\n\nSafe plan: Do not tap, reply, or pay. Contact the bank using a number you already know. Tell a trusted adult."
+  },
+  "correctCombos": [
+    "paste+plan+signs"
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "id": "allergen-check-rescue",
+  "recipeId": "allergen-check",
+  "difficulty": 2,
+  "title": "The leaky tap",
+  "explanation": "The fix keeps the problem and drops the identity. Option A still shares a name and an address, and Option C still shares a name and a flat number. Placeholders are the only choice that shares nothing.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "kitchen-rescue",
+  "brokenPrompt": "Write a message to my landlord about the leaky tap. I'm Tariq Hassan, flat 3B, 21 Cedar Lane, phone 555-0178, and my bank card ends in 4421.",
+  "brokenOutput": "Dear Landlord,\n\nI am Tariq Hassan from flat 3B at 21 Cedar Lane. The tap is leaking. Please call me on 555-0178. I can pay any call-out fee with the card ending in 4421.\n\nThanks, Tariq",
+  "diagnoses": [
+    {
+      "id": "a",
+      "text": "The message was too polite."
+    },
+    {
+      "id": "b",
+      "text": "The order handed over a full name, an address, a phone number, and card digits that the assistant did not need."
+    },
+    {
+      "id": "c",
+      "text": "The assistant should have refused to write messages."
+    },
+    {
+      "id": "d",
+      "text": "Leaky taps are too hard to describe."
+    }
+  ],
+  "correctDiagnosis": "b",
+  "wrongDiagnosisHint": "Look at how much personal detail went into the order. Which of it did the task really need?",
+  "rightDiagnosisNote": "The assistant only needed the shape of the problem: a leaking tap. It never needed a real name, a street, a number, or a card.",
+  "fixes": [
+    {
+      "id": "a",
+      "prompt": "Write a message to my landlord about the leaky tap. Leave out my card digits, but keep my name and address so he knows who I am."
+    },
+    {
+      "id": "b",
+      "prompt": "Write a message to my landlord about the leaky tap in my flat. Use [MY NAME], [FLAT], and [PHONE] where those details go. I will add them myself."
+    },
+    {
+      "id": "c",
+      "prompt": "Write a message to my landlord about the leaky tap. I'm Tariq, flat 3B. Just my first name and flat number, nothing more."
+    }
+  ],
+  "correctFix": "b",
+  "wrongFixHint": "Some of those still share a name or an address. Pick the one that shares none.",
+  "fixedOutput": "Dear Landlord,\n\nThe tap in the kitchen of [FLAT] has been leaking. Could you arrange a repair this week? You can reach me on [PHONE].\n\nThank you,\n[MY NAME]"
+}

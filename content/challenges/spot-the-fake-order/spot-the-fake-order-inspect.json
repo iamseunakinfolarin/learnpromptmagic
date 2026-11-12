@@ -1,0 +1,55 @@
+{
+  "id": "spot-the-fake-order-inspect",
+  "recipeId": "spot-the-fake-order",
+  "difficulty": 2,
+  "title": "The parcel text",
+  "explanation": "Three lines were warning signs: a rushing deadline, a gift card payment, and a demand for secrecy. The polite greeting and the tracking number looked fine, which is why a scam can feel real. Check what it wants, not how it sounds.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "health-inspector",
+  "inspecting": "message",
+  "setup": "This text just arrived from a number you do not know. Tap every line that is a warning sign. (This is a made-up practice message.)",
+  "sentences": [
+    {
+      "id": "s1",
+      "text": "Hello Amara, this is Sunbeam Parcels.",
+      "isProblem": false
+    },
+    {
+      "id": "s2",
+      "text": "Your parcel is on hold and will be sent back in 2 hours.",
+      "isProblem": true,
+      "problemKind": "scam-sign",
+      "note": "A tight deadline is a pressure tactic. Scammers rush you so you cannot stop and think, or talk to someone you trust.",
+      "preventedBy": "spot-the-fake-order"
+    },
+    {
+      "id": "s3",
+      "text": "The tracking number is SB-2041.",
+      "isProblem": false
+    },
+    {
+      "id": "s4",
+      "text": "To release it, pay the $3 fee with a gift card and send us the code.",
+      "isProblem": true,
+      "problemKind": "scam-sign",
+      "note": "Real businesses and agencies do not ask for payment by gift card. Anyone who asks for the code is asking for your money.",
+      "preventedBy": "spot-the-fake-order"
+    },
+    {
+      "id": "s5",
+      "text": "Do not tell anyone about this message.",
+      "isProblem": true,
+      "problemKind": "scam-sign",
+      "note": "A message that asks you to keep a secret wants you alone. Show it to a trusted adult.",
+      "preventedBy": "spot-the-fake-order"
+    },
+    {
+      "id": "s6",
+      "text": "Thank you for choosing Sunbeam Parcels.",
+      "isProblem": false
+    }
+  ]
+}

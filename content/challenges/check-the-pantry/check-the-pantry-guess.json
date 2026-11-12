@@ -1,0 +1,33 @@
+{
+  "id": "check-the-pantry-guess",
+  "recipeId": "check-the-pantry",
+  "difficulty": 2,
+  "title": "Which order made this?",
+  "explanation": "The quoted line and the plain 'Not in the notes' both come from the order's two rules: quote the line, and say so when the answer is missing. Option C asks for honesty, but does not say how.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "guess-the-recipe",
+  "output": "The notes say: 'Doors open at 9 am.'\nThey do not say when the event ends, so: Not in the notes.",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "When does the event end?"
+    },
+    {
+      "id": "b",
+      "prompt": "Use only the notes below. If the answer is not in the notes, say 'Not in the notes.' Quote the line you used. Notes: Doors open at 9 am. Question: When does the event end?"
+    },
+    {
+      "id": "c",
+      "prompt": "When does the event end? Notes: Doors open at 9 am. Answer honestly."
+    },
+    {
+      "id": "d",
+      "prompt": "Use the notes to guess when the event ends. Notes: Doors open at 9 am."
+    }
+  ],
+  "correctOption": "b",
+  "wrongHint": "Look for the quote and the words 'Not in the notes'. Which order asks for both?"
+}

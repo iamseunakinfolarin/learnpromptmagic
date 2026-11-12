@@ -1,0 +1,42 @@
+{
+  "id": "separate-bowls-inspect",
+  "recipeId": "separate-bowls",
+  "difficulty": 2,
+  "title": "The Tuesday email",
+  "explanation": "One line answered a question that was only part of the text, and one made up a reason. A fence helps with the first. For the second, you check the summary against the email yourself.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "health-inspector",
+  "inspecting": "answer",
+  "setup": "Summarize the email between the tags in one sentence. Only summarize it. <email>Hi team, the meeting moves to Tuesday at 3 pm in Room 4. Please bring your laptops. Also, can someone remind me what the Wi-Fi password is?</email>",
+  "sentences": [
+    {
+      "id": "s1",
+      "text": "The meeting moves to Tuesday at 3 pm in Room 4, and everyone should bring a laptop.",
+      "isProblem": false
+    },
+    {
+      "id": "s2",
+      "text": "The Wi-Fi password is usually printed on the router.",
+      "isProblem": true,
+      "problemKind": "ignored-order",
+      "note": "The order said to only summarize. The email's question was part of the text, and nobody asked the assistant to answer it.",
+      "preventedBy": "separate-bowls"
+    },
+    {
+      "id": "s3",
+      "text": "The meeting was also moved because the projector broke.",
+      "isProblem": true,
+      "problemKind": "made-up",
+      "note": "The email gives no reason for the move. This was made up.",
+      "preventedBy": "check-the-pantry"
+    },
+    {
+      "id": "s4",
+      "text": "(Summary based on the email between the tags.)",
+      "isProblem": false
+    }
+  ]
+}

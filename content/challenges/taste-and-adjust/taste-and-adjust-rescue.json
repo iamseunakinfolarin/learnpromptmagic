@@ -1,0 +1,52 @@
+{
+  "id": "taste-and-adjust-rescue",
+  "recipeId": "taste-and-adjust",
+  "difficulty": 2,
+  "title": "The invitation that checked out",
+  "explanation": "The fix gives the assistant a list it can test (the day, the time, the dish), and asks for the corrected note only. Options A and C ask for care, but a wish to be careful gives it nothing to check.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "kitchen-rescue",
+  "brokenPrompt": "Write a short note inviting the neighbours to our street party on Saturday at 5 pm. Then check your work and improve it.",
+  "brokenOutput": "Dear neighbours,\n\nPlease join us for our street party on Sunday at 4 pm. Bring a dish to share!\n\nI checked my work and it looks great. No changes needed.",
+  "diagnoses": [
+    {
+      "id": "a",
+      "text": "The assistant should not check its own work."
+    },
+    {
+      "id": "b",
+      "text": "'Check your work' gave it nothing to check against, so it said everything was fine."
+    },
+    {
+      "id": "c",
+      "text": "The note was too long."
+    },
+    {
+      "id": "d",
+      "text": "The party invitation needed a joke."
+    }
+  ],
+  "correctDiagnosis": "b",
+  "wrongDiagnosisHint": "Look at the day and the time in the answer. Did anything in the order tell the assistant to test them?",
+  "rightDiagnosisNote": "'Check your work' is a wish, not a test. With no list, the assistant had nothing to compare against, so the wrong day and time slipped through.",
+  "fixes": [
+    {
+      "id": "a",
+      "prompt": "Write a short note inviting the neighbours to our street party on Saturday at 5 pm. Then triple-check your work and make it perfect."
+    },
+    {
+      "id": "b",
+      "prompt": "Write a short note inviting the neighbours to our street party on Saturday at 5 pm. Then check it against this list: the day is Saturday, the time is 5 pm, and it asks people to bring a dish. Fix anything that fails and show me only the final note."
+    },
+    {
+      "id": "c",
+      "prompt": "Write a short note inviting the neighbours to our street party on Saturday at 5 pm. Be very careful this time."
+    }
+  ],
+  "correctFix": "b",
+  "wrongFixHint": "'Triple-check' and 'be careful' are still wishes. Pick the one with a list the assistant can test.",
+  "fixedOutput": "Dear neighbours,\n\nPlease join us for our street party on Saturday at 5 pm. Bring a dish to share, and come hungry!"
+}

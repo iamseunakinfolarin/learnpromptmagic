@@ -1,0 +1,33 @@
+{
+  "id": "spot-the-fake-order-guess",
+  "recipeId": "spot-the-fake-order",
+  "difficulty": 2,
+  "title": "Which order made this?",
+  "explanation": "The list of signs and the safe next step only appear when the order asks for them. Options A and C ask for a yes-or-no judgment, and Option D would answer a possible scam on your behalf.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "guess-the-recipe",
+  "output": "Signs of a scam in this message: a deadline ('today'), a fee to pay, and a link you did not expect.\nSafe next step: do not click. Contact the shop using the website you already know.",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "Is this message a scam? 'Your parcel is held. Pay a $2 fee today at this link.'"
+    },
+    {
+      "id": "b",
+      "prompt": "List the scam warning signs in the message below, then give a safe next step that does not involve clicking or replying. 'Your parcel is held. Pay a $2 fee today at this link.'"
+    },
+    {
+      "id": "c",
+      "prompt": "Tell me whether the message below is real. 'Your parcel is held. Pay a $2 fee today at this link.'"
+    },
+    {
+      "id": "d",
+      "prompt": "Reply to the message below for me. 'Your parcel is held. Pay a $2 fee today at this link.'"
+    }
+  ],
+  "correctOption": "b",
+  "wrongHint": "The answer lists signs and a safe step. Which order asks for both?"
+}

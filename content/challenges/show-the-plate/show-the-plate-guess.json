@@ -1,0 +1,33 @@
+{
+  "id": "show-the-plate-guess",
+  "recipeId": "show-the-plate",
+  "difficulty": 2,
+  "title": "Which order made these?",
+  "explanation": "The bar between name and tagline, and the warm, personal voice ('hugs back', 'a walk outside'), match the two examples in Option B. Option C gives the layout, and Option D gives the mood, but only examples give both.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "guess-the-recipe",
+  "output": "Cocoa Cloud | Hot chocolate that hugs back.\nMint Meadow | Tea that tastes like a walk outside.\nGinger Glow | A warm sip for cold days.",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "Write three names and taglines for new drinks."
+    },
+    {
+      "id": "b",
+      "prompt": "Here are two of our drinks: 'Berry Breeze | Iced tea with a summer smile.' and 'Honey Hum | Warm milk that sings you to sleep.' Write three more in the same style: a name, a bar, then a one-line tagline."
+    },
+    {
+      "id": "c",
+      "prompt": "Write three drink names and taglines in the format Name | tagline."
+    },
+    {
+      "id": "d",
+      "prompt": "Write three drink names with taglines, in a playful style."
+    }
+  ],
+  "correctOption": "b",
+  "wrongHint": "Look at the voice of the taglines, not only the layout."
+}

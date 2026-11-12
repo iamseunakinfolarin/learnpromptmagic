@@ -1,0 +1,52 @@
+{
+  "id": "plating-rescue",
+  "recipeId": "plating",
+  "difficulty": 1,
+  "title": "The fruit that would not paste",
+  "explanation": "The fix names the shape (a table), the exact columns, and says to add nothing else. Options A and C ask for 'nice' and 'clear' but never say what the layout is.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "kitchen-rescue",
+  "brokenPrompt": "Give me three fruits with their colours so I can paste them into my spreadsheet.",
+  "brokenOutput": "Of course! Here are three fruits and their colours. A mango is yellow or orange, a strawberry is red, and a blueberry is blue. Let me know if you would like more!",
+  "diagnoses": [
+    {
+      "id": "a",
+      "text": "The assistant cannot make tables."
+    },
+    {
+      "id": "b",
+      "text": "The prompt never said how to lay out the answer or what to leave out."
+    },
+    {
+      "id": "c",
+      "text": "The prompt should have named different fruits."
+    },
+    {
+      "id": "d",
+      "text": "The prompt needed to be longer."
+    }
+  ],
+  "correctDiagnosis": "b",
+  "wrongDiagnosisHint": "Could a spreadsheet read that answer? Look at what the order said about the layout.",
+  "rightDiagnosisNote": "A spreadsheet needs rows and columns, and nothing else. The order never asked for either, so the assistant wrote a friendly paragraph.",
+  "fixes": [
+    {
+      "id": "a",
+      "prompt": "Give me three fruits with their colours, nicely laid out so I can paste them into my spreadsheet."
+    },
+    {
+      "id": "b",
+      "prompt": "Give me three fruits as a table with the columns Fruit and Colour. Put nothing before or after the table."
+    },
+    {
+      "id": "c",
+      "prompt": "Give me three fruits with their colours. Please be careful and use a clear format."
+    }
+  ],
+  "correctFix": "b",
+  "wrongFixHint": "'Nicely' and 'clear' are not layouts. Pick the one that names the shape and the columns.",
+  "fixedOutput": "| Fruit | Colour |\n|---|---|\n| Mango | Orange |\n| Strawberry | Red |\n| Blueberry | Blue |"
+}

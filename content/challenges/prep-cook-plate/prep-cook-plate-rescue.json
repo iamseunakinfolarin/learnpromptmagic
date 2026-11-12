@@ -1,0 +1,52 @@
+{
+  "id": "prep-cook-plate-rescue",
+  "recipeId": "prep-cook-plate",
+  "difficulty": 2,
+  "title": "The rushed meeting notes",
+  "explanation": "The fix cuts one big job into four small ones and asks to see each result. Each step uses the one before, and you can check each one. Options A and C ask for care or detail, but still pile everything into one go.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "kitchen-rescue",
+  "brokenPrompt": "Read these notes from our club meeting, write the summary, pick the three most important actions, give each one to a person, and write a reminder email for each person.",
+  "brokenOutput": "Summary: The club met and talked about several things.\nActions: Do the things.\nDear all, please remember the actions. Thanks.",
+  "diagnoses": [
+    {
+      "id": "a",
+      "text": "The assistant is not able to write emails."
+    },
+    {
+      "id": "b",
+      "text": "Four big jobs were packed into one order, so each one got only a little attention."
+    },
+    {
+      "id": "c",
+      "text": "The notes were too short."
+    },
+    {
+      "id": "d",
+      "text": "The order was not polite enough."
+    }
+  ],
+  "correctDiagnosis": "b",
+  "wrongDiagnosisHint": "Count how many separate jobs the order asks for at once.",
+  "rightDiagnosisNote": "The order asked for four jobs in one go. The assistant rushed through all four and did none of them well.",
+  "fixes": [
+    {
+      "id": "a",
+      "prompt": "Please do all four of these jobs carefully and do not rush: the summary, the actions, the owners, and the reminders."
+    },
+    {
+      "id": "b",
+      "prompt": "Do this in steps. Step 1: summarise the notes in three sentences. Step 2: list the three most important actions. Step 3: give each action to a person named in the notes. Step 4: write a one-line reminder for each person. Show each result before the next step."
+    },
+    {
+      "id": "c",
+      "prompt": "Do all four jobs in one long answer, and make it as detailed as you can."
+    }
+  ],
+  "correctFix": "b",
+  "wrongFixHint": "Asking it not to rush is not a plan. Pick the one that splits the job into numbered steps.",
+  "fixedOutput": "Step 1 (summary): The club will run a plant sale on 14 May. We need posters, plants, and helpers.\nStep 2 (actions): 1. Make posters. 2. Collect plants. 3. Recruit helpers.\nStep 3 (owners): Posters: Dara. Plants: Mei. Helpers: Tomas.\nStep 4 (reminders): Dara, please finish the posters by Friday. Mei, please collect the plants by Saturday. Tomas, please recruit three helpers by Monday."
+}
