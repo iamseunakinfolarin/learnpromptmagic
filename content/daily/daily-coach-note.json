@@ -1,0 +1,33 @@
+{
+  "id": "daily-coach-note",
+  "recipeId": "allergen-check",
+  "difficulty": 1,
+  "title": "A note to the coach",
+  "explanation": "The four exact labels only appear when the order asks for them, so no real name, date, or number was ever typed. That is the Allergen Check recipe, Station 10.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "guess-the-recipe",
+  "output": "Dear [COACH],\n\n[CHILD NAME] cannot come to practice on [DATE] because of a family trip.\n\nThank you,\n[PARENT NAME]",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "Write a note to a coach about a child who cannot come to practice. Use [COACH], [CHILD NAME], [DATE], and [PARENT NAME] where those details go. I will fill them in myself."
+    },
+    {
+      "id": "b",
+      "prompt": "Write a note to Coach Mensah. My daughter Zoe cannot come on 12 June. I am Kofi Adjei, and my number is 555-0133."
+    },
+    {
+      "id": "c",
+      "prompt": "Write a note to a coach about a child who cannot come to practice."
+    },
+    {
+      "id": "d",
+      "prompt": "Write a short note to the coach, and include our address so he can send a reply."
+    }
+  ],
+  "correctOption": "a",
+  "wrongHint": "Look at the exact labels in square brackets. Which order asked for them?"
+}

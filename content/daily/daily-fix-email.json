@@ -1,0 +1,33 @@
+{
+  "id": "daily-fix-email",
+  "recipeId": "taste-and-adjust",
+  "difficulty": 2,
+  "title": "The vague invitation",
+  "explanation": "The three labelled parts, and the missing details the check found, only appear when the order asks to write, check, and fix, and gives the details to use. That is the Taste and Adjust recipe, Station 06.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "guess-the-recipe",
+  "output": "Draft: Please come to the meeting.\nCheck: Missing the day, the time, and the room.\nFinal: Please come to the team meeting on Tuesday at 3 pm in Room 4.",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "Write one sentence asking the team to come to a meeting."
+    },
+    {
+      "id": "b",
+      "prompt": "Write one sentence asking the team to come to the meeting on Tuesday at 3 pm in Room 4. Then check it for missing details and fix it. Show the draft, the check, and the final."
+    },
+    {
+      "id": "c",
+      "prompt": "Write a better meeting request than usual."
+    },
+    {
+      "id": "d",
+      "prompt": "Write three sentences asking the team to come to a meeting."
+    }
+  ],
+  "correctOption": "b",
+  "wrongHint": "Look for a draft, a check, and a final."
+}

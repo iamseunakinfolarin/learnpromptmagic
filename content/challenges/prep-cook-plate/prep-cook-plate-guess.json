@@ -1,0 +1,33 @@
+{
+  "id": "prep-cook-plate-guess",
+  "recipeId": "prep-cook-plate",
+  "difficulty": 2,
+  "title": "Which order made these steps?",
+  "explanation": "The labelled steps, and the slogan that uses the colour chosen in step 2, only appear when the order lays out numbered steps and asks to see each one.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "guess-the-recipe",
+  "output": "Step 1: Colours I could use: green, yellow, orange.\nStep 2: Best match for a bakery sign: yellow.\nStep 3: Slogan: 'Warm Bread, Golden Mornings.'",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "Make a slogan for my bakery."
+    },
+    {
+      "id": "b",
+      "prompt": "Do this in steps. Step 1: list three colours for a bakery sign. Step 2: pick the best one. Step 3: write a slogan that uses it. Show each step."
+    },
+    {
+      "id": "c",
+      "prompt": "List three colours for a bakery sign, pick one, and write a slogan, all in one sentence."
+    },
+    {
+      "id": "d",
+      "prompt": "Write three slogans for a bakery and choose your favourite."
+    }
+  ],
+  "correctOption": "b",
+  "wrongHint": "Look for the numbered steps, and for the way each step uses the one before."
+}

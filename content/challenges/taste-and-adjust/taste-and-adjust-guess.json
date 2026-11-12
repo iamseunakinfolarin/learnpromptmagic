@@ -1,0 +1,33 @@
+{
+  "id": "taste-and-adjust-guess",
+  "recipeId": "taste-and-adjust",
+  "difficulty": 2,
+  "title": "Which order made this?",
+  "explanation": "The three labelled parts (draft, check, final) and the added street and opening hours only appear when the order asks to write, check, and fix, and shows the details to use.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "guess-the-recipe",
+  "output": "Draft: Our cafe sells fresh juice and tasty snacks.\nCheck: Too vague. It does not say where or when.\nFinal: Our cafe on Palm Street sells fresh juice and warm snacks, open 8 am to 4 pm every day.",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "Write one sentence about our cafe."
+    },
+    {
+      "id": "b",
+      "prompt": "Write one sentence about our cafe on Palm Street, open 8 am to 4 pm. Then check it for missing details and fix it. Show the draft, the check, and the final."
+    },
+    {
+      "id": "c",
+      "prompt": "Write a better sentence about our cafe than usual."
+    },
+    {
+      "id": "d",
+      "prompt": "Write three sentences about our cafe on Palm Street and pick the best one."
+    }
+  ],
+  "correctOption": "b",
+  "wrongHint": "Look for a draft, a check, and a final, and for the details the check found."
+}

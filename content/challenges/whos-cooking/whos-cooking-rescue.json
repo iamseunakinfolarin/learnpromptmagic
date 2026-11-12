@@ -1,0 +1,52 @@
+{
+  "id": "whos-cooking-rescue",
+  "recipeId": "whos-cooking",
+  "difficulty": 1,
+  "title": "The stiff battery",
+  "explanation": "The fix names a role (a friendly science-club leader), a reader (a 10-year-old new to chemistry), and a shape (four short sentences with a comparison). Option C has a role but no reader, so the assistant still has to guess the level.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "kitchen-rescue",
+  "brokenPrompt": "Explain how a battery works.",
+  "brokenOutput": "A battery stores chemical energy and converts it into electrical energy through redox reactions. At the anode, oxidation releases electrons, which travel through the external circuit to the cathode, where reduction occurs. Ions move through the electrolyte to balance the charge.",
+  "diagnoses": [
+    {
+      "id": "a",
+      "text": "The assistant does not know anything about batteries."
+    },
+    {
+      "id": "b",
+      "text": "It never says who the answer is for, so the assistant wrote for an expert."
+    },
+    {
+      "id": "c",
+      "text": "The prompt needed more exclamation marks to sound friendly."
+    },
+    {
+      "id": "d",
+      "text": "The answer should have been longer."
+    }
+  ],
+  "correctDiagnosis": "b",
+  "wrongDiagnosisHint": "Who was this written for? Check whether the order says.",
+  "rightDiagnosisNote": "The science club's youngest members asked for this, but the order never said so. With no reader named, the assistant picked a textbook voice.",
+  "fixes": [
+    {
+      "id": "a",
+      "prompt": "Explain how a battery works. Make it really simple!!!"
+    },
+    {
+      "id": "b",
+      "prompt": "You are a friendly science-club leader. Your reader is a 10-year-old who has never studied chemistry. Explain how a battery works in four short sentences, with one everyday comparison."
+    },
+    {
+      "id": "c",
+      "prompt": "You are the best science teacher in the world. Explain how a battery works."
+    }
+  ],
+  "correctFix": "b",
+  "wrongFixHint": "That order still leaves the cook guessing who it is for. Pick the one that names a role and a reader.",
+  "fixedOutput": "A battery is like a tiny water slide for electricity. Inside, a chemical reaction pushes tiny charges to get moving. When you connect a wire, they zoom along it and light your bulb. When the reaction runs out, the battery is flat."
+}

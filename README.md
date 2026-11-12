@@ -47,4 +47,6 @@ Then open http://localhost:3000.
 
 ## Build status
 
-Phase 1 (Foundation) is built: the design system, the Release 1 routes, the checked content layer, and the progress store. The games arrive in Phase 2.
+Phase 1 (Foundation) and Phase 2 (the four game modes) are built. All 12 Release 1 stations are playable, and the Daily Special has 14 specials ready for Phase 3.
+
+Not done yet: the kitchen map with ranks and unlocks, the Daily Special page, the Cookbook, and the About, Privacy, and Terms pages. Every challenge output is still hand-written and labelled `sample`, so `npm run check:release` fails until Phase 4 replaces them with live model outputs.

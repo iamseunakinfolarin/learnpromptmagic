@@ -1,0 +1,47 @@
+{
+  "id": "plating-tk",
+  "recipeId": "plating",
+  "difficulty": 1,
+  "title": "Snacks for the hiking club",
+  "explanation": "The shape asked for a table, the units made the numbers easy to compare, and 'nothing else' removed the chatter. A person or a program could paste it straight into a notes page.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "test-kitchen",
+  "ticket": "Three quick snacks for a hiking club, as a table with the columns Snack, Time to make, and Cost. Nothing before or after the table.",
+  "promptTemplate": "List three quick snacks for a hiking club.{shape}{units}{only}",
+  "ingredients": [
+    {
+      "id": "shape",
+      "label": "The shape",
+      "text": "Give it as a table with three columns: Snack, Time to make, Cost.",
+      "missingHint": "The customer asked for a table. Your order never says what shape the answer takes."
+    },
+    {
+      "id": "units",
+      "label": "The units",
+      "text": "Write times in minutes, like 5 min, and costs in dollars, like $2.",
+      "missingHint": "The customer wants times and costs that can be compared. Your order never says which units."
+    },
+    {
+      "id": "only",
+      "label": "Nothing else",
+      "text": "Add nothing before or after the table.",
+      "missingHint": "The customer wants the table and nothing else. Your order never says to stop there."
+    }
+  ],
+  "outputs": {
+    "base": "Here are three quick snacks for a hiking club: trail mix, which you can pack in a few minutes; oat bars, which are filling; and apple slices with cheese, which are easy to carry. Let me know if you would like more ideas!",
+    "shape": "Sure! Here is a table of quick snacks:\n\n| Snack | Time to make | Cost |\n|---|---|---|\n| Trail mix | Quick | Cheap |\n| Oat bars | A little while | Low |\n| Apple and cheese | Very quick | Moderate |\n\nLet me know if you want more ideas!",
+    "units": "Trail mix takes 5 min and costs $2. Oat bars take 20 min and cost $3. Apple slices with cheese take 5 min and cost $2. All three are easy to pack. Want more ideas?",
+    "only": "Trail mix\nOat bars\nApple slices with cheese",
+    "shape+units": "Here is your table:\n\n| Snack | Time to make | Cost |\n|---|---|---|\n| Trail mix | 5 min | $2 |\n| Oat bars | 20 min | $3 |\n| Apple slices with cheese | 5 min | $2 |\n\nI hope this helps your hiking club!",
+    "only+shape": "| Snack | Time to make | Cost |\n|---|---|---|\n| Trail mix | Quick | Cheap |\n| Oat bars | A little while | Low |\n| Apple and cheese | Very quick | Moderate |",
+    "only+units": "Trail mix: 5 min, $2\nOat bars: 20 min, $3\nApple slices with cheese: 5 min, $2",
+    "only+shape+units": "| Snack | Time to make | Cost |\n|---|---|---|\n| Trail mix | 5 min | $2 |\n| Oat bars | 20 min | $3 |\n| Apple slices with cheese | 5 min | $2 |"
+  },
+  "correctCombos": [
+    "only+shape+units"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "id": "check-the-pantry-inspect",
+  "recipeId": "check-the-pantry",
+  "difficulty": 3,
+  "title": "The science fair judges",
+  "explanation": "Two lines went beyond the notes: one invented who the judges are, and one stated a likely prize with no source. Grounding means every claim can be pointed back to a line you supplied.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "health-inspector",
+  "inspecting": "answer",
+  "setup": "Use only these notes. If the answer is not in them, say so. Notes: 'The science fair is on 14 May in the gym. Judges arrive at 1 pm. Entries must be handed in by 12 noon.' Question: Who are the judges, and is there a prize?",
+  "sentences": [
+    {
+      "id": "s1",
+      "text": "The notes say the judges arrive at 1 pm.",
+      "isProblem": false
+    },
+    {
+      "id": "s2",
+      "text": "The judges are three teachers from the science department.",
+      "isProblem": true,
+      "problemKind": "made-up",
+      "note": "The notes do not say who the judges are. This was made up.",
+      "preventedBy": "check-the-pantry"
+    },
+    {
+      "id": "s3",
+      "text": "The notes do not mention a prize. Not in the notes.",
+      "isProblem": false
+    },
+    {
+      "id": "s4",
+      "text": "The winner usually gets a trophy and a certificate.",
+      "isProblem": true,
+      "problemKind": "no-source",
+      "note": "This sounds likely, but nothing in the notes says it, and no line is quoted. When the answer is not in the notes, the assistant should say so.",
+      "preventedBy": "check-the-pantry"
+    },
+    {
+      "id": "s5",
+      "text": "Entries must be handed in by 12 noon.",
+      "isProblem": false
+    }
+  ]
+}

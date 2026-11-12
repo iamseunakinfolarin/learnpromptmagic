@@ -1,0 +1,47 @@
+{
+  "id": "prep-cook-plate-tk",
+  "recipeId": "prep-cook-plate",
+  "difficulty": 2,
+  "title": "The bake-sale plan",
+  "explanation": "Each step built on the one before: first the jobs, then the order, then the names. Small steps are easy to check, and you can see which step went wrong.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "test-kitchen",
+  "ticket": "A bake-sale plan: five jobs, in the order to do them, with a name beside each job. The helpers are Amara, Ben, and Chen.",
+  "promptTemplate": "Help me plan a class bake sale.{list}{order}{names}",
+  "ingredients": [
+    {
+      "id": "list",
+      "label": "Step 1",
+      "text": "Step 1: List five jobs to do before the sale.",
+      "missingHint": "The customer wants five jobs. Your order never asks for a list of jobs."
+    },
+    {
+      "id": "order",
+      "label": "Step 2",
+      "text": "Step 2: Put those jobs in the order to do them.",
+      "missingHint": "The customer wants the jobs in order. Your order never says to sort them."
+    },
+    {
+      "id": "names",
+      "label": "Step 3",
+      "text": "Step 3: Give each job to one of these helpers: Amara, Ben, or Chen.",
+      "missingHint": "The customer wants a name beside each job. Your order never hands the jobs out."
+    }
+  ],
+  "outputs": {
+    "base": "A bake sale is a great way to raise money. Decide on a date, pick a place, ask classmates to bring treats, make posters, and set prices. Don't forget a cash box and some change!",
+    "list": "Five jobs before the sale:\n- Choose a date and place\n- Ask classmates to bring treats\n- Make posters\n- Set prices\n- Prepare a cash box",
+    "order": "1. Choose a date and place\n2. Recruit bakers\n3. Make posters\n4. Set prices\n5. Prepare the cash box\n6. Set up the table",
+    "names": "Here is one way to share the work: Amara can bake, Ben can make the posters, and Chen can run the cash box. Everyone can help set up the table.",
+    "list+order": "1. Choose a date and place\n2. Set prices\n3. Make posters\n4. Ask classmates to bring treats\n5. Prepare a cash box",
+    "list+names": "- Choose a date and place (Amara)\n- Ask classmates to bring treats (Ben)\n- Make posters (Chen)\n- Set prices (Amara)\n- Prepare a cash box (Ben)",
+    "names+order": "1. Choose a date and place (Amara)\n2. Recruit bakers (Ben)\n3. Make posters (Chen)\n4. Set prices (Amara)\n5. Prepare the cash box (Ben)\n6. Set up the table (Chen)",
+    "list+names+order": "1. Choose a date and place (Amara)\n2. Ask classmates to bring treats (Ben)\n3. Make posters (Chen)\n4. Set prices (Amara)\n5. Prepare a cash box (Ben)"
+  },
+  "correctCombos": [
+    "list+names+order"
+  ]
+}

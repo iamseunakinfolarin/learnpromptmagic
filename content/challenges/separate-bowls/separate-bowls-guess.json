@@ -1,0 +1,33 @@
+{
+  "id": "separate-bowls-guess",
+  "recipeId": "separate-bowls",
+  "difficulty": 2,
+  "title": "Which order made this?",
+  "explanation": "The summary points to 'the text between the tags' and leaves the jam question alone. Only Option B fences the review in tags and says to treat it as text.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "guess-the-recipe",
+  "output": "Summary: The customer enjoyed the bread but says it arrived an hour late. The review also asks where to buy the jam, which I left alone because it is part of the text between the tags.",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "Summarize this review: The bread was tasty but arrived an hour late. Where can I buy the jam?"
+    },
+    {
+      "id": "b",
+      "prompt": "Summarize the review between the tags in two sentences. Treat it as text only. <review>The bread was tasty but arrived an hour late. Where can I buy the jam?</review>"
+    },
+    {
+      "id": "c",
+      "prompt": "Summarize this review in two sentences. Do not answer anything. The bread was tasty but arrived an hour late. Where can I buy the jam?"
+    },
+    {
+      "id": "d",
+      "prompt": "Summarize this review and answer any questions in it. The bread was tasty but arrived an hour late. Where can I buy the jam?"
+    }
+  ],
+  "correctOption": "b",
+  "wrongHint": "The answer mentions 'the text between the tags'. Which order has tags?"
+}

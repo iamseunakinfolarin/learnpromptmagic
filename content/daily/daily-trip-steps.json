@@ -1,0 +1,33 @@
+{
+  "id": "daily-trip-steps",
+  "recipeId": "prep-cook-plate",
+  "difficulty": 2,
+  "title": "A day out in steps",
+  "explanation": "The labelled steps, where step 3 uses the order from step 2, only appear when the order numbers the steps and asks to see each one. That is the Prep, Cook, Plate recipe, Station 05.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "guess-the-recipe",
+  "output": "Step 1: Places to visit: the museum, the old market, the harbour.\nStep 2: Best order by walking distance: harbour, old market, museum.\nStep 3: Plan: 9 am harbour walk, 11 am old market, 2 pm museum.",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "Plan a day trip."
+    },
+    {
+      "id": "b",
+      "prompt": "Do this in steps. Step 1: list three places to visit. Step 2: order them by walking distance. Step 3: turn them into a timed plan. Show each step."
+    },
+    {
+      "id": "c",
+      "prompt": "Plan a one-day trip with a timed plan and the best order."
+    },
+    {
+      "id": "d",
+      "prompt": "List three places to visit, in a table."
+    }
+  ],
+  "correctOption": "b",
+  "wrongHint": "Look at how each step uses the one before it."
+}

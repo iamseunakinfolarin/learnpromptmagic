@@ -1,0 +1,33 @@
+{
+  "id": "daily-weather-table",
+  "recipeId": "plating",
+  "difficulty": 1,
+  "title": "Weather in three cities",
+  "explanation": "The exact three column names, and the Yes or No in the last column, only appear when the order asks for them. That is the Plating recipe, Station 04.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "guess-the-recipe",
+  "output": "| City | Temp (C) | Rain |\n|---|---|---|\n| Lagos | 31 | Yes |\n| Oslo | 4 | No |\n| Lima | 19 | No |",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "Give the weather in three cities."
+    },
+    {
+      "id": "b",
+      "prompt": "Give the weather in three cities as a table with the columns City, Temp (C), and Rain (Yes or No). Add nothing else."
+    },
+    {
+      "id": "c",
+      "prompt": "Tell me about the weather around the world."
+    },
+    {
+      "id": "d",
+      "prompt": "Give the weather in three cities in a friendly paragraph."
+    }
+  ],
+  "correctOption": "b",
+  "wrongHint": "Count the columns and look at the last one."
+}

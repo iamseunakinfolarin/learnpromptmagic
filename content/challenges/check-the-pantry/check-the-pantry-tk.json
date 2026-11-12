@@ -1,0 +1,47 @@
+{
+  "id": "check-the-pantry-tk",
+  "recipeId": "check-the-pantry",
+  "difficulty": 2,
+  "title": "When does the bus leave?",
+  "explanation": "The notes gave it facts to stay inside, the way out let it say 'Not in the notes', and the quote showed which line it used. Without the way out, it fills the gap with a guess.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "test-kitchen",
+  "ticket": "Answer the parent's question from the trip notes. The notes do not say when the bus leaves, so the answer should say so, and quote the closest line.",
+  "promptTemplate": "A parent asks: 'What time does the bus leave?'{notes}{out}{quote}",
+  "ingredients": [
+    {
+      "id": "notes",
+      "label": "The notes",
+      "text": "Use only these notes: Zoo visit on Friday. Meet at the school gate. Bring lunch and a water bottle. Back at school by 3:30 pm.",
+      "missingHint": "The customer wants an answer from the trip notes. Your order never hands them over."
+    },
+    {
+      "id": "out",
+      "label": "The way out",
+      "text": "If the answer is not in the notes, say 'Not in the notes.'",
+      "missingHint": "The customer needs an honest answer when the notes are silent. Your order gives no way out."
+    },
+    {
+      "id": "quote",
+      "label": "The quote",
+      "text": "Quote the line you used.",
+      "missingHint": "The customer wants to see where the answer came from. Your order never asks for a quote."
+    }
+  ],
+  "outputs": {
+    "base": "The bus usually leaves at about 8:30 am, but check with the school to be sure.",
+    "notes": "The notes do not give a departure time, but the trip ends at 3:30 pm and zoo visits usually start mid-morning, so the bus probably leaves around 8:30 am.",
+    "out": "I do not have any notes to check. Please share them, and I will say 'Not in the notes' if the answer is missing.",
+    "quote": "I do not have any notes to quote from. Please share them.",
+    "notes+out": "Not in the notes.",
+    "notes+quote": "The notes do not say. They say: 'Back at school by 3:30 pm.'\nThe bus likely leaves around 8:30 am.",
+    "out+quote": "I have no notes to answer from, so: Not in the notes. There is no line to quote.",
+    "notes+out+quote": "Not in the notes.\nThe closest line is: 'Meet at the school gate.'"
+  },
+  "correctCombos": [
+    "notes+out+quote"
+  ]
+}

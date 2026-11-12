@@ -1,0 +1,33 @@
+{
+  "id": "plating-guess",
+  "recipeId": "plating",
+  "difficulty": 1,
+  "title": "Which order made this list?",
+  "explanation": "The numbering, the three named fields, and the bars only appear when the order asks for that layout. Options A, C, and D leave the layout to the assistant.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "guess-the-recipe",
+  "output": "1. Name: Amara | Role: Baker | Years: 4\n2. Name: Kenji | Role: Cook | Years: 7\n3. Name: Lucia | Role: Server | Years: 2",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "List three kitchen staff."
+    },
+    {
+      "id": "b",
+      "prompt": "List three kitchen staff as a numbered list with the fields Name, Role, and Years, separated by bars."
+    },
+    {
+      "id": "c",
+      "prompt": "Tell me about the people who work in a kitchen."
+    },
+    {
+      "id": "d",
+      "prompt": "List three kitchen staff with a paragraph about each one."
+    }
+  ],
+  "correctOption": "b",
+  "wrongHint": "Look at the numbers, the field names, and the bars between them."
+}

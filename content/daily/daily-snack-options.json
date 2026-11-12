@@ -1,0 +1,33 @@
+{
+  "id": "daily-snack-options",
+  "recipeId": "tasting-menu",
+  "difficulty": 2,
+  "title": "Snacks for the class party",
+  "explanation": "The low, medium, and high ratings and the pick with one reason only appear when the order names the criteria and asks for a recommendation. That is the Tasting Menu recipe, Station 09.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "guess-the-recipe",
+  "output": "1. Fruit cups: cost low, effort low\n2. Veggie wraps: cost medium, effort medium\n3. Mini pizzas: cost medium, effort high\nPick: Fruit cups, because they cost and take the least.",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "Give me a snack idea for the class party."
+    },
+    {
+      "id": "b",
+      "prompt": "Give me three different snack ideas for the class party, compared on cost and effort (low, medium, or high). Recommend one and give one reason."
+    },
+    {
+      "id": "c",
+      "prompt": "What is the best snack for a class party?"
+    },
+    {
+      "id": "d",
+      "prompt": "Give me three snack ideas for the class party, with a paragraph on each."
+    }
+  ],
+  "correctOption": "b",
+  "wrongHint": "Look for the ratings and the pick at the end."
+}

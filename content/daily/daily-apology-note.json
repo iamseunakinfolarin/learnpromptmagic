@@ -1,0 +1,33 @@
+{
+  "id": "daily-apology-note",
+  "recipeId": "whos-cooking",
+  "difficulty": 1,
+  "title": "Sorry, Coach",
+  "explanation": "The respectful, short tone, and the greeting to Coach Mensah, come from naming a writer and a reader. That is the Who's Cooking, Who's Eating recipe, Station 02.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "guess-the-recipe",
+  "output": "Dear Coach Mensah,\n\nI am sorry I missed practice on Tuesday. I had a bad cold, and I did not want to pass it on to the team. I will be there on Thursday, ready to work hard.\n\nThank you,\nSam",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "Write an apology note."
+    },
+    {
+      "id": "b",
+      "prompt": "You are Sam, a 12-year-old on the football team. Your reader is Coach Mensah. Write a short, respectful note saying sorry for missing Tuesday's practice because of a cold."
+    },
+    {
+      "id": "c",
+      "prompt": "Write a funny note about missing practice."
+    },
+    {
+      "id": "d",
+      "prompt": "You are a lawyer. Write a formal letter about a missed practice."
+    }
+  ],
+  "correctOption": "b",
+  "wrongHint": "Look at who is writing, who it is to, and how it sounds."
+}

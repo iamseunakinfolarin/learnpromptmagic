@@ -1,0 +1,47 @@
+{
+  "id": "show-the-plate-inspect",
+  "recipeId": "show-the-plate",
+  "difficulty": 2,
+  "title": "Three more drinks",
+  "explanation": "Two lines broke the order: one copied an example, and one dropped the pattern. When you show examples, check that the answer follows them and does not simply repeat them.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "health-inspector",
+  "inspecting": "answer",
+  "setup": "Here are two of our drinks: 'Berry Breeze | Iced tea with a summer smile.' and 'Honey Hum | Warm milk that sings you to sleep.' Write three more in the same style, and do not reuse these.",
+  "sentences": [
+    {
+      "id": "s1",
+      "text": "Cocoa Cloud | Hot chocolate that hugs back.",
+      "isProblem": false
+    },
+    {
+      "id": "s2",
+      "text": "Berry Breeze | Iced tea with a summer smile.",
+      "isProblem": true,
+      "problemKind": "ignored-order",
+      "note": "This is one of the examples from the order. The order said not to reuse them.",
+      "preventedBy": "show-the-plate"
+    },
+    {
+      "id": "s3",
+      "text": "Mint Meadow | Tea that tastes like a walk outside.",
+      "isProblem": false
+    },
+    {
+      "id": "s4",
+      "text": "GINGER ROOT BEVERAGE: CONTAINS GINGER EXTRACT, WATER, AND NATURAL FLAVOURS.",
+      "isProblem": true,
+      "problemKind": "ignored-order",
+      "note": "This breaks the pattern. The examples are a short name, a bar, then a warm one-line tagline, not a label with ingredients in capitals.",
+      "preventedBy": "show-the-plate"
+    },
+    {
+      "id": "s5",
+      "text": "Peach Parade | Cold juice that throws a party.",
+      "isProblem": false
+    }
+  ]
+}

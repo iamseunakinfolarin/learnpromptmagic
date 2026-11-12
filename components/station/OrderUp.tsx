@@ -1,5 +1,5 @@
 import type { ReadyRecipe } from "@/lib/content/schemas";
-import { stationLabel } from "@/lib/content/labels";
+import { formatDate, stationLabel } from "@/lib/content/labels";
 import Button from "../Button";
 import Panel from "../Panel";
 import StageHead from "./StageHead";
@@ -32,6 +32,7 @@ export default function OrderUp({ recipe, step, total, nextLabel, onContinue }: 
             ))}
           </div>
         </details>
+        <p className="fine">Last checked {formatDate(recipe.lastVerified)}.</p>
       </Panel>
       <div className="btn-row">
         <Button variant="primary" onClick={onContinue}>

@@ -1,0 +1,33 @@
+{
+  "id": "allergen-check-guess",
+  "recipeId": "allergen-check",
+  "difficulty": 1,
+  "title": "Which order made this?",
+  "explanation": "The four exact labels, [TEACHER], [CHILD NAME], [DATE], and [PARENT NAME], appear only when the order asks for them. Option B and Option D put real details into the order, and Option C leaves the labels to chance.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "guess-the-recipe",
+  "output": "Dear [TEACHER],\n\nMy child [CHILD NAME] was away on [DATE] with a cold. Please send the work they missed.\n\nThank you,\n[PARENT NAME]",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "Write a note to a teacher about a child who was ill. Use [TEACHER], [CHILD NAME], [DATE], and [PARENT NAME] where those details go. I will fill them in myself."
+    },
+    {
+      "id": "b",
+      "prompt": "Write a note to Ms. Rivera about my son Leo, who was ill on 3 May. I am Dana Smith."
+    },
+    {
+      "id": "c",
+      "prompt": "Write a note to a teacher about a child who was ill."
+    },
+    {
+      "id": "d",
+      "prompt": "Write a note about my child's cold. Include my phone number so the teacher can call."
+    }
+  ],
+  "correctOption": "a",
+  "wrongHint": "Look at the exact labels in square brackets. Which order asked for them?"
+}

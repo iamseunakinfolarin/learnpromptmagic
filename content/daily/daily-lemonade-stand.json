@@ -1,0 +1,33 @@
+{
+  "id": "daily-lemonade-stand",
+  "recipeId": "the-order",
+  "difficulty": 1,
+  "title": "The lemonade list",
+  "explanation": "The checkboxes and the 'under 10 items' limit only appear when the order names a shape and a size. That is the The Order recipe, Station 01.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "guess-the-recipe",
+  "output": "Lemonade stand checklist (under 10 items):\n[ ] Pitcher\n[ ] Lemons\n[ ] Sugar\n[ ] Cups\n[ ] Ice\n[ ] Sign\n[ ] Cash box",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "Make a lemonade stand list."
+    },
+    {
+      "id": "b",
+      "prompt": "Make a checklist for a Saturday lemonade stand run by two kids, under 10 items."
+    },
+    {
+      "id": "c",
+      "prompt": "Tell me about lemonade stands."
+    },
+    {
+      "id": "d",
+      "prompt": "Write a story about a lemonade stand."
+    }
+  ],
+  "correctOption": "b",
+  "wrongHint": "Look at the checkboxes and the count. What shape did the order ask for?"
+}

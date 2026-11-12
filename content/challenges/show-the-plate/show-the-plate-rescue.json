@@ -1,0 +1,52 @@
+{
+  "id": "show-the-plate-rescue",
+  "recipeId": "show-the-plate",
+  "difficulty": 1,
+  "title": "The dull label",
+  "explanation": "The fix shows two finished labels and says not to copy them, so the assistant can match the pattern: a name, a colon, and three short words. Options A and C turn up the volume but never show the style.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "kitchen-rescue",
+  "brokenPrompt": "Write a fun label for our new mango chutney.",
+  "brokenOutput": "Mango Chutney. A delicious chutney made with mangoes and spices. Perfect with many dishes. Try it today!",
+  "diagnoses": [
+    {
+      "id": "a",
+      "text": "Mango chutney is too hard a topic for the assistant."
+    },
+    {
+      "id": "b",
+      "text": "The prompt was too long."
+    },
+    {
+      "id": "c",
+      "text": "It never showed what a fun label looks like, so the assistant guessed."
+    },
+    {
+      "id": "d",
+      "text": "The assistant cannot write labels."
+    }
+  ],
+  "correctDiagnosis": "c",
+  "wrongDiagnosisHint": "Think about the word 'fun'. Does the order show what it means?",
+  "rightDiagnosisNote": "'Fun' means different things to different people. With no sample, the assistant picked the most average kind of fun.",
+  "fixes": [
+    {
+      "id": "a",
+      "prompt": "Write a fun label for our new mango chutney. Make it extra fun and exciting!"
+    },
+    {
+      "id": "b",
+      "prompt": "Write a fun label for our new mango chutney in the same style as these two. 'Bold Berry Jam: Sticky, sweet, spoon-ready.' 'Zesty Lime Pickle: Sharp, bright, bring bread.' Do not copy their wording."
+    },
+    {
+      "id": "c",
+      "prompt": "Write a fun label for our new mango chutney. Use lots of exclamation marks and a joke."
+    }
+  ],
+  "correctFix": "b",
+  "wrongFixHint": "That order still leaves 'fun' undefined. Pick the one that shows the style.",
+  "fixedOutput": "Golden Mango Chutney: Tangy, sunny, scoop-it-up."
+}

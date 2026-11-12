@@ -1,0 +1,55 @@
+{
+  "id": "allergen-check-inspect",
+  "recipeId": "allergen-check",
+  "difficulty": 2,
+  "title": "The thank-you card",
+  "explanation": "Three lines held private details: a name with a class and school, a home address, and a phone number. The card did not need any of them, so a label or nothing at all would have worked.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "health-inspector",
+  "inspecting": "prompt",
+  "setup": "Mei is about to send this to an assistant to get help with a thank-you card. Tap every line with a private detail she should take out first.",
+  "sentences": [
+    {
+      "id": "s1",
+      "text": "Write a thank-you card to my grandmother for the birthday scarf.",
+      "isProblem": false
+    },
+    {
+      "id": "s2",
+      "text": "My full name is Mei Lin Zhao, and I am in Class 5B at Riverside Primary.",
+      "isProblem": true,
+      "problemKind": "private-detail",
+      "note": "A full name with a class and a school can point to one real child. Use [MY NAME] and [MY CLASS] instead.",
+      "preventedBy": "allergen-check"
+    },
+    {
+      "id": "s3",
+      "text": "Tell her the scarf is my favourite colour, green.",
+      "isProblem": false
+    },
+    {
+      "id": "s4",
+      "text": "Her address is 8 Willow Court, so add it to the envelope.",
+      "isProblem": true,
+      "problemKind": "private-detail",
+      "note": "A home address should not go into an order. Add it to the envelope yourself, on paper.",
+      "preventedBy": "allergen-check"
+    },
+    {
+      "id": "s5",
+      "text": "Keep it to four short sentences.",
+      "isProblem": false
+    },
+    {
+      "id": "s6",
+      "text": "My mum's phone number is 555-0166, in case she wants to call.",
+      "isProblem": true,
+      "problemKind": "private-detail",
+      "note": "A phone number belongs to a real person. Leave it out, and tell her yourself.",
+      "preventedBy": "allergen-check"
+    }
+  ]
+}

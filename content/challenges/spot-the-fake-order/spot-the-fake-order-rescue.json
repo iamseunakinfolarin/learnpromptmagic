@@ -1,0 +1,52 @@
+{
+  "id": "spot-the-fake-order-rescue",
+  "recipeId": "spot-the-fake-order",
+  "difficulty": 2,
+  "title": "Is this message real?",
+  "explanation": "The fix asks for the warning signs and a safe way to check, instead of a yes or no. Options A and C ask the assistant to judge by feel, and a scam is built to feel real.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "kitchen-rescue",
+  "brokenPrompt": "Is this message real? 'Hi Mum, my phone broke so this is my new number. Can you send $200 to this account today? Do not call, my phone is dead.'",
+  "brokenOutput": "It could be real. Sending money to family is common, and people do change their numbers. If you are worried, you might check with your child.",
+  "diagnoses": [
+    {
+      "id": "a",
+      "text": "The assistant can only tell if a message is real by looking at the spelling."
+    },
+    {
+      "id": "b",
+      "text": "A yes-or-no question about 'real' gave it nothing to check, so it guessed. The order should have asked for warning signs and a safe way to check."
+    },
+    {
+      "id": "c",
+      "text": "The message was too short to judge."
+    },
+    {
+      "id": "d",
+      "text": "The order was missing a 'please'."
+    }
+  ],
+  "correctDiagnosis": "b",
+  "wrongDiagnosisHint": "Could anyone answer 'Is it real?' just from the words? Look at what a better question would ask for.",
+  "rightDiagnosisNote": "A message cannot prove that it is real. A better question asks for the warning signs in it and a safe way to check who sent it.",
+  "fixes": [
+    {
+      "id": "a",
+      "prompt": "Is this message real? Look very carefully and tell me the truth. 'Hi Mum, my phone broke so this is my new number. Can you send $200 to this account today? Do not call, my phone is dead.'"
+    },
+    {
+      "id": "b",
+      "prompt": "List any scam warning signs in this message. Then tell me a safe way to check who really sent it, without replying or paying. 'Hi Mum, my phone broke so this is my new number. Can you send $200 to this account today? Do not call, my phone is dead.'"
+    },
+    {
+      "id": "c",
+      "prompt": "Is this message safe to answer? Reply only yes or no. 'Hi Mum, my phone broke so this is my new number. Can you send $200 to this account today? Do not call, my phone is dead.'"
+    }
+  ],
+  "correctFix": "b",
+  "wrongFixHint": "'Look carefully' and 'yes or no' still ask the assistant to guess. Pick the one that asks for signs and a safe check.",
+  "fixedOutput": "Warning signs:\n- A new number you did not expect\n- A request for money today\n- 'Do not call'. A real child would want you to call\n\nSafe check: Do not send money or reply. Call your child on the number you already have, or ask another family member. Tell a trusted adult."
+}

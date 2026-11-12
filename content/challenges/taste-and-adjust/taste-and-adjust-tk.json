@@ -1,0 +1,37 @@
+{
+  "id": "taste-and-adjust-tk",
+  "recipeId": "taste-and-adjust",
+  "difficulty": 2,
+  "title": "The thank-you note",
+  "explanation": "The list told the assistant what counted as a problem, and the fix told it to correct the note and show only the final one. With a list but no fix, you get a report. With a fix but no list, it quietly misses the made-up number.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "test-kitchen",
+  "ticket": "A thank-you note to the volunteers at the book fair: exactly three sentences, under 50 words, and no numbers that were not given. Show only the final note.",
+  "promptTemplate": "Write a thank-you note to the volunteers who ran our book fair.{list}{fix}",
+  "ingredients": [
+    {
+      "id": "list",
+      "label": "The checklist",
+      "text": "Check your note against this list: exactly three sentences, under 50 words, and no numbers I did not give you.",
+      "missingHint": "The customer has three rules. Your order never gives the assistant a list to check against."
+    },
+    {
+      "id": "fix",
+      "label": "The fix",
+      "text": "If anything fails, rewrite the note and show only the corrected note.",
+      "missingHint": "The customer wants only the corrected note. Your order never says to fix it and show the final."
+    }
+  ],
+  "outputs": {
+    "base": "Dear volunteers,\n\nThank you so much for giving up your weekend to run our book fair! Your hard work helped us sell over 300 books and raise more than $1,200 for the school library. The students loved the cosy reading corner, and we could not have done it without each and every one of you. We are truly grateful for your kindness and generosity.",
+    "list": "Dear volunteers,\n\nThank you so much for giving up your weekend to run our book fair! Your hard work helped us sell over 300 books and raise more than $1,200 for the school library. The students loved the cosy reading corner, and we could not have done it without each and every one of you. We are truly grateful for your kindness and generosity.\n\nCheck: The note has four sentences, not three. It is over 50 words. It includes 300 books and $1,200, which you did not give me.",
+    "fix": "I reviewed the note and made it a little tighter.\n\nThank you so much for running our book fair! Your hard work helped us sell over 300 books. We could not have done it without you.",
+    "fix+list": "Thank you for running our book fair. Your hard work made the weekend a success. We could not have done it without you."
+  },
+  "correctCombos": [
+    "fix+list"
+  ]
+}

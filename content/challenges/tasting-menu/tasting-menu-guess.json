@@ -1,0 +1,33 @@
+{
+  "id": "tasting-menu-guess",
+  "recipeId": "tasting-menu",
+  "difficulty": 2,
+  "title": "Which order made this?",
+  "explanation": "The cheap, bold, and creative labels and the rainy-day verdict only appear when the order asks for those three types and a judgment on one criterion. Option D asks for three, but gives no labels and no verdict.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "guess-the-recipe",
+  "output": "Option A (cheap): A picnic lunch in the park.\nOption B (bold): A sunrise hike.\nOption C (creative): A photo scavenger hunt.\nBest for a rainy day: Option C, because it can be done indoors.",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "Give me ideas for a weekend activity."
+    },
+    {
+      "id": "b",
+      "prompt": "Give me three different weekend activities: a cheap one, a bold one, and a creative one. Then say which is best for a rainy day, and why."
+    },
+    {
+      "id": "c",
+      "prompt": "What is the best weekend activity?"
+    },
+    {
+      "id": "d",
+      "prompt": "Give me three weekend activities and make them all different."
+    }
+  ],
+  "correctOption": "b",
+  "wrongHint": "Look for the labels (cheap, bold, creative) and the judgment at the end."
+}

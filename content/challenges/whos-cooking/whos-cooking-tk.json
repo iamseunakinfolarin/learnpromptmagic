@@ -1,0 +1,47 @@
+{
+  "id": "whos-cooking-tk",
+  "recipeId": "whos-cooking",
+  "difficulty": 1,
+  "title": "Why does bread rise?",
+  "explanation": "A role gave it a voice, the reader set the level, and the shape kept it short. Drop any one and the answer drifts.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "test-kitchen",
+  "ticket": "A friendly explanation of why bread rises, for Lucia's curious 9-year-old cousin. Four short sentences, no hard words.",
+  "promptTemplate": "Explain why bread rises.{role}{reader}{shape}",
+  "ingredients": [
+    {
+      "id": "role",
+      "label": "The cook",
+      "text": "You are a patient kitchen teacher.",
+      "missingHint": "The customer wants a friendly teacher's voice. Your order never says who is cooking."
+    },
+    {
+      "id": "reader",
+      "label": "The eater",
+      "text": "Your reader is a curious 9-year-old.",
+      "missingHint": "The customer is feeding a 9-year-old. Your order never says who the answer is for."
+    },
+    {
+      "id": "shape",
+      "label": "The shape",
+      "text": "Use four short sentences and no hard words.",
+      "missingHint": "The customer asked for four short sentences. Your order never says how long it should be."
+    }
+  ],
+  "outputs": {
+    "base": "Bread rises because of yeast, a microscopic fungus. Yeast feeds on the sugars in the dough through fermentation and releases carbon dioxide. The gluten network traps these gas bubbles, which makes the dough expand. Heat in the oven expands the gas further before the structure sets.",
+    "role": "Great question! Let's think like bakers. Yeast is a tiny living thing in the dough, and it feeds on the sugars there. As it feeds, it releases carbon dioxide gas. The gluten in the dough works like a stretchy net that traps the gas, so the whole dough puffs up. In the oven, the heat makes the bubbles grow even more before the bread sets.",
+    "reader": "Bread rises because of yeast. Yeast is a tiny living thing. It eats the sugar in the dough and burps out gas. The gas makes little bubbles that get trapped in the stretchy dough, and that is why the dough grows. In the oven, the heat makes the bubbles bigger. Then the bread gets firm and golden.",
+    "shape": "Yeast in the dough produces carbon dioxide. The gluten network traps the gas. The trapped gas expands the dough. Baking sets the structure.",
+    "reader+role": "Ooh, great question! Let's bake some knowledge. Yeast is a tiny living thing in the dough. It loves to eat sugar, and when it eats, it makes gas bubbles, a bit like a fizzy drink. The dough is stretchy, so it traps the bubbles and puffs up like a balloon. In the oven, the heat makes the bubbles grow even bigger. Then the bread turns firm and golden, and the puffiness stays!",
+    "role+shape": "Great question, class! Yeast eats the sugar in the dough and releases carbon dioxide. The gluten network traps the gas, which makes the dough expand. In the oven, the heat sets the structure so the bread stays tall.",
+    "reader+shape": "Bread rises because tiny living yeast eats sugar and makes gas. The gas gets trapped in the stretchy dough. The trapped bubbles push the dough up like a balloon. Baking makes the bread firm, so it stays puffy.",
+    "reader+role+shape": "Here's the secret: yeast is a tiny living thing that eats the sugar in dough and makes gas bubbles. The stretchy dough traps the bubbles, so it puffs up like a balloon. In the oven, the heat grows the bubbles even more. Then the bread turns firm, and you can spot the bubbles as little holes in every slice."
+  },
+  "correctCombos": [
+    "reader+role+shape"
+  ]
+}

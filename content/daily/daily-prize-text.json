@@ -1,0 +1,33 @@
+{
+  "id": "daily-prize-text",
+  "recipeId": "spot-the-fake-order",
+  "difficulty": 2,
+  "title": "You have won!",
+  "explanation": "The list of signs and the safe step only appear when the order asks for them. Option C would act on a possible scam for you. That is the Spot the Fake Order recipe, Station 11.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "guess-the-recipe",
+  "output": "Signs of a scam: a prize you never entered for, a fee to claim it, and a hurry ('in the next hour').\nSafe step: do not click or pay. Show a trusted adult.",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "Did I really win a prize? 'Congratulations! You won a phone. Pay a $5 fee in the next hour at this link to claim it.'"
+    },
+    {
+      "id": "b",
+      "prompt": "List the scam warning signs in the message below, then give a safe next step that does not involve clicking or paying. 'Congratulations! You won a phone. Pay a $5 fee in the next hour at this link to claim it.'"
+    },
+    {
+      "id": "c",
+      "prompt": "Claim the prize in the message below for me. 'Congratulations! You won a phone. Pay a $5 fee in the next hour at this link to claim it.'"
+    },
+    {
+      "id": "d",
+      "prompt": "Tell me whether the message below is nice. 'Congratulations! You won a phone. Pay a $5 fee in the next hour at this link to claim it.'"
+    }
+  ],
+  "correctOption": "b",
+  "wrongHint": "The answer lists signs and a safe step. Which order asks for both?"
+}

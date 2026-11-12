@@ -1,0 +1,47 @@
+{
+  "id": "taste-and-adjust-inspect",
+  "recipeId": "taste-and-adjust",
+  "difficulty": 3,
+  "title": "The checked note",
+  "explanation": "Self-critique helps, but it is not proof. The assistant claimed every rule passed while one clearly failed. Use the checklist to catch problems, then read the final answer against the list yourself.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "health-inspector",
+  "inspecting": "answer",
+  "setup": "Write a short note about the school fair, then check it against this list: it names the date (14 May), it has no prices, and it is under 30 words. Show the checked version.",
+  "sentences": [
+    {
+      "id": "s1",
+      "text": "The school fair is on 14 May.",
+      "isProblem": false
+    },
+    {
+      "id": "s2",
+      "text": "Tickets are only $5, or $3 for students.",
+      "isProblem": true,
+      "problemKind": "ignored-order",
+      "note": "The list said no prices. This line breaks one of the three rules the assistant was asked to check.",
+      "preventedBy": "taste-and-adjust"
+    },
+    {
+      "id": "s3",
+      "text": "Come along for games and food.",
+      "isProblem": false
+    },
+    {
+      "id": "s4",
+      "text": "The note is 21 words long.",
+      "isProblem": false
+    },
+    {
+      "id": "s5",
+      "text": "Check complete: all three rules pass.",
+      "isProblem": true,
+      "problemKind": "made-up",
+      "note": "One rule fails, because the note names prices. Saying 'all pass' without really testing is the trap of self-critique, so read the checked version yourself.",
+      "preventedBy": "taste-and-adjust"
+    }
+  ]
+}

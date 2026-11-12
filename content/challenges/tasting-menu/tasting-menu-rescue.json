@@ -1,0 +1,52 @@
+{
+  "id": "tasting-menu-rescue",
+  "recipeId": "tasting-menu",
+  "difficulty": 2,
+  "title": "The one-way commute",
+  "explanation": "The fix names the criteria (cost, time, safety in the rain), asks for a table, and asks for one pick with one reason. Options A and C ask for honesty or length, but never say what 'best' means.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "kitchen-rescue",
+  "brokenPrompt": "Which is the best way to get to school: bike, bus, or walking?",
+  "brokenOutput": "Biking is the best way to get to school. It is fast, healthy, and fun.",
+  "diagnoses": [
+    {
+      "id": "a",
+      "text": "The assistant should not give opinions."
+    },
+    {
+      "id": "b",
+      "text": "'Best' was never defined, so the assistant picked its own reason."
+    },
+    {
+      "id": "c",
+      "text": "There were too many choices."
+    },
+    {
+      "id": "d",
+      "text": "The question was not polite."
+    }
+  ],
+  "correctDiagnosis": "b",
+  "wrongDiagnosisHint": "Best for what? Check whether the order says.",
+  "rightDiagnosisNote": "'Best' depends on what matters to you. With no criteria, the assistant chose its own: speed and fun.",
+  "fixes": [
+    {
+      "id": "a",
+      "prompt": "Which is really the best way to get to school: bike, bus, or walking? Be honest."
+    },
+    {
+      "id": "b",
+      "prompt": "Compare bike, bus, and walking for getting to school on cost, time, and safety in the rain. Use a table with low, medium, or high. Then recommend one and give one reason."
+    },
+    {
+      "id": "c",
+      "prompt": "Which is the best way to get to school? Give me a long, detailed answer about all three."
+    }
+  ],
+  "correctFix": "b",
+  "wrongFixHint": "Honesty and length do not define 'best'. Pick the one that names the criteria.",
+  "fixedOutput": "| Option | Cost | Time | Safe in rain |\n|---|---|---|---|\n| Bike | Low | Low | Low |\n| Bus | Medium | Medium | High |\n| Walk | Low | High | Medium |\nI recommend the bus for rainy days. It keeps you dry, and the cost stays medium."
+}

@@ -1,0 +1,33 @@
+{
+  "id": "whos-cooking-guess",
+  "recipeId": "whos-cooking",
+  "difficulty": 1,
+  "title": "Who wrote this?",
+  "explanation": "The greeting to Mr. Dube, the short polite tone, and the request to approve a repair all came from naming a writer and a reader. Option D would give a note, but nothing in it says which problem or which floor.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "guess-the-recipe",
+  "output": "Hi Mr. Dube,\n\nThe printer on floor 2 is jammed again. It stops on every second page. Could you approve a repair visit this week? It is slowing the whole team down.\n\nThanks, Ayesha",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "Write a note about a broken printer."
+    },
+    {
+      "id": "b",
+      "prompt": "You are Ayesha, an office assistant. Your reader is Mr. Dube, a busy manager. Write a short, polite note asking him to approve a repair for the jammed printer on floor 2."
+    },
+    {
+      "id": "c",
+      "prompt": "You are a repair technician. Write a note to a printer company asking for parts."
+    },
+    {
+      "id": "d",
+      "prompt": "Write a short polite email to my manager about a problem at work."
+    }
+  ],
+  "correctOption": "b",
+  "wrongHint": "Look at who the note is to, who it is from, and what it asks for."
+}

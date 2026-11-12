@@ -1,0 +1,33 @@
+{
+  "id": "daily-pizza-names",
+  "recipeId": "show-the-plate",
+  "difficulty": 2,
+  "title": "Three pizzas",
+  "explanation": "The playful, picture-making taglines match the two examples in the order. A layout alone, as in Option C, would not carry the style. That is the Show the Plate recipe, Station 03.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "guess-the-recipe",
+  "output": "Margherita Moon | Basil, tomato, and a cheesy glow.\nPepper Parade | Sweet peppers dancing on a crisp crust.\nGarden Gold | Sunny corn and spinach, warm from the oven.",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "Write three pizza names."
+    },
+    {
+      "id": "b",
+      "prompt": "Here are two of our pizzas: 'Tomato Tide | Ripe tomatoes in a warm, bubbling wave.' and 'Olive Orbit | Green olives circling a cheesy sun.' Write three more in the same style: a name, a bar, then a one-line tagline."
+    },
+    {
+      "id": "c",
+      "prompt": "Write three pizza names and taglines in the format Name | tagline."
+    },
+    {
+      "id": "d",
+      "prompt": "Write three fancy pizza names for a restaurant menu."
+    }
+  ],
+  "correctOption": "b",
+  "wrongHint": "Look at the pictures in the taglines (a glow, a dance, warm from the oven). Where did that style come from?"
+}
