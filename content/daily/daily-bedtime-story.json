@@ -1,0 +1,33 @@
+{
+  "id": "daily-bedtime-story",
+  "recipeId": "whos-cooking",
+  "difficulty": 1,
+  "title": "A story for the little one",
+  "explanation": "The calm voice, the tiny length, and the gentle ending come from naming a storyteller and a 4-year-old listener. That is the Who's Cooking, Who's Eating recipe, Station 02.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "guess-the-recipe",
+  "output": "Once upon a time, a little turtle named Tula wanted to see the moon.\nSlowly, slowly, she climbed the hill.\n'Good night, moon,' she whispered. The end.",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "Tell me a story."
+    },
+    {
+      "id": "b",
+      "prompt": "You are a calm bedtime storyteller. Your listener is a 4-year-old. Tell a very short story about a turtle and the moon."
+    },
+    {
+      "id": "c",
+      "prompt": "Write a long adventure story about a turtle."
+    },
+    {
+      "id": "d",
+      "prompt": "Tell me a scary story about the moon."
+    }
+  ],
+  "correctOption": "b",
+  "wrongHint": "Look at the voice and the length. Who is this story for?"
+}

@@ -1,6 +1,19 @@
 {
   "launchDate": "2026-11-09",
   "order": [
-    "daily-rice-json"
+    "daily-rice-json",
+    "daily-bedtime-story",
+    "daily-lemonade-stand",
+    "daily-pizza-names",
+    "daily-weather-table",
+    "daily-trip-steps",
+    "daily-fix-email",
+    "daily-french-door",
+    "daily-pool-hours",
+    "daily-snack-options",
+    "daily-coach-note",
+    "daily-prize-text",
+    "daily-hidden-line",
+    "daily-apology-note"
   ]
 }

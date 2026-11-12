@@ -1,0 +1,33 @@
+{
+  "id": "daily-pool-hours",
+  "recipeId": "check-the-pantry",
+  "difficulty": 2,
+  "title": "Is the pool open?",
+  "explanation": "The quoted line and the plain 'Not in the notes' come from two rules in the order: quote the line, and say so when the answer is missing. That is the Check the Pantry recipe, Station 08.",
+  "generatedBy": {
+    "model": "sample",
+    "date": "2026-11-12"
+  },
+  "type": "guess-the-recipe",
+  "output": "Not in the notes.\nThe notes say: 'Open Monday to Friday, 9 am to 5 pm.' They do not mention Sundays.",
+  "options": [
+    {
+      "id": "a",
+      "prompt": "Is the community pool open on Sundays?"
+    },
+    {
+      "id": "b",
+      "prompt": "Use only the notes below. If the answer is not in the notes, say 'Not in the notes.' Quote the line you used. Notes: Open Monday to Friday, 9 am to 5 pm. Question: Is the pool open on Sundays?"
+    },
+    {
+      "id": "c",
+      "prompt": "Is the pool open on Sundays? Notes: Open Monday to Friday, 9 am to 5 pm. Be careful."
+    },
+    {
+      "id": "d",
+      "prompt": "Use the notes to guess whether the pool is open on Sundays. Notes: Open Monday to Friday, 9 am to 5 pm."
+    }
+  ],
+  "correctOption": "b",
+  "wrongHint": "Look for the quote and the words 'Not in the notes'."
+}
