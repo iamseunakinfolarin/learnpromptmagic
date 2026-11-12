@@ -13,6 +13,7 @@ import {
   type ReadyRecipe,
   type Recipe,
 } from "./schemas";
+import type { UnlockRecipe } from "../unlocks";
 import {
   contentDir,
   contentFile,
@@ -134,6 +135,27 @@ export function getChallengesForRecipe(recipe: ReadyRecipe): Challenge[] {
   return recipe.stationChallengeIds
     .map((id) => byId.get(id))
     .filter((challenge): challenge is Challenge => challenge !== undefined);
+}
+
+/**
+ * The lines and recipes as the map, the gate, and the Cookbook need them: plain
+ * data, with each recipe's challenge ids, ready to hand to a component that runs
+ * in the browser.
+ */
+export function getUnlockData(): { lines: Line[]; recipes: UnlockRecipe[] } {
+  return {
+    lines: getLines(),
+    recipes: getRecipes().map((recipe) => ({
+      id: recipe.id,
+      line: recipe.line,
+      number: recipe.number,
+      name: recipe.name,
+      technique: recipe.technique,
+      release: recipe.release,
+      status: recipe.status,
+      stationChallengeIds: recipe.status === "ready" ? recipe.stationChallengeIds : [],
+    })),
+  };
 }
 
 export { pad2, stationLabel } from "./labels";
