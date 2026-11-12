@@ -1,6 +1,7 @@
 "use client";
 
-import { totalStars } from "@/lib/progress";
+import { streakNow } from "@/lib/daily";
+import { today, totalStars } from "@/lib/progress";
 import { StarIcon } from "./Stars";
 import { useProgress } from "./useProgress";
 
@@ -15,7 +16,8 @@ import { useProgress } from "./useProgress";
 export default function StatChips() {
   const progress = useProgress();
   const stars = totalStars(progress);
-  const streak = progress.daily.streak;
+  // The saved streak only counts while the last special was today or yesterday.
+  const streak = streakNow(progress, today());
 
   return (
     <div className="stats">

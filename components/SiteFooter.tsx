@@ -1,4 +1,5 @@
 import Link from "next/link";
+import StartOver from "./StartOver";
 
 const links = [
   { href: "/about", label: "About" },
@@ -17,6 +18,7 @@ export default function SiteFooter() {
               {link.label}
             </Link>
           ))}
+          <StartOver />
         </div>
       </div>
     </footer>
