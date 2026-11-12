@@ -9,6 +9,7 @@ import Note from "../Note";
 import Tag from "../Tag";
 import Ticket from "../Ticket";
 import ChoiceList from "./ChoiceList";
+import ReplayButton from "./ReplayButton";
 import ResultStars from "./ResultStars";
 import StageHead from "./StageHead";
 import { outputLabel, type GameProps } from "./types";
@@ -27,6 +28,7 @@ export default function GuessTheRecipe({
   onSolved,
   onNext,
   onReplay,
+  showStars = true,
   announce,
 }: GameProps<GuessChallenge>) {
   const [wrongIds, setWrongIds] = useState<string[]>([]);
@@ -84,14 +86,12 @@ export default function GuessTheRecipe({
           <Note kind="good" title="Got it." live={false}>
             {challenge.explanation}
           </Note>
-          <ResultStars stars={stars} best={best} />
+          {showStars ? <ResultStars stars={stars} best={best} /> : null}
           <div className="btn-row">
             <Button variant="primary" onClick={onNext}>
               Next: {nextLabel}
             </Button>
-            <button type="button" className="linkish" onClick={onReplay}>
-              Play this one again
-            </button>
+            <ReplayButton onReplay={onReplay} />
           </div>
         </div>
       ) : null}

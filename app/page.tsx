@@ -46,7 +46,7 @@ export default function HomePage() {
             <ButtonLink href="/kitchen/the-order" variant="primary">
               I&apos;m new: start cooking
             </ButtonLink>
-            <ButtonLink href="/kitchen">I use AI often</ButtonLink>
+            <ButtonLink href="/skip-ahead">I use AI often</ButtonLink>
           </div>
           <p className="fine">
             Free. No sign-up. Your progress stays on this device.

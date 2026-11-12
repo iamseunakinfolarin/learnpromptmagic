@@ -11,6 +11,7 @@ import { FlagIcon } from "../icons";
 import Note from "../Note";
 import Tag from "../Tag";
 import Ticket from "../Ticket";
+import ReplayButton from "./ReplayButton";
 import ResultStars from "./ResultStars";
 import StageHead from "./StageHead";
 import type { GameProps } from "./types";
@@ -68,6 +69,7 @@ export default function HealthInspector({
   onSolved,
   onNext,
   onReplay,
+  showStars = true,
   announce,
   recipes,
 }: GameProps<HealthInspectorChallenge> & { recipes: RecipeRef[] }) {
@@ -171,14 +173,12 @@ export default function HealthInspector({
           <Note kind="good" title="What to take from this." live={false}>
             {challenge.explanation}
           </Note>
-          <ResultStars stars={result.stars} best={best} />
+          {showStars ? <ResultStars stars={result.stars} best={best} /> : null}
           <div className="btn-row">
             <Button variant="primary" onClick={onNext}>
               Next: {nextLabel}
             </Button>
-            <button type="button" className="linkish" onClick={onReplay}>
-              Play this one again
-            </button>
+            <ReplayButton onReplay={onReplay} />
           </div>
         </div>
       ) : null}
